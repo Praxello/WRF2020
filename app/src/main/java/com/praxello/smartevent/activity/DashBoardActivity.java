@@ -3,6 +3,8 @@ package com.praxello.smartevent.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -34,6 +36,8 @@ import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.AgendaDetailsAdapter;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
+import com.praxello.smartevent.adapter.DashBoardAdapter;
+import com.praxello.smartevent.model.DashBoardData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
 import com.praxello.smartevent.utility.ConfiUrl;
@@ -41,6 +45,7 @@ import com.praxello.smartevent.utility.Constants;
 import com.praxello.smartevent.widget.LoopViewPager;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,10 +54,6 @@ import butterknife.ButterKnife;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener{
 
-    @BindView(R.id.ll_case_description)
-    LinearLayout cvCaseDescription;
-    @BindView(R.id.ll_agenda)
-    LinearLayout cvAgenda;
     @BindView(R.id.toolbar_dashboard)
     Toolbar toolbar;
     @BindView(R.id.rrBanner)
@@ -61,6 +62,9 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     LoopViewPager viewpager;
     @BindView(R.id.tv_marquee)
     TextView tvMarquee;
+    @BindView(R.id.rv_dashboard)
+    RecyclerView rvDashBoardData;
+
     public final String TAG="DashBoardActivity";
     private static final int MESSAGE_SCROLL = 123;
 
@@ -74,9 +78,14 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         //Basic intialisation....
         initViews();
 
+        //load data to recyclerview of dashboard data..
+        loadDashBoardData();
+
         //load Ads
         loadAdvertisment();
     }
+
+
 
     private void initViews(){
         setSupportActionBar(toolbar);
@@ -85,17 +94,31 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         //toolbar.setTitle("DashBoard");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        //CardView intialisation...
-        cvCaseDescription.setOnClickListener(this);
-        cvAgenda.setOnClickListener(this);
-
+        //Recycler View intialisation...
+        rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
         tvMarquee.setSelected(true);
+    }
+
+    private void loadDashBoardData() {
+        ArrayList<DashBoardData> dashBoardDataArrayList=new ArrayList<>();
+        dashBoardDataArrayList.add(new DashBoardData("Programs",R.drawable.ic_checklist));
+        dashBoardDataArrayList.add(new DashBoardData("Speakers",R.drawable.ic_lecture));
+        dashBoardDataArrayList.add(new DashBoardData("My Session",R.drawable.ic_session));
+        dashBoardDataArrayList.add(new DashBoardData("Booths",R.drawable.ic_booth));
+        dashBoardDataArrayList.add(new DashBoardData("About WRF",R.drawable.ic_info));
+        dashBoardDataArrayList.add(new DashBoardData("Chat",R.drawable.ic_chat));
+        dashBoardDataArrayList.add(new DashBoardData("Sponsors",R.drawable.ic_sponsor));
+        dashBoardDataArrayList.add(new DashBoardData("Contact Us",R.drawable.ic_24_7));
+
+        DashBoardAdapter dashBoardAdapter=new DashBoardAdapter(DashBoardActivity.this,dashBoardDataArrayList);
+        rvDashBoardData.setAdapter(dashBoardAdapter);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.ll_case_description:
+
+            /*case R.id.ll_case_description:
                 Intent intent=new Intent(DashBoardActivity.this,CaseDescriptionActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
@@ -107,7 +130,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-                break;
+                break;*/
 
         }
     }

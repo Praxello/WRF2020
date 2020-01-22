@@ -1,6 +1,8 @@
 package com.praxello.smartevent.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.praxello.smartevent.R;
+import com.praxello.smartevent.activity.AgendaDetailsActivity;
+import com.praxello.smartevent.activity.CaseDescriptionActivity;
 import com.praxello.smartevent.model.DashBoardData;
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -39,6 +43,35 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
         Glide.with(context)
                 .load(dashBoardDataArrayList.get(position).getImagePath())
                 .into(holder.ivPath);
+
+        holder.ivPath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position==0){
+                    Activity activity = (Activity) context;
+                    Intent intent=new Intent(context,CaseDescriptionActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                }
+
+                if(position==1){
+                    Activity activity = (Activity) context;
+                    Intent intent=new Intent(context,CaseDescriptionActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                }
+
+                if(position==2){
+                    Activity activity = (Activity) context;
+                    Intent intent=new Intent(context, AgendaDetailsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                }
+            }
+        });
     }
 
     @Override
