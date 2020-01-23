@@ -5,19 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.DashBoardActivity"
-    >
+    tools:context=".activity.DashBoardActivity">
 
     <include
         android:id="@+id/toolbar_dashboard"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin170"
+        android:layout_weight="1"
+        android:elevation="@dimen/margin10"
+        app:cardCornerRadius="@dimen/margin1"
+        app:cardElevation="@dimen/margin10"
+        app:cardPreventCornerOverlap="true">
 
     <RelativeLayout
         android:id="@+id/rrBanner"
         android:layout_width="wrap_content"
-        android:layout_height="170dp"
-        android:visibility="visible"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <com.praxello.smartevent.widget.LoopViewPager
             android:id="@+id/viewpager"
@@ -48,47 +55,103 @@
             android:textStyle="bold"
             android:visibility="invisible" />
     </RelativeLayout>
-
+    </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin300"
+        android:layout_margin="@dimen/margin30"
+        android:layout_weight="1"
         android:elevation="@dimen/margin10"
         app:cardCornerRadius="@dimen/margin30"
         app:cardElevation="@dimen/margin10"
-        app:cardPreventCornerOverlap="true"
-        android:layout_margin="@dimen/margin30"
-        android:layout_weight="1">
+        app:cardPreventCornerOverlap="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/rectangle">
-
-        <androidx.recyclerview.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/rv_dashboard"
-            android:layout_margin="@dimen/margin15"/>
+            android:background="@drawable/rectangle"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/margin15" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_instagram"
+                            android:layout_width="@dimen/margin40"
+                            android:layout_height="@dimen/margin40"
+                            android:layout_margin="@dimen/margin10"
+                            android:src="@drawable/ic_instagram"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="@dimen/margin1" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_linkedin"
+                            android:layout_width="@dimen/margin40"
+                            android:layout_height="@dimen/margin40"
+                            android:layout_margin="@dimen/margin10"
+                            android:src="@drawable/ic_linkedin"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="@dimen/margin1" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_facebook"
+                            android:layout_width="@dimen/margin40"
+                            android:layout_height="@dimen/margin40"
+                            android:layout_margin="@dimen/margin10"
+                            android:src="@drawable/ic_facebook"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="@dimen/margin1" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_twitter"
+                            android:layout_width="@dimen/margin40"
+                            android:layout_height="@dimen/margin40"
+                            android:layout_margin="@dimen/margin10"
+                            android:src="@drawable/ic_twitter"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="@dimen/margin1" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/social_mix"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="@dimen/margin15"/>
+
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_marquee"
-        android:text="START | lunch 20.00 | Dinner 60.00 | Travel 60.00 | Doctor 5000.00 | lunch 20.00 | Dinner 60.00 | Travel 60.00 | Doctor 5000.00 | END"
-        android:textSize="@dimen/margin15"
-        android:textColor="@color/violet"
-        android:gravity="center"
+        android:id="@+id/rv_marqueeadvertisment"
         android:padding="@dimen/margin10"
-        android:ellipsize = "marquee"
-        android:fadingEdge = "horizontal"
-        android:marqueeRepeatLimit = "marquee_forever"
-        android:scrollHorizontally = "true"
-        android:singleLine = "true"/>
-
+        android:visibility="visible"/>
 
 </LinearLayout>

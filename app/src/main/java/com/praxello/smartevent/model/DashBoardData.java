@@ -2,19 +2,19 @@ package com.praxello.smartevent.model;
 
 public class DashBoardData {
 
-    public String Name;
+    public int Name;
     public int ImagePath;
 
-    public DashBoardData(String name, int imagePath) {
+    public DashBoardData(int name, int imagePath) {
         Name = name;
         ImagePath = imagePath;
     }
 
-    public String getName() {
+    public int getName() {
         return Name;
     }
 
-    public void setName(String name) {
+    public void setName(int name) {
         Name = name;
     }
 

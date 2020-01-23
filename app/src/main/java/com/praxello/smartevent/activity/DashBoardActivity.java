@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -37,6 +38,7 @@ import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.AgendaDetailsAdapter;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
 import com.praxello.smartevent.adapter.DashBoardAdapter;
+import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.DashBoardData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
@@ -60,10 +62,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     RelativeLayout rrBanner;
     @BindView(R.id.viewpager)
     LoopViewPager viewpager;
-    @BindView(R.id.tv_marquee)
-    TextView tvMarquee;
     @BindView(R.id.rv_dashboard)
     RecyclerView rvDashBoardData;
+    @BindView(R.id.rv_marqueeadvertisment)
+    RecyclerView rvMarqueeAdvertisment;
+
 
     public final String TAG="DashBoardActivity";
     private static final int MESSAGE_SCROLL = 123;
@@ -96,19 +99,22 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         //Recycler View intialisation...
         rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
-        tvMarquee.setSelected(true);
+        rvDashBoardData.setNestedScrollingEnabled(false);
+
+        rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        //rvMarqueeAdvertisment.setNestedScrollingEnabled(false);
     }
 
     private void loadDashBoardData() {
         ArrayList<DashBoardData> dashBoardDataArrayList=new ArrayList<>();
-        dashBoardDataArrayList.add(new DashBoardData("Programs",R.drawable.ic_checklist));
-        dashBoardDataArrayList.add(new DashBoardData("Speakers",R.drawable.ic_lecture));
-        dashBoardDataArrayList.add(new DashBoardData("My Session",R.drawable.ic_session));
-        dashBoardDataArrayList.add(new DashBoardData("Booths",R.drawable.ic_booth));
-        dashBoardDataArrayList.add(new DashBoardData("About WRF",R.drawable.ic_info));
-        dashBoardDataArrayList.add(new DashBoardData("Chat",R.drawable.ic_chat));
-        dashBoardDataArrayList.add(new DashBoardData("Sponsors",R.drawable.ic_sponsor));
-        dashBoardDataArrayList.add(new DashBoardData("Contact Us",R.drawable.ic_24_7));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.program,R.drawable.ic_session));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.cases,R.drawable.ic_checklist));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.speaker,R.drawable.ic_lecture));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.booths,R.drawable.ic_booth));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.about_wrf,R.drawable.ic_info));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.chat,R.drawable.ic_chat));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.sponsors,R.drawable.ic_sponsor));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.contact_us,R.drawable.ic_24_7));
 
         DashBoardAdapter dashBoardAdapter=new DashBoardAdapter(DashBoardActivity.this,dashBoardDataArrayList);
         rvDashBoardData.setAdapter(dashBoardAdapter);
@@ -145,8 +151,17 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 AdvertismentResponse advertismentResponse=gson.fromJson(response,AdvertismentResponse.class);
 
                 if(advertismentResponse.Responsecode.equals("200")){
-                    CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this,advertismentResponse.getData());
-                    viewpager.setAdapter(customPagerAdapter);
+                    if(advertismentResponse.getData().size()>0){
+                        CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this,advertismentResponse.getData());
+                        viewpager.setAdapter(customPagerAdapter);
+
+                        MarqueeAdvertismentAdapter marqueeAdvertismentAdapter=new MarqueeAdvertismentAdapter(DashBoardActivity.this,advertismentResponse.getData());
+                        rvMarqueeAdvertisment.setAdapter(marqueeAdvertismentAdapter);
+
+                    }else{
+                        rrBanner.setVisibility(View.GONE);
+                    }
+
                     if (advertismentResponse.getData().size() > 1) {
                         set_slider_animation();
                     } else {

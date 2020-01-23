@@ -6,6 +6,8 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="grey">#f5f5f5</color>
+    <color name="session">#fffde7</color>
+    <color name="breaks">#efebe9</color>
 
     <bool name="default_circle_indicator_centered">true</bool>
 

@@ -17,6 +17,9 @@ public class AgendaData {
     public String isLiked;
     public String Likes;
     public String Comments;
+    public String slotTitle;
+    public String sessionLocation;
+    public String sessionType;
 
     public String getSessionId() {
         return sessionId;
@@ -120,5 +123,29 @@ public class AgendaData {
 
     public void setComments(String comments) {
         Comments = comments;
+    }
+
+    public String getSlotTitle() {
+        return slotTitle;
+    }
+
+    public void setSlotTitle(String slotTitle) {
+        this.slotTitle = slotTitle;
+    }
+
+    public String getSessionLocation() {
+        return sessionLocation;
+    }
+
+    public void setSessionLocation(String sessionLocation) {
+        this.sessionLocation = sessionLocation;
+    }
+
+    public String getSessionType() {
+        return sessionType;
+    }
+
+    public void setSessionType(String sessionType) {
+        this.sessionType = sessionType;
     }
 }

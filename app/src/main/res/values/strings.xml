@@ -7,9 +7,16 @@
     <string name="case_description">Case Description</string>
     <string name="agenda">Agenda</string>
     <string name="like">Like</string>
-    <string name="comment">Comment</string>
-    <string name="speaker">Speaker</string>
-    <string name="programs">Programs</string>
+    <string name="comment">Comments</string>
+    <string name="speaker">Speakers</string>
+    <string name="cases">Cases</string>
+    <string name="program">Program</string>
     <string name="my_sessions">My Sessions</string>
     <string name="booths">Booths</string>
+    <string name="about_wrf">About</string>
+    <string name="chat">Chat</string>
+    <string name="sponsors">Sponsors</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="social_mix">Social Mix</string>
+    <string name="breaks"><font color="blue" size="15"><b>Break</b></font></string>
 </resources>

@@ -3,8 +3,8 @@ package com.praxello.smartevent.model.allcases;
 public class AllCasesData {
 
     public String caseId;
-    public String title;
-    public String details;
+    public String caseTitle;
+    public String caseDetails;
     public String pdflink;
     public String owner;
     public String isActive;
@@ -18,20 +18,20 @@ public class AllCasesData {
         this.caseId = caseId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCaseTitle() {
+        return caseTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCaseTitle(String caseTitle) {
+        this.caseTitle = caseTitle;
     }
 
-    public String getDetails() {
-        return details;
+    public String getCaseDetails() {
+        return caseDetails;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setCaseDetails(String caseDetails) {
+        this.caseDetails = caseDetails;
     }
 
     public String getPdflink() {

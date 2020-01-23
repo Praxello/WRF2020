@@ -8,6 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/cardview"
         android:background="#f5f5f5"
         android:elevation="@dimen/margin10"
         app:cardCornerRadius="@dimen/margin5"
@@ -37,6 +38,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tv_subject"
+                android:drawablePadding="@dimen/margin5"
+                android:text="Ortheropedict"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin5"
+                android:textSize="@dimen/textsize15"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/tv_speakername"
                 android:drawableLeft="@drawable/ic_politician"
                 android:drawablePadding="@dimen/margin5"
@@ -46,6 +60,33 @@
                 android:textSize="@dimen/textsize15"
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_slottime"
+                android:drawableLeft="@drawable/ic_clock"
+                android:drawablePadding="@dimen/margin5"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin5"
+                android:layout_marginBottom="@dimen/margin5"
+                android:textSize="@dimen/textsize15"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_location"
+                android:drawableLeft="@drawable/ic_pin"
+                android:drawablePadding="@dimen/margin5"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin5"
+                android:layout_marginBottom="@dimen/margin5"
+                android:textSize="@dimen/textsize15"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin5"/>
+
 
 
             <TextView
@@ -68,7 +109,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/ll_buttons">
 
                 <LinearLayout
                     android:layout_width="match_parent"
