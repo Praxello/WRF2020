@@ -1,8 +1,9 @@
 package com.praxello.smartevent.model.agendadetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AgendaData {
+public class AgendaData implements Serializable {
 
     public String sessionId;
     public String title;
@@ -16,7 +17,7 @@ public class AgendaData {
     public String isBookmarked;
     public String isLiked;
     public String Likes;
-    public String Comments;
+    public ArrayList<CommentsData> Comments;
     public String slotTitle;
     public String sessionLocation;
     public String sessionType;
@@ -117,11 +118,11 @@ public class AgendaData {
         Likes = likes;
     }
 
-    public String getComments() {
+    public ArrayList<CommentsData> getComments() {
         return Comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(ArrayList<CommentsData> comments) {
         Comments = comments;
     }
 

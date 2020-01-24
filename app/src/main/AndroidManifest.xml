@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.DemoActivity"></activity>
+
+        <activity android:name=".activity.CommentsActivity"
+            android:parentActivityName=".activity.AgendaDetailsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+        <activity android:name=".activity.DemoActivity" />
         <activity
             android:name=".activity.AgendaDetailsActivity"
             android:parentActivityName=".activity.DashBoardActivity" />
@@ -29,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.WebviewActivity"
             android:screenOrientation="portrait"

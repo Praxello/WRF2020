@@ -7,4 +7,6 @@ public class ConfiUrl {
     public static final String ALL_CASES_URL=BASE_URL+"allcases.php";
     public static final String AGENDA_URL=BASE_URL+"agenda.php";
     public static final String ADVERTISMENT_URL=BASE_URL+"advertisements.php";
+    public static final String LIKE_URL=BASE_URL+"addacademiclike.php";
+    public static final String ADD_COMMENT_URL=BASE_URL+"addacademiccomment.php";
 }

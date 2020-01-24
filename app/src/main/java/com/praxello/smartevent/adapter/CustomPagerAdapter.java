@@ -3,12 +3,15 @@ package com.praxello.smartevent.adapter;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +26,8 @@ public class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
     ArrayList<AdvertismentData> advertisements;
+    public static final String TAG="CustomPagerAdapter";
+    int flag = 0;
 
     public CustomPagerAdapter(Context mContext, ArrayList<AdvertismentData> advertisements) {
         this.mContext = mContext;
@@ -51,20 +56,56 @@ public class CustomPagerAdapter extends PagerAdapter {
         AdvertismentData advertisement = advertisements.get(position);
 //        if (advertisement.getMediaType() != null) {
 //            if (advertisement.getMediaType().equals("0")) {
-        if (advertisement.getAdImageUrl()!= null && !TextUtils.isEmpty(advertisement.getAdImageUrl())) {
-            Glide.with(mContext).load(advertisement.getAdImageUrl()).into(iv_banner);
-            iv_banner.setOnClickListener(v -> {
+
+
+        /*if(flag==1){
+
+            Glide.with ( mContext ).load ( R.drawable.no_data ).into (iv_banner);
+            iv_banner.setOnClickListener ( v->{
+               *//* if (advertisement.getWebsitelink() != null && !TextUtils.isEmpty(advertisement.getWebsitelink())) {
+                    Utils.openBrowser(mContext, advertisement.getWebsitelink());
+                }*//*
+            } );
+            if( ! TextUtils.isEmpty ( advertisement.getAdTitle ( ) ) ){
+                tvAdName.setText ( R.string.no_ads_available );
+                tvAdName.setVisibility ( View.VISIBLE );
+            }else{
+                tvAdName.setVisibility ( View.GONE );
+            }
+        }*/
+
+        if (advertisements.get(position).getAdType().equals("1") || advertisements.get(position).getAdType().equals("2")) {
+            Log.e(TAG,"Inside if");
+            if (advertisement.getAdImageUrl() != null && !TextUtils.isEmpty(advertisement.getAdImageUrl())) {
+                Glide.with(mContext).load(advertisement.getAdImageUrl()).into(iv_banner);
+                iv_banner.setOnClickListener(v -> {
                 /*if (advertisement.getWebsitelink() != null && !TextUtils.isEmpty(advertisement.getWebsitelink())) {
                     Utils.openBrowser(mContext, advertisement.getWebsitelink());
                 }*/
+                });
+            }
+            if (!TextUtils.isEmpty(advertisement.getAdTitle())) {
+                tvAdName.setText(advertisement.getAdTitle());
+                tvAdName.setVisibility(View.VISIBLE);
+            } else {
+                tvAdName.setVisibility(View.GONE);
+            }
+       } else{
+            Log.e(TAG,"Inside else");
+            Glide.with(mContext).load(R.drawable.no_data).into(iv_banner);
+            iv_banner.setOnClickListener(v -> {
+              /* if (advertisement.getWebsitelink() != null && !TextUtils.isEmpty(advertisement.getWebsitelink())) {
+                    Utils.openBrowser(mContext, advertisement.getWebsitelink());
+                }*/
             });
+            if (!TextUtils.isEmpty(advertisement.getAdTitle())) {
+                tvAdName.setText(R.string.no_ads_available);
+                tvAdName.setVisibility(View.VISIBLE);
+            } else {
+                tvAdName.setVisibility(View.GONE);
+            }
         }
-        if (!TextUtils.isEmpty(advertisement.getAdTitle())) {
-            tvAdName.setText(advertisement.getAdTitle());
-            tvAdName.setVisibility(View.VISIBLE);
-        } else {
-            tvAdName.setVisibility(View.GONE);
-        }
+
 //            } else {
 //                Glide.with(mContext).load("http://img.youtube.com/vi/" + banner.getWebsitelink() + "/0.jpg").into(iv_banner);
 //                iv_banner.setOnClickListener(v -> {

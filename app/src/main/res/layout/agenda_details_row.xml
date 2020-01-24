@@ -130,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_comment"
-                        android:text="@string/comment"
+                        android:text="@string/comments"
                         android:layout_margin="@dimen/margin5"
                         android:layout_gravity="center" />
 
@@ -159,6 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/like"
+                        android:id="@+id/tv_like"
                         android:layout_margin="@dimen/margin5"
                         android:layout_gravity="center" />
 
