@@ -2,7 +2,6 @@ package com.praxello.smartevent.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,7 +9,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,13 +18,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,21 +30,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.adapter.AgendaDetailsAdapter;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
 import com.praxello.smartevent.adapter.DashBoardAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.DashBoardData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
-import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.Constants;
 import com.praxello.smartevent.widget.LoopViewPager;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,7 +103,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         dashBoardDataArrayList.add(new DashBoardData(R.string.speaker,R.drawable.ic_lecture));
         dashBoardDataArrayList.add(new DashBoardData(R.string.booths,R.drawable.ic_booth));
         dashBoardDataArrayList.add(new DashBoardData(R.string.about_wrf,R.drawable.ic_info));
-        dashBoardDataArrayList.add(new DashBoardData(R.string.chat,R.drawable.ic_chat));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.quiz,R.drawable.ic_chat));
         dashBoardDataArrayList.add(new DashBoardData(R.string.sponsors,R.drawable.ic_sponsor));
         dashBoardDataArrayList.add(new DashBoardData(R.string.contact_us,R.drawable.ic_24_7));
 

@@ -25,7 +25,10 @@ import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CommentsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.model.comments.CommentsResponse;
+import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
+import com.praxello.smartevent.utility.Constants;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,7 +108,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("userid","1");
+                params.put("userid", CommonMethods.getPrefrence(CommentsActivity.this, Constants.USER_ID));
                 params.put("sessionId",data.getSessionId());
                 params.put("comment",etComments.getText().toString());
                 params.put("postid",data.getSessionId());

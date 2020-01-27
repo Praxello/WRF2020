@@ -15,11 +15,17 @@
     <string name="my_sessions">My Sessions</string>
     <string name="booths">Booths</string>
     <string name="about_wrf">About</string>
-    <string name="chat">Chat</string>
+    <string name="quiz">Quiz</string>
     <string name="sponsors">Sponsors</string>
     <string name="contact_us">Contact Us</string>
     <string name="social_mix">Social Mix</string>
     <string name="no_ads_available">No ads available</string>
     <string name="breaks"><font color="blue" size="15"><b>Break</b></font></string>
     <string name="write_a_comment">Write a comment....</string>
+    <string name="subject">Subject:</string>
+    <string name="about">About:</string>
+    <string name="email_address">Email address</string>
+    <string name="welcome">Welcome</string>
+    <string name="to_access_all_features_of_the_provided_by_code_is_all_you_need_to_login_first">To access all features of the App provided by code is all, You need to login first!</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>

@@ -8,6 +8,8 @@ import android.os.Handler;
 
 import com.google.firebase.FirebaseApp;
 import com.praxello.smartevent.R;
+import com.praxello.smartevent.utility.CommonMethods;
+import com.praxello.smartevent.utility.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +28,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
-                finish();
+                if(CommonMethods.getPrefrence(MainActivity.this, Constants.USER_ID).equals(Constants.DNF)){
+                    Intent mainIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }else{
+                    Intent mainIntent = new Intent(MainActivity.this, DashBoardActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+
             }
         }, SPLASH_DISPLAY_DURATION);
     }

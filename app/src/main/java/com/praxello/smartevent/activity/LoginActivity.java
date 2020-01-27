@@ -3,9 +3,11 @@ package com.praxello.smartevent.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +26,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.model.NotificationData;
+import com.praxello.smartevent.model.login.LoginResponse;
+import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.Constants;
 
@@ -35,11 +39,14 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView (R.id.etMobileNumber) EditText etMobileNumber;
-    @BindView (R.id.etPassword) EditText etPassword;
-    @BindView (R.id.btnlogin) AppCompatButton btnLogIn;
+    @BindView(R.id.etMobileNumber)
+    EditText etMobileNumber;
+    @BindView(R.id.etPassword)
+    EditText etPassword;
+    @BindView(R.id.btnlogin)
+    AppCompatButton btnLogIn;
     String token;
-    public static final String TAG="LoginActivity";
+    public static final String TAG = "LoginActivity";
 
 
     @Override
@@ -52,95 +59,140 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogIn.setOnClickListener(this);
 
 
-        token= FirebaseInstanceId.getInstance().getToken();
-        Toast.makeText(this, "token" +token, Toast.LENGTH_SHORT).show();
+        token = FirebaseInstanceId.getInstance().getToken();
+        Toast.makeText(this, "token" + token, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnlogin:
-
-                            //if(isValidated()){
-                                //save firebase data to server...
-                                saveFirebaseCredential();
-
-                                Intent mainIntent = new Intent(LoginActivity.this, DashBoardActivity.class);
-                                mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(mainIntent);
-                                finish();
-                           // }
-                            break;
+                if(isValidated()) {
+                    userAuthentication();
+                }
+                break;
         }
     }
 
-    private void saveFirebaseCredential() {
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.REG_PUSH_NOTIFICATION, new Response.Listener<String>() {
+    private void userAuthentication() {
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Please wait");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.USER_LOGIN_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Gson gson=new Gson();
+                Gson gson = new Gson();
+                //Log.e(TAG, "response" + response);
+                LoginResponse loginResponse = gson.fromJson(response, LoginResponse.class);
 
-                NotificationData notificationData=gson.fromJson(response,NotificationData.class);
+                if (loginResponse.getResponsecode().equals("200")) {
+                    progress.dismiss();
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    //save firebase data to server...
+                    saveFirebaseCredential();
+                    CommonMethods.setPreference(LoginActivity.this, Constants.USER_ID, loginResponse.getData().getUserId());
+                    Intent mainIntent = new Intent(LoginActivity.this, DashBoardActivity.class);
+                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainIntent);
+                    finish();
+                } else {
+                    progress.dismiss();
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
+                Log.e(TAG, "error" + error);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("usrname", etMobileNumber.getText().toString());
+                params.put("uuid", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                params.put("passwrd", etPassword.getText().toString());
+                params.put("conferenceid", "1");
 
-                if(notificationData.getResponsecode().equals("200")){
+                Log.e(TAG, "params of user authentication" + params);
+                return params;
+            }
+        };
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(stringRequest);
+    }
+
+    private void saveFirebaseCredential() {
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Please wait");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.REG_PUSH_NOTIFICATION, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+
+                NotificationData notificationData = gson.fromJson(response, NotificationData.class);
+
+                if (notificationData.getResponsecode().equals("200")) {
+                    progress.dismiss();
+
+
                     Toast.makeText(LoginActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }else{
+                } else {
+                    progress.dismiss();
                     Toast.makeText(LoginActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
                 Toast.makeText(LoginActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> params=new HashMap<>();
-                params.put("userid","1");
-                params.put("deviceid",token);
+                HashMap<String, String> params = new HashMap<>();
+                params.put("userid", CommonMethods.getPrefrence(LoginActivity.this,Constants.USER_ID));
+                params.put("deviceid", token);
                 params.put("ostype", Build.MODEL);
-                params.put("appversion",Build.VERSION.RELEASE);
+                params.put("appversion", Build.VERSION.RELEASE);
 
-                Log.e(TAG,"params"+params);
+                Log.e(TAG, "params" + params);
                 return params;
             }
         };
-        RequestQueue mQueue= Volley.newRequestQueue(this);
+        RequestQueue mQueue = Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }
 
-    private Boolean isValidated(){
+    private Boolean isValidated() {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        String mobile_number=etMobileNumber.getText().toString();
-        if(etMobileNumber.getText().toString().isEmpty()){
-            etMobileNumber.setError("Mobile number required!");
+        if (etMobileNumber.getText().toString().isEmpty()) {
+            etMobileNumber.setError("Email required!");
             etMobileNumber.setFocusable(true);
             etMobileNumber.requestFocus();
             return false;
         }
 
-        if(etPassword.getText().toString().isEmpty()){
+        if (etPassword.getText().toString().isEmpty()) {
             etPassword.setError("Password required!");
             etPassword.setFocusable(true);
             etPassword.requestFocus();
             return false;
         }
 
-        if(etMobileNumber.length()!=10 || mobile_number.startsWith("1") || mobile_number.startsWith("2") ||
-                mobile_number.startsWith("3") || mobile_number.startsWith("4") || mobile_number.startsWith("5") ){
-            etMobileNumber.setError("Invalid mobile number!");
+        if(!etMobileNumber.getText().toString().matches(emailPattern)){
+            etMobileNumber.setError("Invalid email!");
             etMobileNumber.setFocusable(true);
             etMobileNumber.requestFocus();
-            return false;
-        }
-
-        if(etPassword.length()!=6){
-            etPassword.setError("Password must be 6 chracter!");
-            etPassword.setFocusable(true);
-            etPassword.requestFocus();
             return false;
         }
 

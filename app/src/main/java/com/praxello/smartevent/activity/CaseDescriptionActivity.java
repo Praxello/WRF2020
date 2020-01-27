@@ -119,7 +119,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("userid","");
+                params.put("userid",CommonMethods.getPrefrence(CaseDescriptionActivity.this,Constants.USER_ID));
                 return params;
             }
         };

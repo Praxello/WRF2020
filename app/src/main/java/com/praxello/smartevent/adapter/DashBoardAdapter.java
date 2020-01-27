@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -73,11 +75,7 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 }
                 if(position==3){
-                    Activity activity = (Activity) context;
-                    Intent intent=new Intent(context, AgendaDetailsActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
-                    activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                    Toast.makeText(context, "Comming Soon", Toast.LENGTH_SHORT).show();
                 }
                 if(position==4){
                     Activity activity = (Activity) context;
@@ -88,6 +86,9 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
                     intent.putExtra("url","file:///android_asset/aboutus.html");
                     context.startActivity(intent);
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                }
+                if(position==5){
+                    Toast.makeText(context, "Comming Soon", Toast.LENGTH_SHORT).show();
                 }
             }
         });

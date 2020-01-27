@@ -1,4 +1,4 @@
-package com.praxello.smartevent.adapter;
+package com.praxello.smartevent.adapter.agendaadapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,13 +29,12 @@ import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.CommentsActivity;
 import com.praxello.smartevent.model.LikesResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
+import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.Constants;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -45,6 +43,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
     public Context context;
     public ArrayList<AgendaData> agendaDataArrayList;
     public static String TAG="AgendaDetailsAdapter";
+
 
     public AgendaDetailsAdapter(Context context, ArrayList<AgendaData> agendaDataArrayList) {
         this.context = context;
@@ -66,21 +65,29 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         final AgendaData data=agendaDataArrayList.get(position);
 
         if(agendaDataArrayList.get(position).getSessionType().equals("Session")){
-            holder.llButtons.setVisibility(View.VISIBLE);
-            holder.tvSummary.setVisibility(View.VISIBLE);
-            holder.tvSubject.setVisibility(View.VISIBLE);
-            holder.tvSpeakerName.setVisibility(View.VISIBLE);
+            holder.cardView.setVisibility(View.VISIBLE);
+            holder.cvTeaCarView.setVisibility(View.GONE);
             holder.cardView.setCardBackgroundColor(Color.parseColor("#fffde7"));
             holder.tvTitle.setText(agendaDataArrayList.get(position).getTitle());
             holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
             holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
             holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
             holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
-            try{
+            /*try{
                 if(agendaDataArrayList.get(position).getSpeakers()==null ||agendaDataArrayList.get(position).getSpeakers().size()==0){
                     holder.tvSpeakerName.setVisibility(View.GONE);
                 }else{
                     holder.tvSpeakerName.setText(agendaDataArrayList.get(position).getSpeakers().get(0).getFirstname()+" "+agendaDataArrayList.get(position).getSpeakers().get(0).getLastname());
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+
+            Log.e(TAG,"Speaker Data"+agendaDataArrayList.get(position).getSpeakers());
+          */  try{
+                if(agendaDataArrayList.get(position).getSpeakers()!=null){
+                    AgendaSpeakerAdapter agendaSpeakerAdapter=new AgendaSpeakerAdapter(context,agendaDataArrayList.get(position).getSpeakers());
+                    holder.rvSpeakerData.setAdapter(agendaSpeakerAdapter);
                 }
             }catch (NullPointerException e){
                 e.printStackTrace();
@@ -96,17 +103,14 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                 holder.tvLike.setTypeface(null, Typeface.BOLD);
             }
 
-        }else if(agendaDataArrayList.get(position).getSessionType().equals("Break")){
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#f1f8e9"));
-            holder.tvTitle.setText(agendaDataArrayList.get(position).getTitle());
-            //holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
-            holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
-            holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
-            holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
-            holder.llButtons.setVisibility(View.GONE);
-            holder.tvSummary.setVisibility(View.GONE);
-            holder.tvSubject.setVisibility(View.GONE);
-            holder.tvSpeakerName.setVisibility(View.GONE);
+        }else if(agendaDataArrayList.get(position).getSessionType().equals("Tea Break")){
+            holder.cardView.setVisibility(View.GONE);
+            holder.cvTeaCarView.setVisibility(View.VISIBLE);
+
+           // holder.cvTeaCarView.setCardBackgroundColor(Color.parseColor("#f1f8e9"));
+            holder.tvTeaTitle.setText(agendaDataArrayList.get(position).getTitle());
+            holder.tvTeaSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
+            holder.tvTeaLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
         }
 
         holder.llLikes.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +165,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<String, String>();
-                params.put("userid","1");
+                params.put("userid", CommonMethods.getPrefrence(context,Constants.USER_ID));
                 params.put("postid",postId);
 
                 Log.e(TAG,"params" +params);
@@ -179,8 +183,8 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         public TextView tvTitle;
         @BindView(R.id.tv_subject)
         public TextView tvSubject;
-        @BindView(R.id.tv_speakername)
-        public TextView tvSpeakerName;
+       // @BindView(R.id.tv_speakername)
+       // public TextView tvSpeakerName;
         @BindView(R.id.tv_summary)
         public TextView tvSummary;
         @BindView(R.id.ll_comment)
@@ -195,14 +199,26 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         public LinearLayout llButtons;
         @BindView(R.id.cardview)
         public CardView cardView;
+        @BindView(R.id.cardview_tea)
+        public CardView cvTeaCarView;
         @BindView(R.id.tv_like)
         public TextView tvLike;
         @BindView(R.id.tv_datetime)
         public TextView tvDate;
+        @BindView(R.id.tv_tea_title)
+        public TextView tvTeaTitle;
+        @BindView(R.id.tv_tea_slottime)
+        public TextView tvTeaSlotTime;
+        @BindView(R.id.tv_tea_location)
+        public TextView tvTeaLocation;
+        @BindView(R.id.rv_speaker_data)
+        public RecyclerView rvSpeakerData;
+
 
         public AgendaDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            rvSpeakerData.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, true));
         }
     }
 }

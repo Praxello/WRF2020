@@ -22,7 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.praxello.smartevent.adapter.AgendaDetailsAdapter;
+import com.praxello.smartevent.adapter.agendaadapter.AgendaDetailsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.Constants;
@@ -114,7 +114,7 @@ public class AgendaDetailsActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("userid","1");
+                params.put("userid",CommonMethods.getPrefrence(AgendaDetailsActivity.this,Constants.USER_ID));
                 Log.e(TAG, "getParams: " + params);
                 return params;
             }
