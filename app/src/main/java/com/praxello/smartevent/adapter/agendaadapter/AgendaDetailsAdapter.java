@@ -72,7 +72,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
             holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
             holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
-            holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
+            //holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
             /*try{
                 if(agendaDataArrayList.get(position).getSpeakers()==null ||agendaDataArrayList.get(position).getSpeakers().size()==0){
                     holder.tvSpeakerName.setVisibility(View.GONE);
@@ -203,8 +203,8 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         public CardView cvTeaCarView;
         @BindView(R.id.tv_like)
         public TextView tvLike;
-        @BindView(R.id.tv_datetime)
-        public TextView tvDate;
+        //@BindView(R.id.tv_datetime)
+        //public TextView tvDate;
         @BindView(R.id.tv_tea_title)
         public TextView tvTeaTitle;
         @BindView(R.id.tv_tea_slottime)

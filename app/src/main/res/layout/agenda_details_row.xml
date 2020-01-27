@@ -70,7 +70,7 @@
                 android:textSize="@dimen/textsize15" />
 
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/tv_datetime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:drawableLeft="@drawable/ic_calendar"
                 android:drawablePadding="@dimen/margin5"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsize15" />
+                android:textSize="@dimen/textsize15" />-->
 
             <TextView
                 android:id="@+id/tv_location"

@@ -58,5 +58,8 @@ dependencies {
     //Gif file's library...
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 
+    //DatePicker library...
+    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
+
 }
 apply plugin: 'com.google.gms.google-services'

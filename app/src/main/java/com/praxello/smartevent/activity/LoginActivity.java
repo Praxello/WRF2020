@@ -45,6 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText etPassword;
     @BindView(R.id.btnlogin)
     AppCompatButton btnLogIn;
+    @BindView(R.id.tv_forgotpassword)
+    TextView tvForgotPassword;
     String token;
     public static final String TAG = "LoginActivity";
 
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.bind(this);
         btnLogIn.setOnClickListener(this);
-
+        tvForgotPassword.setOnClickListener(this);
 
         token = FirebaseInstanceId.getInstance().getToken();
         Toast.makeText(this, "token" + token, Toast.LENGTH_SHORT).show();
@@ -68,10 +70,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
 
             case R.id.btnlogin:
-                if(isValidated()) {
-                    userAuthentication();
+                if(CommonMethods.isNetworkAvailable(LoginActivity.this)){
+                    if(isValidated()) {
+                        userAuthentication();
+                    }
+                }else{
+                    Toast.makeText(this, Constants.NO_INTERNET_AVAILABLE, Toast.LENGTH_LONG).show();
                 }
+
                 break;
+
+            case R.id.tv_forgotpassword:
+                Intent intent=new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
         }
     }
 

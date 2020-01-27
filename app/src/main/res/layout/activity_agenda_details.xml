@@ -11,6 +11,12 @@
         layout="@layout/toolbar"
         android:id="@+id/toolbar_agendadetails"/>
 
+
+    <com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

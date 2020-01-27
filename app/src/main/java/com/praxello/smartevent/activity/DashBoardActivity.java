@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,6 +14,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,6 +63,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     public final String TAG="DashBoardActivity";
     private static final int MESSAGE_SCROLL = 123;
+    public MarqueeAdvertismentAdapter marqueeAdvertismentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +95,26 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
         rvDashBoardData.setNestedScrollingEnabled(false);
 
-        rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+
+        //rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(DashBoardActivity.this) {
+            @Override
+            public void smoothScrollToPosition(RecyclerView recyclerView,RecyclerView.State state, int position) {
+                LinearSmoothScroller smoothScroller = new LinearSmoothScroller(DashBoardActivity.this) {
+                    private static final float SPEED = 4000f;// Change this value (default=25f)
+                    @Override
+                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+                        return SPEED / displayMetrics.densityDpi;
+                    }
+                };
+                smoothScroller.setTargetPosition(position);
+                startSmoothScroll(smoothScroller);
+            }
+
+        };
+        rvMarqueeAdvertisment.setLayoutManager(layoutManager);
+
         //rvMarqueeAdvertisment.setNestedScrollingEnabled(false);
     }
 
@@ -143,11 +165,23 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
                 if(advertismentResponse.Responsecode.equals("200")){
                     if(advertismentResponse.getData().size()>0){
+
+                            /*for(int i=0;i<advertismentResponse.getData().size();i++){
+                                if(advertismentResponse.getData().get(i).getAdType().equals("1") || advertismentResponse.getData().get(i).getAdType().equals("2")){
+                                    rrBanner.setVisibility(View.VISIBLE);
+
+                                }else{
+                                    rrBanner.setVisibility(View.GONE);
+                                }
+                            }*/
                         CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this,advertismentResponse.getData());
                         viewpager.setAdapter(customPagerAdapter);
 
-                        MarqueeAdvertismentAdapter marqueeAdvertismentAdapter=new MarqueeAdvertismentAdapter(DashBoardActivity.this,advertismentResponse.getData());
+
+                        marqueeAdvertismentAdapter=new MarqueeAdvertismentAdapter(DashBoardActivity.this,advertismentResponse.getData());
                         rvMarqueeAdvertisment.setAdapter(marqueeAdvertismentAdapter);
+
+                        autoScroll();
 
                     }else{
                         rrBanner.setVisibility(View.GONE);
@@ -175,6 +209,24 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         });
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
+    }
+
+    public void autoScroll(){
+        final int speedScroll = 0;
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            int count = 0;
+            @Override
+            public void run() {
+                if(count == marqueeAdvertismentAdapter.getItemCount())
+                    count =0;
+                if(count < marqueeAdvertismentAdapter.getItemCount()){
+                    rvMarqueeAdvertisment.smoothScrollToPosition(++count);
+                    handler.postDelayed(this,speedScroll);
+                }
+            }
+        };
+        handler.postDelayed(runnable,speedScroll);
     }
 
 
