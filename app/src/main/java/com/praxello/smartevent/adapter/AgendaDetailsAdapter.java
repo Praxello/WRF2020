@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +28,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.CommentsActivity;
-import com.praxello.smartevent.activity.WebviewActivity;
 import com.praxello.smartevent.model.LikesResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
-import com.praxello.smartevent.model.agendadetails.CommentsData;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.Constants;
 
@@ -78,6 +75,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
             holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
             holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
+            holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
             try{
                 if(agendaDataArrayList.get(position).getSpeakers()==null ||agendaDataArrayList.get(position).getSpeakers().size()==0){
                     holder.tvSpeakerName.setVisibility(View.GONE);
@@ -104,6 +102,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             //holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
             holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
             holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
+            holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
             holder.llButtons.setVisibility(View.GONE);
             holder.tvSummary.setVisibility(View.GONE);
             holder.tvSubject.setVisibility(View.GONE);
@@ -120,19 +119,10 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         holder.llComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String data = new Gson().toJson(agendaDataArrayList.get(position).getComments());
-                Log.e(TAG,"get all comments"+data);
                 Activity activity = (Activity) context;
                 Intent intent=new Intent(context, CommentsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                if(data==null || data.equals("null")){
-                    intent.putExtra("comments",Constants.DNF);
-                }else{
-                    intent.putExtra("comments",data);
-                }
-
+                intent.putExtra("data",agendaDataArrayList.get(position));
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
@@ -207,6 +197,8 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         public CardView cardView;
         @BindView(R.id.tv_like)
         public TextView tvLike;
+        @BindView(R.id.tv_datetime)
+        public TextView tvDate;
 
         public AgendaDetailsViewHolder(@NonNull View itemView) {
             super(itemView);

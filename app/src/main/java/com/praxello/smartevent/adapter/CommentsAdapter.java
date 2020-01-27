@@ -8,31 +8,28 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.model.agendadetails.CommentsData;
-import com.praxello.smartevent.model.comments.CommentData1;
+import com.praxello.smartevent.model.agendadetails.CommentsData1;
 
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>{
 
     public Context context;
-    public ArrayList<CommentData1> commentsDataArrayList;
+    public ArrayList<CommentsData1> commentsDataArrayList;
 
-   /* public CommentsAdapter(Context context, ArrayList<CommentData1> commentsDataArrayList) {
+   /* public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
     }*/
 
-    public CommentsAdapter(Context context, ArrayList<CommentData1> commentsDataArrayList) {
+    public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
     }
-
+    
     @NonNull
     @Override
     public CommentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

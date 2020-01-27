@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.activity.CaseDescriptionActivity;
 import com.praxello.smartevent.activity.WebviewActivity;
 import com.praxello.smartevent.model.allcases.AllCasesData;
 import java.util.ArrayList;

@@ -1,6 +1,8 @@
 package com.praxello.smartevent.model.comments;
 
-public class CommentData1 {
+import java.io.Serializable;
+
+public class CommentData1 implements Serializable {
 
     public String commentId;
     public String sessionId;

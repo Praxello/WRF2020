@@ -22,12 +22,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.praxello.smartevent.utility.CommonMethods;
-import com.praxello.smartevent.utility.Constants;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.adapter.CaseDescriptionAdapter;
-import com.praxello.smartevent.model.allcases.AllCases;
+import com.praxello.smartevent.adapter.AgendaDetailsAdapter;
+import com.praxello.smartevent.adapter.SpeakerDetailsAdapter;
+import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
+import com.praxello.smartevent.model.speaker.SpeakerResponse;
+import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
+import com.praxello.smartevent.utility.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,75 +37,73 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CaseDescriptionActivity extends AppCompatActivity {
+public class SpeakerActivity extends AppCompatActivity {
 
-    @BindView (R.id.rv_load_case_description) RecyclerView rvCaseDescription;
-    public CaseDescriptionAdapter caseDescriptionAdapter;
-    public static String TAG="CaseDescriptionActivity";
+    @BindView(R.id.rv_speaker)
+    RecyclerView rvSpeaker;
+
     @BindView(R.id.ll_nodata) public LinearLayout llNoData;
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
 
+    public static final String TAG="SpeakerActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_case_description);
+        setContentView(R.layout.activity_speaker);
         ButterKnife.bind(this);
-        //basic intialisation...
+
+        //Basic intialisation...
         initViews();
 
         //Load data...
-        if(CommonMethods.isNetworkAvailable(CaseDescriptionActivity.this)){
-            loadData();
+        if(CommonMethods.isNetworkAvailable(SpeakerActivity.this)){
+            loadSpeaker();
         }else{
             Toast.makeText(this, Constants.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
-            rvCaseDescription.setVisibility(View.GONE);
+            rvSpeaker.setVisibility(View.GONE);
         }
-
     }
 
-    private void initViews() {
-        Toolbar toolbar=findViewById(R.id.toolbar_casedescription);
+    private void initViews(){
+        //Toolbar declarations...
+        Toolbar toolbar=findViewById(R.id.toolbar_speaker);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("Case Description");
+        toolbar.setTitle("Speakers");
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
-        //Recyclerview declaration...
-        rvCaseDescription=findViewById(R.id.rv_load_case_description);
-        rvCaseDescription.setLayoutManager(new LinearLayoutManager(CaseDescriptionActivity.this));
+        //Recycler view intialisation...
+        rvSpeaker.setLayoutManager(new LinearLayoutManager(SpeakerActivity.this));
 
-        //Linear Layout intialisation...
-        llNoData=findViewById(R.id.ll_nodata);
-        llNoServerFound=findViewById(R.id.ll_noserver);
-        llNoInternet=findViewById(R.id.ll_nointernet);
     }
 
-    private void loadData() {
+    public void loadSpeaker(){
         final ProgressDialog progress=new ProgressDialog(this);
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_CASES_URL, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_SPEAKER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
-                AllCases allCasesResponse=gson.fromJson(response,AllCases.class);
+                Log.e(TAG,"response"+response);
+                SpeakerResponse speakerResponse=gson.fromJson(response,SpeakerResponse.class);
 
-                if(allCasesResponse.Responsecode.equals("200")){
+                if(speakerResponse.Responsecode.equals("200")){
                     progress.dismiss();
-                    caseDescriptionAdapter=new CaseDescriptionAdapter(CaseDescriptionActivity.this,allCasesResponse.Data);
-                    rvCaseDescription.setAdapter(caseDescriptionAdapter);
+                    SpeakerDetailsAdapter speakerDetailsAdapter =new SpeakerDetailsAdapter(SpeakerActivity.this,speakerResponse.Data);
+                    rvSpeaker.setAdapter(speakerDetailsAdapter);
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
-                    rvCaseDescription.setVisibility(View.GONE);
+                    rvSpeaker.setVisibility(View.GONE);
                     progress.dismiss();
-                    Toast.makeText(CaseDescriptionActivity.this, allCasesResponse.Message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SpeakerActivity.this, speakerResponse.Message, Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -111,18 +111,11 @@ public class CaseDescriptionActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
                 llNoServerFound.setVisibility(View.VISIBLE);
-                rvCaseDescription.setVisibility(View.GONE);
-                Toast.makeText(CaseDescriptionActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                rvSpeaker.setVisibility(View.GONE);
+                Toast.makeText(SpeakerActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> params=new HashMap<>();
-                params.put("userid","");
-                return params;
-            }
-        };
+        });
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }

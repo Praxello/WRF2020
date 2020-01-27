@@ -1,9 +1,13 @@
 package com.praxello.smartevent.model.agendadetails;
 
-import java.io.Serializable;
+import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class AgendaData implements Serializable {
+@SuppressLint("ParcelCreator")
+public class AgendaData implements Parcelable {
 
     public String sessionId;
     public String title;
@@ -17,10 +21,40 @@ public class AgendaData implements Serializable {
     public String isBookmarked;
     public String isLiked;
     public String Likes;
-    public ArrayList<CommentsData> Comments;
+    public ArrayList<CommentsData1> Comments;
     public String slotTitle;
     public String sessionLocation;
     public String sessionType;
+
+
+    protected AgendaData(Parcel in) {
+        sessionId = in.readString();
+        title = in.readString();
+        subject = in.readString();
+        details = in.readString();
+        slotId = in.readString();
+        sessionDate = in.readString();
+        sequenceNo = in.readString();
+        isActive = in.readString();
+        isBookmarked = in.readString();
+        isLiked = in.readString();
+        Likes = in.readString();
+        slotTitle = in.readString();
+        sessionLocation = in.readString();
+        sessionType = in.readString();
+    }
+
+    public static final Creator<AgendaData> CREATOR = new Creator<AgendaData>() {
+        @Override
+        public AgendaData createFromParcel(Parcel in) {
+            return new AgendaData(in);
+        }
+
+        @Override
+        public AgendaData[] newArray(int size) {
+            return new AgendaData[size];
+        }
+    };
 
     public String getSessionId() {
         return sessionId;
@@ -118,11 +152,11 @@ public class AgendaData implements Serializable {
         Likes = likes;
     }
 
-    public ArrayList<CommentsData> getComments() {
+    public ArrayList<CommentsData1> getComments() {
         return Comments;
     }
 
-    public void setComments(ArrayList<CommentsData> comments) {
+    public void setComments(ArrayList<CommentsData1> comments) {
         Comments = comments;
     }
 
@@ -148,5 +182,28 @@ public class AgendaData implements Serializable {
 
     public void setSessionType(String sessionType) {
         this.sessionType = sessionType;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(sessionId);
+        dest.writeString(title);
+        dest.writeString(subject);
+        dest.writeString(details);
+        dest.writeString(slotId);
+        dest.writeString(sessionDate);
+        dest.writeString(sequenceNo);
+        dest.writeString(isActive);
+        dest.writeString(isBookmarked);
+        dest.writeString(isLiked);
+        dest.writeString(Likes);
+        dest.writeString(slotTitle);
+        dest.writeString(sessionLocation);
+        dest.writeString(sessionType);
     }
 }

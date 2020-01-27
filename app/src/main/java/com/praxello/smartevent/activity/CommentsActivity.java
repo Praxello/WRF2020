@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,9 +23,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CommentsAdapter;
+import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.model.comments.CommentsResponse;
 import com.praxello.smartevent.utility.ConfiUrl;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,18 +42,20 @@ public class CommentsActivity extends AppCompatActivity {
     ImageView ivSubmitComment;
     @BindView(R.id.rv_comments)
     RecyclerView rvComments;
+    AgendaData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
         ButterKnife.bind(this);
-       /* Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<CommentsData>>(){}.getType();
-        ArrayList<CommentsData> commentsData = gson.fromJson(getIntent().getStringExtra("comments"), type);
 
-        System.out.println(commentsData);
-        Log.e(TAG,"get all comments"+ commentsData.toString());*/
+        //Getting Data from intent using parcelable...
+        Intent intent=getIntent();
+        data=intent.getParcelableExtra("data");
+
+        Log.e(TAG,"parcelable data"+data.getSessionType());
+
 
         rvComments.setLayoutManager(new LinearLayoutManager(this));
 
@@ -105,9 +106,9 @@ public class CommentsActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
                 params.put("userid","1");
-                params.put("sessionId","3");
+                params.put("sessionId",data.getSessionId());
                 params.put("comment",etComments.getText().toString());
-                params.put("postid","3");
+                params.put("postid",data.getSessionId());
 
                 Log.e(TAG,"params"+params);
 
@@ -117,6 +118,7 @@ public class CommentsActivity extends AppCompatActivity {
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }
+
     private boolean isValidated(){
         if(etComments.getText().toString().isEmpty()){
             etComments.setError("Please write something!");
@@ -125,5 +127,11 @@ public class CommentsActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
     }
 }

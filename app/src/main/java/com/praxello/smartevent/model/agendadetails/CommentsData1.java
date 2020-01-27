@@ -1,6 +1,6 @@
 package com.praxello.smartevent.model.agendadetails;
 
-public class CommentsData {
+public class CommentsData1 {
 
     public String commentId;
     public String sessionId ;

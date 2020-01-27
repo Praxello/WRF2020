@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.AgendaDetailsActivity;
 import com.praxello.smartevent.activity.CaseDescriptionActivity;
+import com.praxello.smartevent.activity.SpeakerActivity;
 import com.praxello.smartevent.activity.WebviewActivity;
 import com.praxello.smartevent.model.DashBoardData;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
 
                 if(position==2){
                     Activity activity = (Activity) context;
-                    Intent intent=new Intent(context, AgendaDetailsActivity.class);
+                    Intent intent=new Intent(context, SpeakerActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

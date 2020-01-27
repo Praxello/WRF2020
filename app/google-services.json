@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "346076673091",
+    "firebase_url": "https://smart-event-1c49d.firebaseio.com",
+    "project_id": "smart-event-1c49d",
+    "storage_bucket": "smart-event-1c49d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346076673091:android:9ec6262b7a5144738ad0f6",
+        "android_client_info": {
+          "package_name": "com.praxello.smartevent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346076673091-9bn4h4i4vab8mk6gsb03ov01rve396sm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.praxello.smartevent",
+            "certificate_hash": "2837216a8f4ff80c141569ab15f6b897cf66d060"
+          }
+        },
+        {
+          "client_id": "346076673091-viliado83u88rfiof3h6mmh51t8ru83p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGOCpAs6sByedrwgxFEZ-8ydqaVg_86mA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346076673091-viliado83u88rfiof3h6mmh51t8ru83p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "346076673091-51dvg3i1mjodjjla1iovg2d3b8ahj57j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.praxello.smartevent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
