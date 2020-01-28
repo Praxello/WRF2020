@@ -12,4 +12,7 @@ public class ConfiUrl {
     public static final String ADD_COMMENT_URL=BASE_URL+"addacademiccomment.php";
     public static final String REG_PUSH_NOTIFICATION=BASE_URL+"regpushnotification.php";
     public static final String ALL_SPEAKER_URL=BASE_URL+"allspeakers.php";
+    public static final String FORGOT_PASSWORD_URL=BASE_URL+"forgetpassword_1.php";
+    public static final String SAVE_CASE_DIAGNOSIS_URL=BASE_URL+"savecasediagnosis.php";
+    public static final String ALL_COMMENTS_URL=BASE_URL+"allcomments.php";
 }

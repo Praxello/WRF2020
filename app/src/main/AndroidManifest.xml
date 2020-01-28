@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ForgotPasswordActivity"></activity>
+        <activity android:name=".activity.UpdateProfileActivity"></activity>
+        <activity android:name=".activity.ForgotPasswordActivity" />
         <activity
             android:name=".activity.SpeakerActivity"
             android:parentActivityName=".activity.DashBoardActivity"

@@ -1,7 +1,11 @@
 package com.praxello.smartevent.activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -10,12 +14,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -30,6 +37,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
@@ -47,7 +55,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener{
+public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar_dashboard)
     Toolbar toolbar;
@@ -59,6 +67,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     RecyclerView rvDashBoardData;
     @BindView(R.id.rv_marqueeadvertisment)
     RecyclerView rvMarqueeAdvertisment;
+    @BindView(R.id.navView)
+    NavigationView navigationView;
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawer;
 
 
     public final String TAG="DashBoardActivity";
@@ -95,6 +107,15 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
         rvDashBoardData.setNestedScrollingEnabled(false);
 
+        //Navigaiton intialisatio...
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_menu);
+        toggle.syncState();
+        toggle.setToolbarNavigationClickListener(view -> drawer.openDrawer(Gravity.LEFT));
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         //rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
@@ -120,7 +141,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     private void loadDashBoardData() {
         ArrayList<DashBoardData> dashBoardDataArrayList=new ArrayList<>();
-        dashBoardDataArrayList.add(new DashBoardData(R.string.program,R.drawable.ic_session));
+        dashBoardDataArrayList.add(new DashBoardData(R.string.program,R.drawable.ic_completed_task));
         dashBoardDataArrayList.add(new DashBoardData(R.string.cases,R.drawable.ic_checklist));
         dashBoardDataArrayList.add(new DashBoardData(R.string.speaker,R.drawable.ic_lecture));
         dashBoardDataArrayList.add(new DashBoardData(R.string.booths,R.drawable.ic_booth));
@@ -133,6 +154,53 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         rvDashBoardData.setAdapter(dashBoardAdapter);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        /*int id = item.getItemId();
+        if (id == R.id.nav_upload_profile) {
+            set_image();
+        } else if (id == R.id.nav_visit_hridayam) {
+            startActivity(new Intent(mContext, WebviewActivity.class)
+                    .putExtra("title", "Hridayam")
+                    .putExtra("url", "http://www.bestcardiologistpune.com"));
+        } else if (id == R.id.nav_visit_esmr) {
+            startActivity(new Intent(mContext, WebviewActivity.class)
+                    .putExtra("title", "Hridayam")
+                    .putExtra("url", "http://www.esmrtreatment.com"));
+        } else if (id == R.id.nav_reminder) {
+            startActivity(new Intent(mContext, ReminderListActivity.class));
+        } else if (id == R.id.nav_check) {
+            startActivity(new Intent(mContext, WebviewActivity.class)
+                    .putExtra("title", "Hridayam")
+                    .putExtra("url", "http://tools.acc.org/ascvd-risk-estimator/"));
+        } else if (id == R.id.nav_logout) {
+            hridayamApp.getPreferences().logOutUser();
+            startActivity(new Intent(mContext, LoginActivity.class));
+            finish();
+        }*/
+        switch (item.getItemId()){
+            case R.id.nav_home:break;
+
+            case R.id.nav_myid:
+                Toast.makeText(this, "My id", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.nav_upload_profile:
+                Intent intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.nav_logout:
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -293,6 +361,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 
     public class FixedSpeedScroller extends Scroller {

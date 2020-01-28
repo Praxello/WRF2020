@@ -1,4 +1,4 @@
-package com.praxello.smartevent.adapter;
+package com.praxello.smartevent.adapter.speakeradapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.praxello.smartevent.R;
@@ -38,10 +39,17 @@ public class SpeakerDetailsAdapter extends RecyclerView.Adapter<SpeakerDetailsAd
     @Override
     public void onBindViewHolder(@NonNull SpeakerViewHolder holder, int position) {
             holder.tvSpeakerName.setText(speakerDataArrayList.get(position).getFirstname()+ " "+speakerDataArrayList.get(position).getLastname());
+            holder.tvPhone.setVisibility(View.GONE);
+            holder.tvGmail.setVisibility(View.GONE);
             holder.tvPhone.setText(speakerDataArrayList.get(position).getMobile());
             holder.tvGmail.setText(speakerDataArrayList.get(position).getEmail());
             holder.tvAddress.setText(speakerDataArrayList.get(position).getCity()+" "+speakerDataArrayList.get(position).getState()+" "+speakerDataArrayList.get(position).getCountry());
             holder.tvSummary.setText(speakerDataArrayList.get(position).getSummary());
+
+            if(speakerDataArrayList.get(position).getSessions()!=null || speakerDataArrayList.get(position).getSessions().size()>0){
+                SpeakerSessionAdapter speakerSessionAdapter=new SpeakerSessionAdapter(context,speakerDataArrayList.get(position).getSessions());
+                holder.rvSessionData.setAdapter(speakerSessionAdapter);
+            }
     }
 
     @Override
@@ -61,10 +69,15 @@ public class SpeakerDetailsAdapter extends RecyclerView.Adapter<SpeakerDetailsAd
         public TextView tvAddress;
         @BindView(R.id.tv_summary)
         public TextView tvSummary;
+        @BindView(R.id.rv_session_data)
+        public  RecyclerView rvSessionData;
 
         public SpeakerViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            rvSessionData.setLayoutManager(layoutManager);
+
         }
     }
 }

@@ -75,7 +75,10 @@ public class CaseDescriptionActivity extends AppCompatActivity {
 
         //Recyclerview declaration...
         rvCaseDescription=findViewById(R.id.rv_load_case_description);
-        rvCaseDescription.setLayoutManager(new LinearLayoutManager(CaseDescriptionActivity.this));
+        //rvCaseDescription.setLayoutManager(new LinearLayoutManager(CaseDescriptionActivity.this,LinearLayoutManager.HORIZONTAL,true));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CaseDescriptionActivity.this, LinearLayoutManager.HORIZONTAL, true);
+        layoutManager.setReverseLayout(false);
+        rvCaseDescription.setLayoutManager(layoutManager);
 
         //Linear Layout intialisation...
         llNoData=findViewById(R.id.ll_nodata);

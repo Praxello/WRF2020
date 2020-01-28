@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/grp1"
+        android:orderInCategory="101">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/home"
+            android:icon="@drawable/ic_home"/>
+
+        <item
+            android:id="@+id/nav_myid"
+            android:title="@string/my_id"
+            android:icon="@drawable/ic_id_card"/>
+
+        <item
+            android:id="@+id/nav_upload_profile"
+            android:title="@string/my_profile"
+            android:icon="@drawable/ic_politician"/>
+
+        <item
+            android:id="@+id/nav_logout"
+            android:title="@string/log_out"
+            android:icon="@drawable/ic_logout"/>
+    </group>
+</menu>

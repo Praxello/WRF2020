@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">WRF2020</string>
     <string name="wrf2020">WRF2020</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="password">Password</string>
     <string name="login">LogIn</string>
@@ -28,6 +30,26 @@
     <string name="welcome">Welcome</string>
     <string name="to_access_all_features_of_the_provided_by_code_is_all_you_need_to_login_first">To access all features of the App provided by code is all, You need to login first!</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="please_enter_your_registered_email_id">Please enter your registered Email ID.</string>
+    <string name="please_enter_your_registered_email_id">Confirm your email and we\'ll send the instructions.</string>
     <string name="we_will_send_a_verification_code_to_your_registered_email_id">We will send a verification code to your registered email ID</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="create_new_password">Create new password</string>
+    <string name="has_been_sent_to_your_email">has been sent to your email.</string>
+    <string name="please_enter_the_new_password_that">Please enter the new password that</string>
+    <string name="send">Send</string>
+    <string name="diagnosis">Diagnosis</string>
+    <string name="enter_your_diagnosis">Enter your diagnosis</string>
+    <string name="submit">Submit</string>
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_id">My Id</string>
+    <string name="log_out">Log Out</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="pincode">Pincode</string>
+    <string name="date_of_birth">Date of Birth</string>
 </resources>

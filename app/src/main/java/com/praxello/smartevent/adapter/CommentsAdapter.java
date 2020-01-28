@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.model.agendadetails.CommentsData1;
+import com.praxello.smartevent.utility.CommonMethods;
+import com.praxello.smartevent.utility.Constants;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -40,8 +43,20 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
 
     @Override
     public void onBindViewHolder(@NonNull CommentsViewHolder holder, int position) {
-        holder.tvUserName.setText(commentsDataArrayList.get(position).getUserId());
-        holder.tvCommentMessage.setText(commentsDataArrayList.get(position).getComment());
+        if(commentsDataArrayList.get(position)!=null){
+            if(CommonMethods.getPrefrence(context, Constants.USER_ID).equals(commentsDataArrayList.get(position).getUserId())){
+                holder.llOurOwnComments.setVisibility(View.VISIBLE);
+                holder.llOtherComments.setVisibility(View.GONE);
+                holder.tvOurUserName.setText(commentsDataArrayList.get(position).getUserId());
+                holder.tvOurCommentMessage.setText(commentsDataArrayList.get(position).getComment());
+            }else{
+                holder.llOurOwnComments.setVisibility(View.GONE);
+                holder.llOtherComments.setVisibility(View.VISIBLE);
+                holder.tvUserName.setText(commentsDataArrayList.get(position).getUserId());
+                holder.tvCommentMessage.setText(commentsDataArrayList.get(position).getComment());
+            }
+
+        }
     }
 
     @Override
@@ -55,6 +70,14 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
         public TextView tvUserName;
         @BindView(R.id.tv_commentmessage)
         public TextView tvCommentMessage;
+        @BindView(R.id.tv_our_username)
+        public TextView tvOurUserName;
+        @BindView(R.id.tv_our_commentmessage)
+        public TextView tvOurCommentMessage;
+        @BindView(R.id.ll_othercomments)
+        public LinearLayout llOtherComments;
+        @BindView(R.id.ll_ourowncomments)
+        public LinearLayout llOurOwnComments;
 
         public CommentsViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -16,10 +16,12 @@
         android:layout_margin="@dimen/margin10">-->
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="@dimen/margin5">
+            android:layout_margin="@dimen/margin5"
+            android:id="@+id/ll_othercomments"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -42,6 +44,37 @@
                 />
 
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/margin5"
+        android:id="@+id/ll_ourowncomments"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_our_username"
+            android:text="John Doe"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/margin5"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_our_commentmessage"
+            android:drawableLeft="@drawable/ic_forward"
+            android:drawablePadding="@dimen/margin5"
+            android:layout_marginLeft="@dimen/margin15"
+            android:text="@string/comment"
+            android:layout_marginBottom="@dimen/margin5"
+            />
+
+    </LinearLayout>
 
     <!--</androidx.cardview.widget.CardView>-->
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,11 +23,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.adapter.SpeakerDetailsAdapter;
+import com.praxello.smartevent.adapter.speakeradapter.SpeakerDetailsAdapter;
 import com.praxello.smartevent.model.speaker.SpeakerResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,7 +113,15 @@ public class SpeakerActivity extends AppCompatActivity {
                 Toast.makeText(SpeakerActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params=new HashMap<>();
+                params.put("conferenceid","1");
+                Log.e(TAG, "getParams: "+params );
+                return params;
+            }
+        };
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }
