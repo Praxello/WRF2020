@@ -31,7 +31,7 @@ import com.praxello.smartevent.model.LikesResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -159,13 +159,13 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG,"volley error" +error);
-                Toast.makeText(context, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<String, String>();
-                params.put("userid", CommonMethods.getPrefrence(context,Constants.USER_ID));
+                params.put("userid", CommonMethods.getPrefrence(context, AllKeys.USER_ID));
                 params.put("postid",postId);
 
                 Log.e(TAG,"params" +params);

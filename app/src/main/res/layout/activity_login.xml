@@ -13,7 +13,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin150"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:id="@+id/ivLogoImage"/>
 
     <TextView
         android:layout_width="wrap_content"

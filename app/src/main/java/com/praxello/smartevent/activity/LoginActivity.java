@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -29,7 +31,7 @@ import com.praxello.smartevent.model.NotificationData;
 import com.praxello.smartevent.model.login.LoginResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     AppCompatButton btnLogIn;
     @BindView(R.id.tv_forgotpassword)
     TextView tvForgotPassword;
+    @BindView(R.id.ivLogoImage)
+    ImageView ivLogoImage;
     String token;
     public static final String TAG = "LoginActivity";
 
@@ -60,6 +64,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ButterKnife.bind(this);
         btnLogIn.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
+
+        Log.e(TAG, "onCreate: "+ CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL));
+        if(!CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL).equals(AllKeys.DNF)){
+            Glide.with(LoginActivity.this).load(CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL)).into(ivLogoImage);
+        }
+
 
         token = FirebaseInstanceId.getInstance().getToken();
         Toast.makeText(this, "token" + token, Toast.LENGTH_SHORT).show();
@@ -75,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         userAuthentication();
                     }
                 }else{
-                    Toast.makeText(this, Constants.NO_INTERNET_AVAILABLE, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_LONG).show();
                 }
 
                 break;
@@ -107,7 +117,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     //save firebase data to server...
                     saveFirebaseCredential();
-                    CommonMethods.setPreference(LoginActivity.this, Constants.USER_ID, loginResponse.getData().getUserId());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.USER_ID, loginResponse.getData().getUserId());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.SALUATION, loginResponse.getData().getSalutation());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.FIRST_NAME, loginResponse.getData().getFirstName());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.LAST_NAME, loginResponse.getData().getLastName());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.MOBILE, loginResponse.getData().getMobile());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.EMAIL, loginResponse.getData().getEmail());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.CITY, loginResponse.getData().getCity());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.STATE, loginResponse.getData().getState());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.COUNTRY, loginResponse.getData().getCountry());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.PINCODE, loginResponse.getData().getPincode());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.DATEOFBIRTH, loginResponse.getData().getBirthDate());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.ADDRESS, loginResponse.getData().getAddress());
                     Intent mainIntent = new Intent(LoginActivity.this, DashBoardActivity.class);
                     mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(mainIntent);
@@ -167,13 +188,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                Toast.makeText(LoginActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("userid", CommonMethods.getPrefrence(LoginActivity.this,Constants.USER_ID));
+                params.put("userid", CommonMethods.getPrefrence(LoginActivity.this, AllKeys.USER_ID));
                 params.put("deviceid", token);
                 params.put("ostype", Build.MODEL);
                 params.put("appversion", Build.VERSION.RELEASE);

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -45,8 +48,9 @@ import com.praxello.smartevent.adapter.DashBoardAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.DashBoardData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
+import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.widget.LoopViewPager;
 
 import java.lang.reflect.Field;
@@ -54,6 +58,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -115,6 +120,14 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         toggle.syncState();
         toggle.setToolbarNavigationClickListener(view -> drawer.openDrawer(Gravity.LEFT));
         navigationView.setNavigationItemSelectedListener(this);
+
+        //CircleImageView cvImage=navigationView.getHeaderView(0).findViewById(R.id.ivProfile);
+        TextView tvName=navigationView.getHeaderView(0).findViewById(R.id.tvName);
+
+        if(!CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.FIRST_NAME).equals(AllKeys.DNF)){
+            tvName.setText(CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.FIRST_NAME)+" "+CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.LAST_NAME));
+        }
+
 
 
         //rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
@@ -195,7 +208,40 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.nav_logout:
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(DashBoardActivity.this)
+                        .setTitle("WRF2020")
+                        .setMessage("Are you sure you want to logout?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.USER_ID, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.SALUATION,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.FIRST_NAME, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.LAST_NAME,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.MOBILE, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.EMAIL,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.CITY,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.STATE,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.COUNTRY, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.PINCODE, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.DATEOFBIRTH,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.ADDRESS, AllKeys.DNF);
+                                Intent intent=new Intent(DashBoardActivity.this,LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                                Toast.makeText(DashBoardActivity.this, "See you again!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton("No", null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -271,7 +317,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DashBoardActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashBoardActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
         });

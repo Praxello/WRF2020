@@ -4,46 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AgendaDetailsActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.AllConferenceActivity">
+
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar_agendadetails"/>
-
-
-    <com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/datePicker"/>
-
-    <com.praxello.smartevent.widget.numberpicker.NumberPicker
-        android:layout_marginTop="@dimen/margin10"
-        android:layout_marginBottom="@dimen/margin10"
-        android:id="@+id/number_picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/tvmgdl"
-        android:background="@drawable/rect_round_white_colorprimary"
-        app:np_dividerColor="@color/colorPrimaryDark"
-        app:np_dividerThickness="0dp"
-        app:np_fadingEdgeEnabled="false"
-        app:np_height="45dp"
-        app:np_max="20"
-        app:np_min="4"
-        app:np_order="ascending"
-        app:np_orientation="horizontal"
-        app:np_selectedTextColor="#3398A4"
-        app:np_selectedTextSize="21sp"
-        app:np_textColor="@color/colorPrimary"
-        app:np_textSize="14sp"
-        app:np_wrapSelectorWheel="true" />
+        android:id="@+id/toolbar_allconference"
+        layout="@layout/toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_load_agenda_details"
-        android:visibility="visible"/>
+        android:id="@+id/rv_all_conference"
+        android:layout_margin="@dimen/margin10"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,7 +59,5 @@
             android:src="@drawable/no_internet_connection"/>
 
     </LinearLayout>
-
-
 
 </LinearLayout>

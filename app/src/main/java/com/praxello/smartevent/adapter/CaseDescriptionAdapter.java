@@ -2,7 +2,6 @@ package com.praxello.smartevent.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -29,16 +27,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.activity.ActionBottomDialogFragment;
-import com.praxello.smartevent.activity.AgendaDetailsActivity;
 import com.praxello.smartevent.activity.CaseDescriptionActivity;
-import com.praxello.smartevent.activity.ForgotPasswordActivity;
-import com.praxello.smartevent.activity.LoginActivity;
 import com.praxello.smartevent.model.NotificationData;
 import com.praxello.smartevent.model.allcases.AllCasesData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -242,7 +236,7 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("userid", CommonMethods.getPrefrence(context, Constants.USER_ID));
+                params.put("userid", CommonMethods.getPrefrence(context, AllKeys.USER_ID));
                 params.put("caseid", caseId);
                 params.put("details", suggesstion);
                 Log.e(TAG, "getParams: " + params);

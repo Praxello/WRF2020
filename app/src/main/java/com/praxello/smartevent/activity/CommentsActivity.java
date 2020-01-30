@@ -25,15 +25,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.adapter.CaseDescriptionAdapter;
 import com.praxello.smartevent.adapter.CommentsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
-import com.praxello.smartevent.model.allcases.AllCases;
 import com.praxello.smartevent.model.comments.CommentsResponse;
 import com.praxello.smartevent.model.comments.LoadPreviousCommentResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -130,7 +128,7 @@ public class CommentsActivity extends AppCompatActivity {
                 progress.dismiss();
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvComments.setVisibility(View.GONE);
-                Toast.makeText(CommentsActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommentsActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
         }){
@@ -175,7 +173,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("userid", CommonMethods.getPrefrence(CommentsActivity.this, Constants.USER_ID));
+                params.put("userid", CommonMethods.getPrefrence(CommentsActivity.this, AllKeys.USER_ID));
                 params.put("sessionId",data.getSessionId());
                 params.put("comment",etComments.getText().toString());
                 params.put("postid",data.getSessionId());

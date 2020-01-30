@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter_your_diagnosis"
+        android:layout_marginTop="@dimen/margin10"
         android:layout_gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         />
@@ -30,6 +31,7 @@
             android:layout_height="match_parent"
             android:id="@+id/et_suggestion"
             android:layout_margin="@dimen/margin15"
+            android:gravity="start"
             android:background="@android:color/transparent"/>
     </androidx.cardview.widget.CardView>
 

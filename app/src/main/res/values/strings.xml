@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mobile_number">Mobile Number</string>
-    <string name="password">Password</string>
+
     <string name="login">LogIn</string>
     <string name="case_description">Case Description</string>
     <string name="agenda">Agenda</string>
@@ -52,4 +52,6 @@
     <string name="country">Country</string>
     <string name="pincode">Pincode</string>
     <string name="date_of_birth">Date of Birth</string>
+    <string name="password">Password</string>
+    <string name="address">Address</string>
 </resources>

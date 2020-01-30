@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.model.agendadetails.CommentsData1;
 import com.praxello.smartevent.utility.CommonMethods;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -44,7 +44,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
     @Override
     public void onBindViewHolder(@NonNull CommentsViewHolder holder, int position) {
         if(commentsDataArrayList.get(position)!=null){
-            if(CommonMethods.getPrefrence(context, Constants.USER_ID).equals(commentsDataArrayList.get(position).getUserId())){
+            if(CommonMethods.getPrefrence(context, AllKeys.USER_ID).equals(commentsDataArrayList.get(position).getUserId())){
                 holder.llOurOwnComments.setVisibility(View.VISIBLE);
                 holder.llOtherComments.setVisibility(View.GONE);
                 holder.tvOurUserName.setText(commentsDataArrayList.get(position).getUserId());

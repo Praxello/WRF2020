@@ -15,4 +15,6 @@ public class ConfiUrl {
     public static final String FORGOT_PASSWORD_URL=BASE_URL+"forgetpassword_1.php";
     public static final String SAVE_CASE_DIAGNOSIS_URL=BASE_URL+"savecasediagnosis.php";
     public static final String ALL_COMMENTS_URL=BASE_URL+"allcomments.php";
+    public static final String UPDATE_PROFILE_URL=BASE_URL+"updateprofile.php";
+    public static final String ALL_CONFERENCE_URL=BASE_URL+"allconference.php";
 }

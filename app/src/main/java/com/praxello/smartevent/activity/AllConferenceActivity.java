@@ -21,87 +21,89 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.adapter.speakeradapter.SpeakerDetailsAdapter;
-import com.praxello.smartevent.model.speaker.SpeakerResponse;
+import com.praxello.smartevent.adapter.AllConferenceAdapter;
+import com.praxello.smartevent.model.allconference.AllConferenceResponse;
+import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-import com.praxello.smartevent.utility.AllKeys;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SpeakerActivity extends AppCompatActivity {
+public class AllConferenceActivity extends AppCompatActivity {
 
-    @BindView(R.id.rv_speaker)
-    RecyclerView rvSpeaker;
-
+    @BindView(R.id.rv_all_conference)
+    RecyclerView rvAllConference;
     @BindView(R.id.ll_nodata) public LinearLayout llNoData;
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
 
-    public static final String TAG="SpeakerActivity";
+    private static final String TAG="AllConferenceActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_speaker);
+        setContentView(R.layout.activity_all_conference);
         ButterKnife.bind(this);
 
-        //Basic intialisation...
+        //basic intialisation....
         initViews();
 
-        //Load data...
-        if(CommonMethods.isNetworkAvailable(SpeakerActivity.this)){
-            loadSpeaker();
+        //load Conference data
+        if(CommonMethods.isNetworkAvailable(AllConferenceActivity.this)){
+            loadData();
         }else{
             Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
-            rvSpeaker.setVisibility(View.GONE);
+            rvAllConference.setVisibility(View.GONE);
         }
     }
 
     private void initViews(){
-        //Toolbar declarations...
-        Toolbar toolbar=findViewById(R.id.toolbar_speaker);
+        FirebaseInstanceId.getInstance().getToken();
+
+        //Toolbar intialisation...
+        Toolbar toolbar=findViewById(R.id.toolbar_allconference);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("Speakers");
+        toolbar.setTitle("Events");
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        //toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
-        //Recycler view intialisation...
-        rvSpeaker.setLayoutManager(new LinearLayoutManager(SpeakerActivity.this));
-
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvAllConference.setLayoutManager(layoutManager);
     }
 
-    public void loadSpeaker(){
+    private void loadData(){
         final ProgressDialog progress=new ProgressDialog(this);
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_SPEAKER_URL, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_CONFERENCE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
-                Log.e(TAG,"response"+response);
-                SpeakerResponse speakerResponse=gson.fromJson(response,SpeakerResponse.class);
+                Log.e(TAG, "onResponse: "+response );
+                AllConferenceResponse allConferenceResponse=gson.fromJson(response,AllConferenceResponse.class);
 
-                if(speakerResponse.Responsecode.equals("200")){
+                if(allConferenceResponse.getResponsecode().equals("200")){
                     progress.dismiss();
-                    SpeakerDetailsAdapter speakerDetailsAdapter =new SpeakerDetailsAdapter(SpeakerActivity.this,speakerResponse.Data);
-                    rvSpeaker.setAdapter(speakerDetailsAdapter);
+                    AllConferenceAdapter allConferenceAdapter=new AllConferenceAdapter(AllConferenceActivity.this,allConferenceResponse.getData());
+                    rvAllConference.setAdapter(allConferenceAdapter);
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
-                    rvSpeaker.setVisibility(View.GONE);
+                    rvAllConference.setVisibility(View.GONE);
                     progress.dismiss();
-                    Toast.makeText(SpeakerActivity.this, speakerResponse.Message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AllConferenceActivity.this, allConferenceResponse.Message, Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -109,26 +111,11 @@ public class SpeakerActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
                 llNoServerFound.setVisibility(View.VISIBLE);
-                rvSpeaker.setVisibility(View.GONE);
-                Toast.makeText(SpeakerActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                rvAllConference.setVisibility(View.GONE);
+                Toast.makeText(AllConferenceActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> params=new HashMap<>();
-                params.put("conferenceid","1");
-                Log.e(TAG, "getParams: "+params );
-                return params;
-            }
-        };
+        });
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
     }
 }

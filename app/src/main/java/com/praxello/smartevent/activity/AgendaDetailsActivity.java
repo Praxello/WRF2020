@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,7 +28,7 @@ import com.google.gson.Gson;
 import com.praxello.smartevent.adapter.agendaadapter.AgendaDetailsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
 import com.praxello.smartevent.utility.CommonMethods;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.utility.ConfiUrl;
 
@@ -48,6 +49,9 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
 
+    @BindView(R.id.number_picker)
+    NumberPicker picker;
+
     @BindView(R.id.datePicker)
     public HorizontalPicker horizontalPicker;
 
@@ -56,6 +60,8 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda_details);
         ButterKnife.bind(this);
+
+        
         //basic intialisation...
         initViews();
 
@@ -63,10 +69,15 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
         if(CommonMethods.isNetworkAvailable(AgendaDetailsActivity.this)){
             loadData();
         }else{
-            Toast.makeText(this, Constants.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
             rvAgendaDetails.setVisibility(View.GONE);
         }
+
+        picker.setMinValue(28);
+        picker.setMaxValue(29);
+        picker.setValue(28);
+
     }
 
 
@@ -125,14 +136,14 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
                 progress.dismiss();
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvAgendaDetails.setVisibility(View.GONE);
-                Toast.makeText(AgendaDetailsActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AgendaDetailsActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
         }) {
                 protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("userid",CommonMethods.getPrefrence(AgendaDetailsActivity.this,Constants.USER_ID));
+                params.put("userid",CommonMethods.getPrefrence(AgendaDetailsActivity.this, AllKeys.USER_ID));
                 Log.e(TAG, "getParams: " + params);
                 return params;
             }

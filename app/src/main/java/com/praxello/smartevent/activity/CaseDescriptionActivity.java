@@ -23,7 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.utility.CommonMethods;
-import com.praxello.smartevent.utility.Constants;
+import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CaseDescriptionAdapter;
 import com.praxello.smartevent.model.allcases.AllCases;
@@ -57,7 +57,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
         if(CommonMethods.isNetworkAvailable(CaseDescriptionActivity.this)){
             loadData();
         }else{
-            Toast.makeText(this, Constants.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
             rvCaseDescription.setVisibility(View.GONE);
         }
@@ -115,14 +115,14 @@ public class CaseDescriptionActivity extends AppCompatActivity {
                 progress.dismiss();
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvCaseDescription.setVisibility(View.GONE);
-                Toast.makeText(CaseDescriptionActivity.this, Constants.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CaseDescriptionActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("userid",CommonMethods.getPrefrence(CaseDescriptionActivity.this,Constants.USER_ID));
+                params.put("userid",CommonMethods.getPrefrence(CaseDescriptionActivity.this, AllKeys.USER_ID));
                 return params;
             }
         };

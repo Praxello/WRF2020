@@ -17,4 +17,5 @@
     <dimen name="margin200">200dp</dimen>
     <dimen name="margin170">170dp</dimen>
     <dimen name="margin150">150dp</dimen>
+    <dimen name="margin250">250dp</dimen>
 </resources>
