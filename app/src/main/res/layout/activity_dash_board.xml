@@ -66,18 +66,12 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin300"
-            android:layout_margin="@dimen/margin30"
-            android:layout_weight="2"
-            android:elevation="@dimen/margin10"
-            app:cardCornerRadius="@dimen/margin30"
-            app:cardElevation="@dimen/margin10"
-            app:cardPreventCornerOverlap="true">
+            android:layout_height="350dp"
+            android:layout_weight="2">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rectangle"
                 android:orientation="vertical">
 
                 <ScrollView
@@ -94,7 +88,7 @@
                             android:id="@+id/rv_dashboard"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="@dimen/margin15" />
+                            android:layout_margin="@dimen/margin10" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -160,9 +154,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_marqueeadvertisment"
             android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:layout_gravity="bottom"
+            android:layout_height="50dp"
             android:layout_weight="1"
+            android:gravity="bottom"
             android:padding="@dimen/margin10"
             android:visibility="visible" />
     </LinearLayout>

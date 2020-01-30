@@ -3,16 +3,20 @@ package com.praxello.smartevent.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.praxello.smartevent.R;
+import com.praxello.smartevent.activity.AboutActivity;
 import com.praxello.smartevent.activity.AgendaDetailsActivity;
 import com.praxello.smartevent.activity.CaseDescriptionActivity;
 import com.praxello.smartevent.activity.SpeakerActivity;
@@ -48,7 +52,7 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
                 .load(dashBoardDataArrayList.get(position).getImagePath())
                 .into(holder.ivPath);
 
-        holder.ivPath.setOnClickListener(new View.OnClickListener() {
+        holder.cvDashboardClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(position==0){
@@ -78,12 +82,18 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
                     Toast.makeText(context, "Comming Soon", Toast.LENGTH_SHORT).show();
                 }
                 if(position==4){
-                    Activity activity = (Activity) context;
+                    /*Activity activity = (Activity) context;
                     Intent intent=new Intent(context, WebviewActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("title","About");
                     intent.putExtra("type","ABOUT");
                     intent.putExtra("url","file:///android_asset/aboutus.html");
+                    context.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);*/
+
+                    Activity activity = (Activity) context;
+                    Intent intent=new Intent(context, AboutActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 }
@@ -104,7 +114,10 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
         @BindView(R.id.tv_dashboardname)
         public TextView tvName;
         @BindView(R.id.iv_dashboardimg)
-        public CircleImageView ivPath;
+        public ImageView ivPath;
+        @BindView(R.id.cardview_dashboard)
+        public CardView cvDashboardClick;
+        //public CircleImageView ivPath;
 
         public DashBoardViewHolder(@NonNull View itemView) {
             super(itemView);

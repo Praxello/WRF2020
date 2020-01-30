@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,22 +22,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
-import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
 import com.google.gson.Gson;
 import com.praxello.smartevent.adapter.agendaadapter.AgendaDetailsAdapter;
+import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.model.agendadetails.AgendaDetailsRespose;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.utility.ConfiUrl;
+import com.praxello.smartevent.widget.numberpicker.NumberPicker;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 
 public class AgendaDetailsActivity extends AppCompatActivity implements DatePickerListener {
 
@@ -48,35 +50,63 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
     @BindView(R.id.ll_nodata) public LinearLayout llNoData;
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
+    //@BindView(R.id.np_picker)
+    public NumberPicker npPicker;
+    private String[] volumes;
+    ArrayList<AgendaData> agendaDataArrayList;
 
-    @BindView(R.id.number_picker)
-    NumberPicker picker;
-
-    @BindView(R.id.datePicker)
-    public HorizontalPicker horizontalPicker;
+    //@BindView(R.id.datePicker)
+    //public HorizontalPicker horizontalPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda_details);
+        Paper.init(this);
         ButterKnife.bind(this);
 
-        
-        //basic intialisation...
+        npPicker= findViewById(R.id.np_picker);
+        //basic intialisa1tion...
         initViews();
 
         //Load data...
         if(CommonMethods.isNetworkAvailable(AgendaDetailsActivity.this)){
-            loadData();
+            if(agendaDataArrayList!=null){
+                agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,0);
+                rvAgendaDetails.setAdapter(agendaDetailsAdapter);
+            }else{
+                loadData();
+            }
         }else{
             Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
             rvAgendaDetails.setVisibility(View.GONE);
         }
 
-        picker.setMinValue(28);
-        picker.setMaxValue(29);
-        picker.setValue(28);
+        try{
+            volumes = new String[]{"Sat 28 Mar 20", "Sun 29 Mar 20"};
+            npPicker.setDisplayedValues(volumes);
+            npPicker.setMinValue(0);
+            npPicker.setMaxValue(1);
+            npPicker.setValue(0);
+
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+        }
+
+        npPicker.setOnValueChangedListener((picker1, oldVal, newVal) -> {
+            //Toast.makeText(this,String.valueOf(picker1), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "onCreate: date picker "+picker1.toString() );
+            Log.e(TAG, "onCreate: old value"+oldVal);
+            Log.e(TAG, "onCreate: new value "+newVal );
+            
+            int value=npPicker.getValue();
+            if(agendaDataArrayList!=null){
+                agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,value);
+                rvAgendaDetails.setAdapter(agendaDetailsAdapter);
+            }
+            // Toast.makeText(this,String.valueOf(value), Toast.LENGTH_SHORT).show();
+        });
 
     }
 
@@ -91,10 +121,9 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
         toolbar.setTitle("Agenda Details");
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-
         // initialize it and attach a listener
-        horizontalPicker.setListener(this).init();
-        horizontalPicker.setDate(new DateTime().withDate(2020,03,28));
+        //horizontalPicker.setListener(this).init();
+       // horizontalPicker.setDate(new DateTime().withDate(2020,03,28));
 
         //Recyclerview declaration...
         rvAgendaDetails.setLayoutManager(new LinearLayoutManager(AgendaDetailsActivity.this));
@@ -103,7 +132,7 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
     @Override
     public void onDateSelected(DateTime dateSelected) {
         // log it for demo
-        Log.e("HorizontalPicker", "Selected date is " + dateSelected.toString());
+       // Log.e("HorizontalPicker", "Selected date is " + dateSelected.toString());
     }
 
     private void loadData() {
@@ -121,8 +150,14 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
 
                 if(agendaDetailsRespose.Responsecode.equals("200")){
                     progress.dismiss();
-                    agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDetailsRespose.Data);
-                    rvAgendaDetails.setAdapter(agendaDetailsAdapter);
+                    if (agendaDetailsRespose.getData() != null || agendaDetailsRespose.getData().size() != 0) {
+                        Paper.book().write("agenda", agendaDetailsRespose.getData());
+                        agendaDataArrayList = Paper.book().read("agenda");
+                        if(agendaDataArrayList!=null){
+                            agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,0);
+                            rvAgendaDetails.setAdapter(agendaDetailsAdapter);
+                        }
+                    }
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
                     rvAgendaDetails.setVisibility(View.GONE);

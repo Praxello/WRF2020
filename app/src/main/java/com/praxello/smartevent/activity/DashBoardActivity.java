@@ -34,6 +34,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,6 +49,7 @@ import com.praxello.smartevent.adapter.DashBoardAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.DashBoardData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
+import com.praxello.smartevent.model.allattendee.AttendeeResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
@@ -55,10 +57,13 @@ import com.praxello.smartevent.widget.LoopViewPager;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -76,8 +81,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     NavigationView navigationView;
     @BindView(R.id.drawerLayout)
     DrawerLayout drawer;
-
-
     public final String TAG="DashBoardActivity";
     private static final int MESSAGE_SCROLL = 123;
     public MarqueeAdvertismentAdapter marqueeAdvertismentAdapter;
@@ -87,6 +90,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
+        Paper.init(this);
+
         overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
         //Basic intialisation....
@@ -97,6 +102,9 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         //load Ads
         loadAdvertisment();
+
+        //loadAll Attendee...
+        loadAllAttendee();
     }
 
 
@@ -162,7 +170,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         dashBoardDataArrayList.add(new DashBoardData(R.string.quiz,R.drawable.ic_chat));
         dashBoardDataArrayList.add(new DashBoardData(R.string.sponsors,R.drawable.ic_sponsor));
         dashBoardDataArrayList.add(new DashBoardData(R.string.contact_us,R.drawable.ic_24_7));
-
         DashBoardAdapter dashBoardAdapter=new DashBoardAdapter(DashBoardActivity.this,dashBoardDataArrayList);
         rvDashBoardData.setAdapter(dashBoardAdapter);
     }
@@ -321,6 +328,41 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 Log.e(TAG,"server error"+error);
             }
         });
+        RequestQueue mQueue= Volley.newRequestQueue(this);
+        mQueue.add(stringRequest);
+    }
+
+    public void loadAllAttendee(){
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_ATTENDEE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson=new Gson();
+
+                Log.e(TAG,"response"+response);
+                AttendeeResponse attendeeResponse=gson.fromJson(response,AttendeeResponse.class);
+
+                if(attendeeResponse.Responsecode.equals("200")){
+                    Paper.book().write("allattendee", attendeeResponse.getData());
+
+                }else{
+                    Toast.makeText(DashBoardActivity.this, attendeeResponse.Message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DashBoardActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                Log.e(TAG,"server error"+error);
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params=new HashMap<>();
+                params.put("conferenceid",CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.CONFERENCE_ID));
+
+                return params;
+            }
+        };
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }

@@ -25,6 +25,8 @@
     <color name="violet">#9c27b0</color>
     <color name="red">#d50000</color>
     <color name="cyan100">#84ffff</color>
+    <color name="grey50">#fafafa</color>
+    <color name="blue">#0000ff</color>
 
     <dimen name="default_circle_indicator_stroke_width">0dp</dimen>
 

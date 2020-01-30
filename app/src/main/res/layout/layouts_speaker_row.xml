@@ -75,7 +75,6 @@
                 android:drawableLeft="@drawable/ic_pin"
                 android:drawablePadding="@dimen/margin5"
                 android:textColor="@color/black"
-
                 android:textSize="@dimen/textsize15" />
 
             <TextView
@@ -86,13 +85,15 @@
                 android:layout_marginRight="@dimen/margin5"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:layout_marginBottom="@dimen/margin5"
+                android:drawableLeft="@drawable/ic_information"
+                android:drawablePadding="@dimen/margin5"
                 android:text="summary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin5">
+                android:orientation="horizontal">
 
                 <TextView
 
@@ -102,7 +103,7 @@
                     android:layout_marginLeft="@dimen/margin5"
                     android:layout_marginTop="@dimen/margin5"
                     android:layout_marginBottom="@dimen/margin5"
-                    android:drawableLeft="@drawable/ic_session"
+                    android:drawableLeft="@drawable/ic_speak"
                     android:drawablePadding="@dimen/margin5"
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsize15" />

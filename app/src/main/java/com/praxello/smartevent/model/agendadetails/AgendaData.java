@@ -27,7 +27,8 @@ public class AgendaData implements Parcelable {
     public String sessionType;
 
 
-    protected AgendaData(Parcel in) {
+
+    public AgendaData(Parcel in) {
         sessionId = in.readString();
         title = in.readString();
         subject = in.readString();

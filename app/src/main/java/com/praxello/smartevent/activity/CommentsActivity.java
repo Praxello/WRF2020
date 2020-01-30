@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -27,17 +28,20 @@ import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CommentsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
+import com.praxello.smartevent.model.allattendee.AttendeeData;
 import com.praxello.smartevent.model.comments.CommentsResponse;
 import com.praxello.smartevent.model.comments.LoadPreviousCommentResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 
 public class CommentsActivity extends AppCompatActivity {
 
@@ -65,10 +69,9 @@ public class CommentsActivity extends AppCompatActivity {
         Intent intent=getIntent();
         data=intent.getParcelableExtra("data");
 
-        //Log.e(TAG,"parcelable data"+data.getSessionType());
 
-
-        rvComments.setLayoutManager(new LinearLayoutManager(this));
+        rvComments.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
+        rvComments.setNestedScrollingEnabled(false);
 
         Toolbar toolbar=findViewById(R.id.toolbar_comments);
         setSupportActionBar(toolbar);
@@ -82,6 +85,20 @@ public class CommentsActivity extends AppCompatActivity {
             loadComments();
         }
 
+        final Handler ha=new Handler();
+        ha.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                //call function
+                if(CommonMethods.isNetworkAvailable(CommentsActivity.this)){
+                    loadComments();
+                }
+                ha.postDelayed(this, 10000);
+            }
+        }, 10000);
+
+
         ivSubmitComment.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -93,11 +110,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     public void loadComments(){
-        final ProgressDialog progress=new ProgressDialog(this);
-        progress.setMessage("Please wait");
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progress.show();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_COMMENTS_URL, new Response.Listener<String>() {
+       StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_COMMENTS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson=new Gson();
@@ -106,26 +119,26 @@ public class CommentsActivity extends AppCompatActivity {
                 LoadPreviousCommentResponse loadPreviousCommentResponse=gson.fromJson(response,LoadPreviousCommentResponse.class);
 
                 if(loadPreviousCommentResponse.Responsecode.equals("200")){
-                    progress.dismiss();
+                    //progress.dismiss();
                     if(loadPreviousCommentResponse.getData()!=null){
                         CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,loadPreviousCommentResponse.getData());
                         rvComments.setAdapter(commentsAdapter);
                     }else{
                         llNoData.setVisibility(View.VISIBLE);
                         rvComments.setVisibility(View.GONE);
-                        progress.dismiss();
+                       // progress.dismiss();
                     }
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
                     rvComments.setVisibility(View.GONE);
-                    progress.dismiss();
+                   // progress.dismiss();
                     Toast.makeText(CommentsActivity.this, loadPreviousCommentResponse.Message, Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progress.dismiss();
+                //progress.dismiss();
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvComments.setVisibility(View.GONE);
                 Toast.makeText(CommentsActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -157,8 +170,10 @@ public class CommentsActivity extends AppCompatActivity {
                     rvComments.setVisibility(View.VISIBLE);
                     etComments.setText(null);
                     Toast.makeText(CommentsActivity.this, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,commentsResponse.getCommentsData());
-                    rvComments.setAdapter(commentsAdapter);
+                    if(commentsResponse.getCommentsData()!=null){
+                        CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,commentsResponse.getCommentsData());
+                        rvComments.setAdapter(commentsAdapter);
+                    }
                 }else{
                     Toast.makeText(CommentsActivity.this, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }

@@ -1,10 +1,9 @@
-package com.praxello.smartevent.model;
+package com.praxello.smartevent.model.likes;
 
 public class LikesResponse {
 
     public String Message;
     public String Likes;
-    public String UserIds;
     public String isLiked;
     public String Responsecode;
 
@@ -24,14 +23,6 @@ public class LikesResponse {
         Likes = likes;
     }
 
-    public String getUserIds() {
-        return UserIds;
-    }
-
-    public void setUserIds(String userIds) {
-        UserIds = userIds;
-    }
-
     public String getIsLiked() {
         return isLiked;
     }
@@ -47,4 +38,5 @@ public class LikesResponse {
     public void setResponsecode(String responsecode) {
         Responsecode = responsecode;
     }
+
 }
