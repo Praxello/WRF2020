@@ -118,7 +118,7 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("Agenda Details");
+        toolbar.setTitle("Agenda");
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         // initialize it and attach a listener

@@ -29,8 +29,11 @@ import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.DashBoardActivity;
 import com.praxello.smartevent.activity.LoginActivity;
+import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.model.agendadetails.CommentsData1;
+import com.praxello.smartevent.model.agendadetails.SpeakersName;
 import com.praxello.smartevent.model.allattendee.AttendeeData;
+import com.praxello.smartevent.model.comments.CommentData1;
 import com.praxello.smartevent.model.comments.CommentsResponse;
 import com.praxello.smartevent.model.likes.LikesResponse;
 import com.praxello.smartevent.utility.CommonMethods;
@@ -53,17 +56,24 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
     public Context context;
     public ArrayList<CommentsData1> commentsDataArrayList;
     ArrayList<AttendeeData> attendeeDataArrayList;
+    AgendaData agendaData;
+
+
+
    /* public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
     }*/
     public static final String TAG="CommentsAdapter";
 
-    public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList) {
+    public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList, AgendaData agendaData) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
+
+        this.agendaData = agendaData;
     }
-    
+
+
     @NonNull
     @Override
     public CommentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -72,10 +82,10 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
         return new CommentsViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull CommentsViewHolder holder, int position) {
         if(commentsDataArrayList.get(position)!=null){
-
             String date=commentsDataArrayList.get(position).getCommentDateTime();
             SimpleDateFormat spf=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
             Date newDate= null;
@@ -88,40 +98,44 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
             date = spf.format(newDate);
             System.out.println(date);
 
-            attendeeDataArrayList=  Paper.book().read("allattendee");
-            if(CommonMethods.getPrefrence(context, AllKeys.USER_ID).equals(commentsDataArrayList.get(position).getUserId())){
+            int temp=1;
+            if(temp==commentsDataArrayList.get(position).getUserId()){
+                //Log.e(TAG,"parcelable data"+data.getSessionType());
                 holder.llOurOwnComments.setVisibility(View.VISIBLE);
                 holder.llOtherComments.setVisibility(View.GONE);
-                for(AttendeeData attendeeData : attendeeDataArrayList) {
-                    if(attendeeData.getUserId().equals(commentsDataArrayList.get(position).getUserId())) {
-                        //found it!
-                        if(attendeeData.getUserType().equals("Speaker")){
-                            holder.tvOurUserName.setText(attendeeData.getFirstName()+" "+attendeeData.getLastName()+" (Host)");
-                        }else{
-                            holder.tvOurUserName.setText(attendeeData.getFirstName()+" "+attendeeData.getLastName());
-                        }
-                    }
-                }
+                // holder.tvUserName.setText(commentsDataArrayList.get(position).getUserId());
                 holder.tvOurCommentMessage.setText(commentsDataArrayList.get(position).getComment());
                 holder.tvOurCommentTime.setText(date);
-            }else{
 
-                //Log.e(TAG,"parcelable data"+data.getSessionType());
-                for(AttendeeData attendeeData : attendeeDataArrayList) {
-                    if(attendeeData.getUserId().equals(commentsDataArrayList.get(position).getUserId())) {
-                        //found it!
-                        if(attendeeData.getUserType().equals("Speaker")){
-                            holder.tvUserName.setText(attendeeData.getFirstName()+" "+attendeeData.getLastName()+" (Host)");
-                        }else{
-                            holder.tvUserName.setText(attendeeData.getFirstName()+" "+attendeeData.getLastName());
-                        }
-                    }
-                }
+            }else{
                 holder.llOurOwnComments.setVisibility(View.GONE);
                 holder.llOtherComments.setVisibility(View.VISIBLE);
-               // holder.tvUserName.setText(commentsDataArrayList.get(position).getUserId());
-                holder.tvCommentMessage.setText(commentsDataArrayList.get(position).getComment());
+
                 holder.tvCommentTime.setText(date);
+                String attendeeName="";
+                Log.e(TAG, "onBindViewHolder:HashMapData "+DashBoardActivity.mapAttendeeData.size() );
+                Log.e(TAG, "onBindViewHolder: UserId"+commentsDataArrayList.get(position).getUserId() );
+                if(DashBoardActivity.mapAttendeeData.containsKey(commentsDataArrayList.get(position).getUserId())){
+                    AttendeeData attendeeData;
+                    attendeeData=DashBoardActivity.mapAttendeeData.get(commentsDataArrayList.get(position).getUserId());
+                    attendeeName=attendeeData.getFirstName()+" "+attendeeData.getLastName();
+                }
+
+                Log.e(TAG, "onBindViewHolder: attendeeName" +attendeeName );
+
+                for(SpeakersName speakersName: agendaData.getSpeakers()) {
+                    if(speakersName.getUserid().equals(commentsDataArrayList.get(position).getUserId())) {
+                        //found it!
+                        holder.tvUserName.setText(attendeeName+" (Host)");
+
+                        break;
+                    }else{
+                        holder.tvUserName.setText(attendeeName);
+
+                    }
+                }
+                holder.tvCommentMessage.setText(commentsDataArrayList.get(position).getComment());
+
             }
 
             holder.cvDelete.setOnLongClickListener(new View.OnLongClickListener() {

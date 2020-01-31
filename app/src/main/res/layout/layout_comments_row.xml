@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
 
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/margin200"
         android:layout_height="wrap_content"
         android:elevation="@dimen/margin10"
         app:cardBackgroundColor="@color/grey50"
@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/tv_commentmessage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
                 android:text="@string/comment" />
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:gravity="end"
-                android:textSize="10sp"
+                android:textSize="@dimen/textsize10"
                 android:layout_marginLeft="@dimen/margin15"
                 android:text="@string/comment" />
 
@@ -54,7 +54,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_delete"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/margin200"
         android:layout_height="wrap_content"
         android:elevation="@dimen/margin10"
         android:layout_gravity="right"
@@ -64,9 +64,9 @@
 
         <LinearLayout
             android:id="@+id/ll_ourowncomments"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+
             android:layout_margin="@dimen/margin5"
             android:orientation="vertical"
             android:visibility="gone">
@@ -76,26 +76,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin5"
-                android:text="John Doe"
+                android:text=""
+                android:layout_gravity="left"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_our_commentmessage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
+                android:layout_gravity="left"
+                android:textColor="@color/black"
                 android:layout_marginBottom="@dimen/margin5"
-                android:drawableLeft="@drawable/ic_forward"
-                android:drawablePadding="@dimen/margin5"
                 android:text="@string/comment" />
 
             <TextView
                 android:id="@+id/tv_our_commenttime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:gravity="end"
+                android:layout_gravity="right"
+                android:textSize="@dimen/textsize10"
                 android:layout_marginLeft="@dimen/margin15"
                 android:layout_marginBottom="@dimen/margin5"
                 android:text="@string/comment" />

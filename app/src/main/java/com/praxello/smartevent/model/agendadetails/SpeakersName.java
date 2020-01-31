@@ -1,9 +1,12 @@
 package com.praxello.smartevent.model.agendadetails;
 
-public class SpeakersName {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SpeakersName implements Parcelable {
 
     public String sessionid;
-    public String userid;
+    public Integer userid;
     public String usertype;
     public String firstname;
     public String lastname;
@@ -13,6 +16,31 @@ public class SpeakersName {
     public String state;
     public String country;
 
+    protected SpeakersName(Parcel in) {
+        sessionid = in.readString();
+        userid = in.readInt();
+        usertype = in.readString();
+        firstname = in.readString();
+        lastname = in.readString();
+        email = in.readString();
+        mobile = in.readString();
+        city = in.readString();
+        state = in.readString();
+        country = in.readString();
+    }
+
+    public static final Creator<SpeakersName> CREATOR = new Creator<SpeakersName>() {
+        @Override
+        public SpeakersName createFromParcel(Parcel in) {
+            return new SpeakersName(in);
+        }
+
+        @Override
+        public SpeakersName[] newArray(int size) {
+            return new SpeakersName[size];
+        }
+    };
+
     public String getSessionid() {
         return sessionid;
     }
@@ -21,11 +49,11 @@ public class SpeakersName {
         this.sessionid = sessionid;
     }
 
-    public String getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 
@@ -91,5 +119,24 @@ public class SpeakersName {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(sessionid);
+        dest.writeInt(userid);
+        dest.writeString(usertype);
+        dest.writeString(firstname);
+        dest.writeString(lastname);
+        dest.writeString(email);
+        dest.writeString(mobile);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(country);
     }
 }

@@ -10,13 +10,9 @@
     android:orientation="vertical"
     tools:context=".activity.LoginActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin150"
-        android:src="@drawable/logo"
-        android:id="@+id/ivLogoImage"/>
 
-    <TextView
+
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,11 +28,11 @@
         android:layout_marginBottom="@dimen/margin10"
         android:gravity="center"
         android:text="@string/to_access_all_features_of_the_provided_by_code_is_all_you_need_to_login_first"
-        android:textSize="@dimen/textsize15" />
+        android:textSize="@dimen/textsize15" />-->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/margin10"
         android:background="#9e9e9e"
         android:elevation="@dimen/margin10"
@@ -46,14 +42,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/margin15"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin150"
+                android:src="@drawable/logo"
+                android:id="@+id/ivLogoImage"
+                android:gravity="center"
+                android:layout_marginBottom="50dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+               >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etMobileNumber"
@@ -100,10 +111,19 @@
                     android:background="@drawable/oval"
                     android:text="@string/login"
                     android:textColor="@color/white" />
-
+            </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/margin60"
+                android:layout_height="@dimen/margin40"
+                android:gravity="bottom"
+                android:src="@drawable/praxello"
+                android:layout_marginTop="@dimen/margin60"
+                />
 
 
         </LinearLayout>
+
+
     </androidx.cardview.widget.CardView>
 
 

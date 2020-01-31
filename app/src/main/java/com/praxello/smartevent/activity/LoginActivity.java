@@ -115,8 +115,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (loginResponse.getResponsecode().equals("200")) {
                     progress.dismiss();
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
                     //save firebase data to server...
                     saveFirebaseCredential();
+
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.USER_ID, loginResponse.getData().getUserId());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.SALUATION, loginResponse.getData().getSalutation());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.FIRST_NAME, loginResponse.getData().getFirstName());
@@ -177,11 +179,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     progress.dismiss();
 
 
-                    Toast.makeText(LoginActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(LoginActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     progress.dismiss();
-                    Toast.makeText(LoginActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(LoginActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {

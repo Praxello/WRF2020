@@ -1,12 +1,11 @@
 package com.praxello.smartevent.model.agendadetails;
 
-import android.annotation.SuppressLint;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-@SuppressLint("ParcelCreator")
 public class AgendaData implements Parcelable {
 
     public String sessionId;
@@ -27,8 +26,7 @@ public class AgendaData implements Parcelable {
     public String sessionType;
 
 
-
-    public AgendaData(Parcel in) {
+    protected AgendaData(Parcel in) {
         sessionId = in.readString();
         title = in.readString();
         subject = in.readString();
@@ -37,9 +35,11 @@ public class AgendaData implements Parcelable {
         sessionDate = in.readString();
         sequenceNo = in.readString();
         isActive = in.readString();
+        Speakers = in.createTypedArrayList(SpeakersName.CREATOR);
         isBookmarked = in.readString();
         isLiked = in.readString();
         Likes = in.readString();
+        Comments = in.createTypedArrayList(CommentsData1.CREATOR);
         slotTitle = in.readString();
         sessionLocation = in.readString();
         sessionType = in.readString();
@@ -185,6 +185,7 @@ public class AgendaData implements Parcelable {
         this.sessionType = sessionType;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -200,9 +201,11 @@ public class AgendaData implements Parcelable {
         dest.writeString(sessionDate);
         dest.writeString(sequenceNo);
         dest.writeString(isActive);
+        dest.writeTypedList(Speakers);
         dest.writeString(isBookmarked);
         dest.writeString(isLiked);
         dest.writeString(Likes);
+        dest.writeTypedList(Comments);
         dest.writeString(slotTitle);
         dest.writeString(sessionLocation);
         dest.writeString(sessionType);

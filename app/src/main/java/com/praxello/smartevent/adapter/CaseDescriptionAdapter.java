@@ -72,6 +72,7 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
         holder.webView.getSettings().setJavaScriptEnabled(true);
         holder.webView.getSettings().setBuiltInZoomControls(true);
         holder.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
         if(allCasesDataArrayList.get(position).getPdflink()==null || allCasesDataArrayList.get(position).getPdflink().isEmpty()
                 || allCasesDataArrayList.get(position).getPdflink().equals("null")){
             Toast.makeText(context, "Pdf not available", Toast.LENGTH_SHORT).show();
@@ -90,6 +91,13 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
 
                 EditText etSuggesstion=dialogView.findViewById(R.id.et_suggestion);
                 AppCompatButton btnSubmitSuggesstion=dialogView.findViewById(R.id.btn_submit);
+
+                if(allCasesDataArrayList.get(position).getSubmission()==null || allCasesDataArrayList.get(position).getSubmission().isEmpty() ){
+                    etSuggesstion.setText(null);
+
+                }else{
+                    etSuggesstion.setText(allCasesDataArrayList.get(position).getSubmission());
+                }
 
                 btnSubmitSuggesstion.setOnClickListener(new View.OnClickListener() {
                     @Override

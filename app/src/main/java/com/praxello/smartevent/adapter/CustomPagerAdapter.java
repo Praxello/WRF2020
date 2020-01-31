@@ -17,8 +17,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.model.advertisment.AdvertismentData;
+import com.praxello.smartevent.utility.CommonMethods;
 
 import java.util.ArrayList;
+
+import butterknife.internal.Utils;
 
 public class CustomPagerAdapter extends PagerAdapter {
     private final int widthPixels;
@@ -53,6 +56,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         View itemView = mLayoutInflater.inflate(R.layout.viewpager_image, container, false);
         ImageView iv_banner = itemView.findViewById(R.id.iv_banner);
         TextView tvAdName = itemView.findViewById(R.id.tvAdName);
+        RelativeLayout rlCustomeAdapter = itemView.findViewById(R.id.rl_customeadapter);
         AdvertismentData advertisement = advertisements.get(position);
 //        if (advertisement.getMediaType() != null) {
 //            if (advertisement.getMediaType().equals("0")) {
@@ -74,29 +78,51 @@ public class CustomPagerAdapter extends PagerAdapter {
             }
         }*/
 
-        if (advertisements.get(position).getAdType().equals("1") || advertisements.get(position).getAdType().equals("2")) {
-            Log.e(TAG,"Inside if");
+
+        // Log.e(TAG,"Inside if");
+        if (advertisement.getAdType().equals("1") || advertisement.getAdType().equals("2")){
             if (advertisement.getAdImageUrl() != null && !TextUtils.isEmpty(advertisement.getAdImageUrl())) {
-                Glide.with(mContext).load(advertisement.getAdImageUrl()).into(iv_banner);
+                rlCustomeAdapter.setVisibility(View.VISIBLE);
+                if(advertisements.get(position).getAdType().equals("1")){
+                    Glide.with(mContext).load(advertisement.getAdImageUrl()).into(iv_banner);
+                }else{
+                    Glide.with(mContext).load("https://img.youtube.com/vi/"+(advertisement.getAdVideourl())+"/0.jpg").into(iv_banner);
+                }
+
+
                 iv_banner.setOnClickListener(v -> {
                 /*if (advertisement.getWebsitelink() != null && !TextUtils.isEmpty(advertisement.getWebsitelink())) {
                     Utils.openBrowser(mContext, advertisement.getWebsitelink());
                 }*/
+                    if (advertisements.get(position).getAdType().equals("2")) {
+                        if (advertisements.get(position).getAdVideourl() != null && !TextUtils.isEmpty(advertisements.get(position).getAdVideourl())) {
+                            CommonMethods.openBrowser(mContext, advertisements.get(position).getAdVideourl());
+
+                        }
+                    }
+
+                    if (advertisements.get(position).getAdType().equals("1")) {
+                        if (advertisements.get(position).getAdVideourl() != null && !TextUtils.isEmpty(advertisements.get(position).getAdVideourl())) {
+                            CommonMethods.openBrowser(mContext, advertisements.get(position).getAdImageUrl());
+                        }
+                    }
                 });
             }
-            if (!TextUtils.isEmpty(advertisement.getAdTitle())) {
-                tvAdName.setText(advertisement.getAdTitle());
-                tvAdName.setVisibility(View.VISIBLE);
-            } else {
-                tvAdName.setVisibility(View.GONE);
-            }
-       } else{
-            Log.e(TAG,"Inside else");
+        if (!TextUtils.isEmpty(advertisement.getAdTitle())) {
+            tvAdName.setText(advertisement.getAdTitle());
+            tvAdName.setVisibility(View.VISIBLE);
+        } else {
+            tvAdName.setVisibility(View.GONE);
+        }
+    }
+       /*else{
+
+         Log.e(TAG,"Inside else");
             Glide.with(mContext).load(R.drawable.no_data).into(iv_banner);
             iv_banner.setOnClickListener(v -> {
-              /* if (advertisement.getWebsitelink() != null && !TextUtils.isEmpty(advertisement.getWebsitelink())) {
+               if (advertisement.getWebsitelink() != null && !TextUtils.isEmpty(advertisement.getWebsitelink())) {
                     Utils.openBrowser(mContext, advertisement.getWebsitelink());
-                }*/
+                }
             });
             if (!TextUtils.isEmpty(advertisement.getAdTitle())) {
                 tvAdName.setText(R.string.no_ads_available);
@@ -104,7 +130,7 @@ public class CustomPagerAdapter extends PagerAdapter {
             } else {
                 tvAdName.setVisibility(View.GONE);
             }
-        }
+        }*/
 
 //            } else {
 //                Glide.with(mContext).load("http://img.youtube.com/vi/" + banner.getWebsitelink() + "/0.jpg").into(iv_banner);

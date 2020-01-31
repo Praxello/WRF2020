@@ -2,9 +2,11 @@ package com.praxello.smartevent.utility;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -67,5 +69,13 @@ public class CommonMethods {
                         .getCurrentFocus().getWindowToken(), 0);
             }
         }
+    }
+
+    public static void openBrowser(Context context, String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://"))
+            url = "http://" + url;
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(browserIntent);
     }
 }

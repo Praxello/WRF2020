@@ -9,6 +9,7 @@ public class AllCasesData {
     public String owner;
     public String isActive;
     public String photoUrl;
+    public String Submission;
 
     public String getCaseId() {
         return caseId;
@@ -64,5 +65,13 @@ public class AllCasesData {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getSubmission() {
+        return Submission;
+    }
+
+    public void setSubmission(String submission) {
+        Submission = submission;
     }
 }

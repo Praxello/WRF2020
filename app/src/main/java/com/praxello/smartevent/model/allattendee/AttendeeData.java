@@ -2,7 +2,7 @@ package com.praxello.smartevent.model.allattendee;
 
 public class AttendeeData {
 
-    public String userId;
+    public Integer userId;
     public String salutation;
     public String userType;
     public String firstName;
@@ -11,11 +11,11 @@ public class AttendeeData {
     public String mobile;
     public String city;
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.CommentsActivity;
+import com.praxello.smartevent.model.agendadetails.SpeakersName;
 import com.praxello.smartevent.model.likes.LikesResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.utility.CommonMethods;
@@ -41,6 +42,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 
 public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdapter.AgendaDetailsViewHolder> {
 
@@ -78,6 +80,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
 
         final AgendaData data = agendaDataArrayList.get(position);
 
+
         if(dateValue==0) {
             if (agendaDataArrayList.get(position).getSessionDate().equals("2020-03-28")) {
                 if (agendaDataArrayList.get(position).getSessionType().equals("Session")) {
@@ -105,6 +108,12 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                         if (agendaDataArrayList.get(position).getSpeakers() != null) {
                             AgendaSpeakerAdapter agendaSpeakerAdapter = new AgendaSpeakerAdapter(context, agendaDataArrayList.get(position).getSpeakers());
                             holder.rvSpeakerData.setAdapter(agendaSpeakerAdapter);
+                            //Log.e(TAG, "onBindViewHolder: speaker data response "+agendaDataArrayList.get(position).getSpeakers().size());
+                            //Paper.book().write("speaker_data",agendaDataArrayList.get(position).getSpeakers());
+
+
+
+
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
@@ -144,6 +153,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                         Intent intent = new Intent(context, CommentsActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("data", agendaDataArrayList.get(position));
+
                         context.startActivity(intent);
                         activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
@@ -179,6 +189,8 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                         if (agendaDataArrayList.get(position).getSpeakers() != null) {
                             AgendaSpeakerAdapter agendaSpeakerAdapter = new AgendaSpeakerAdapter(context, agendaDataArrayList.get(position).getSpeakers());
                             holder.rvSpeakerData.setAdapter(agendaSpeakerAdapter);
+                          //      Paper.book().write("speaker_data",agendaDataArrayList.get(position).getSpeakers());
+
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,12 +50,15 @@ import com.praxello.smartevent.adapter.CustomPagerAdapter;
 import com.praxello.smartevent.adapter.DashBoardAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.DashBoardData;
+import com.praxello.smartevent.model.advertisment.AdvertismentData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
+import com.praxello.smartevent.model.allattendee.AttendeeData;
 import com.praxello.smartevent.model.allattendee.AttendeeResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.widget.LoopViewPager;
+import com.praxello.smartevent.widget.MarqueeView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -73,10 +78,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     RelativeLayout rrBanner;
     @BindView(R.id.viewpager)
     LoopViewPager viewpager;
-    @BindView(R.id.rv_dashboard)
+    /*@BindView(R.id.rv_dashboard)
     RecyclerView rvDashBoardData;
     @BindView(R.id.rv_marqueeadvertisment)
-    RecyclerView rvMarqueeAdvertisment;
+    RecyclerView rvMarqueeAdvertisment;*/
     @BindView(R.id.navView)
     NavigationView navigationView;
     @BindView(R.id.drawerLayout)
@@ -84,6 +89,21 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public final String TAG="DashBoardActivity";
     private static final int MESSAGE_SCROLL = 123;
     public MarqueeAdvertismentAdapter marqueeAdvertismentAdapter;
+    @BindView(R.id.cardview_program)
+    public CardView cvProgram;
+    @BindView(R.id.cardview_cases)
+    public CardView cvCases;
+    @BindView(R.id.cardview_speakers)
+    public CardView cvSpeaker;
+    @BindView(R.id.cardview_about)
+    public CardView cvAbout;
+    @BindView(R.id.cardview_booths)
+    public CardView cvBooths;
+    @BindView(R.id.cardview_quiz)
+    public CardView cvQuiz;
+    @BindView(R.id.marquee)
+    MarqueeView marqueeView;
+    public static Map<Integer,AttendeeData> mapAttendeeData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +118,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         initViews();
 
         //load data to recyclerview of dashboard data..
-        loadDashBoardData();
+        //loadDashBoardData();
 
         //load Ads
         loadAdvertisment();
@@ -106,8 +126,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         //loadAll Attendee...
         loadAllAttendee();
     }
-
-
 
     private void initViews(){
         setSupportActionBar(toolbar);
@@ -117,8 +135,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         toolbar.setTitleTextColor(Color.WHITE);
 
         //Recycler View intialisation...
-        rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
-        rvDashBoardData.setNestedScrollingEnabled(false);
+        //rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
+        //rvDashBoardData.setNestedScrollingEnabled(false);
 
         //Navigaiton intialisatio...
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -136,11 +154,18 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             tvName.setText(CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.FIRST_NAME)+" "+CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.LAST_NAME));
         }
 
+        //CardView object intialisation...
+        cvProgram.setOnClickListener(this);
+        cvCases.setOnClickListener(this);
+        cvSpeaker.setOnClickListener(this);
+        cvBooths.setOnClickListener(this);
+        cvAbout.setOnClickListener(this);
+        cvQuiz.setOnClickListener(this);
 
 
-        //rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+       // rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(DashBoardActivity.this) {
+        /*LinearLayoutManager layoutManager = new LinearLayoutManager(DashBoardActivity.this) {
             @Override
             public void smoothScrollToPosition(RecyclerView recyclerView,RecyclerView.State state, int position) {
                 LinearSmoothScroller smoothScroller = new LinearSmoothScroller(DashBoardActivity.this) {
@@ -154,13 +179,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 startSmoothScroll(smoothScroller);
             }
 
-        };
-        rvMarqueeAdvertisment.setLayoutManager(layoutManager);
+        };*/
+        //rvMarqueeAdvertisment.setLayoutManager(layoutManager);
 
         //rvMarqueeAdvertisment.setNestedScrollingEnabled(false);
     }
 
-    private void loadDashBoardData() {
+   /* private void loadDashBoardData() {
         ArrayList<DashBoardData> dashBoardDataArrayList=new ArrayList<>();
         dashBoardDataArrayList.add(new DashBoardData(R.string.program,R.drawable.ic_completed_task));
         dashBoardDataArrayList.add(new DashBoardData(R.string.cases,R.drawable.ic_checklist));
@@ -172,35 +197,16 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         dashBoardDataArrayList.add(new DashBoardData(R.string.contact_us,R.drawable.ic_24_7));
         DashBoardAdapter dashBoardAdapter=new DashBoardAdapter(DashBoardActivity.this,dashBoardDataArrayList);
         rvDashBoardData.setAdapter(dashBoardAdapter);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        /*int id = item.getItemId();
-        if (id == R.id.nav_upload_profile) {
-            set_image();
-        } else if (id == R.id.nav_visit_hridayam) {
-            startActivity(new Intent(mContext, WebviewActivity.class)
-                    .putExtra("title", "Hridayam")
-                    .putExtra("url", "http://www.bestcardiologistpune.com"));
-        } else if (id == R.id.nav_visit_esmr) {
-            startActivity(new Intent(mContext, WebviewActivity.class)
-                    .putExtra("title", "Hridayam")
-                    .putExtra("url", "http://www.esmrtreatment.com"));
-        } else if (id == R.id.nav_reminder) {
-            startActivity(new Intent(mContext, ReminderListActivity.class));
-        } else if (id == R.id.nav_check) {
-            startActivity(new Intent(mContext, WebviewActivity.class)
-                    .putExtra("title", "Hridayam")
-                    .putExtra("url", "http://tools.acc.org/ascvd-risk-estimator/"));
-        } else if (id == R.id.nav_logout) {
-            hridayamApp.getPreferences().logOutUser();
-            startActivity(new Intent(mContext, LoginActivity.class));
-            finish();
-        }*/
+
         switch (item.getItemId()){
+
+
+
             case R.id.nav_home:break;
 
             case R.id.nav_myid:
@@ -236,7 +242,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.PINCODE, AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.DATEOFBIRTH,AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.ADDRESS, AllKeys.DNF);
-                                Intent intent=new Intent(DashBoardActivity.this,LoginActivity.class);
+                                Intent intent=new Intent(DashBoardActivity.this,AllConferenceActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -258,19 +264,40 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
 
-            /*case R.id.ll_case_description:
-                Intent intent=new Intent(DashBoardActivity.this,CaseDescriptionActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-                            break;
-
-            case R.id.ll_agenda:
-                intent=new Intent(DashBoardActivity.this,AgendaDetailsActivity.class);
+            case R.id.cardview_program:
+                Intent intent=new Intent(DashBoardActivity.this,AgendaDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-                break;*/
+                break;
+
+            case R.id.cardview_cases:
+                intent=new Intent(DashBoardActivity.this,CaseDescriptionActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.cardview_speakers:
+                intent=new Intent(DashBoardActivity.this,SpeakerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.cardview_booths:
+
+                break;
+
+            case R.id.cardview_about:
+                intent=new Intent(DashBoardActivity.this,AboutActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.cardview_quiz:
+                break;
 
         }
     }
@@ -287,22 +314,35 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 if(advertismentResponse.Responsecode.equals("200")){
                     if(advertismentResponse.getData().size()>0){
 
-                            /*for(int i=0;i<advertismentResponse.getData().size();i++){
-                                if(advertismentResponse.getData().get(i).getAdType().equals("1") || advertismentResponse.getData().get(i).getAdType().equals("2")){
-                                    rrBanner.setVisibility(View.VISIBLE);
+                        ArrayList<AdvertismentData> advertismentDataArrayList;
+                        advertismentDataArrayList=new ArrayList<>();
 
-                                }else{
-                                    rrBanner.setVisibility(View.GONE);
-                                }
-                            }*/
-                        CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this,advertismentResponse.getData());
+                        ArrayList<AdvertismentData> advertismentDataArrayList1;
+                        advertismentDataArrayList1=new ArrayList<>();
+                        for(int i=0;i<advertismentResponse.getData().size();i++){
+                            if(!advertismentResponse.getData().get(i).getAdType().equals("0")){
+                                advertismentDataArrayList.add(advertismentResponse.getData().get(i));
+                            }
+                            if(advertismentResponse.getData().get(i).getAdType().equals("0")){
+                                advertismentDataArrayList1.add(advertismentResponse.getData().get(i));
+                            }
+                        }
+                        CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this,advertismentDataArrayList);
                         viewpager.setAdapter(customPagerAdapter);
 
+                        Log.e(TAG, "onResponse: advertisment data"+advertismentResponse.getData() );
 
-                        marqueeAdvertismentAdapter=new MarqueeAdvertismentAdapter(DashBoardActivity.this,advertismentResponse.getData());
+                           // if(advertismentData.getAdType().equals("0")) {
+                                //found it!
+                               // marqueeView.setText(advertismentDataArrayList1);
+                               // marqueeView.start();
+                           // }
+
+
+                        /*marqueeAdvertismentAdapter=new MarqueeAdvertismentAdapter(DashBoardActivity.this,advertismentResponse.getData());
                         rvMarqueeAdvertisment.setAdapter(marqueeAdvertismentAdapter);
-
-                        autoScroll();
+*/
+                       // autoScroll();
 
                     }else{
                         rrBanner.setVisibility(View.GONE);
@@ -338,11 +378,16 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
+                DashBoardActivity.mapAttendeeData = new HashMap();
                 Log.e(TAG,"response"+response);
                 AttendeeResponse attendeeResponse=gson.fromJson(response,AttendeeResponse.class);
 
                 if(attendeeResponse.Responsecode.equals("200")){
-                    Paper.book().write("allattendee", attendeeResponse.getData());
+                   // Paper.book().write("allattendee", attendeeResponse.getData());
+                    for(AttendeeData temp : attendeeResponse.getData())
+                    {
+                        DashBoardActivity.mapAttendeeData.put(temp.getUserId(),temp);
+                    }
 
                 }else{
                     Toast.makeText(DashBoardActivity.this, attendeeResponse.Message, Toast.LENGTH_SHORT).show();
@@ -377,7 +422,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 if(count == marqueeAdvertismentAdapter.getItemCount())
                     count =0;
                 if(count < marqueeAdvertismentAdapter.getItemCount()){
-                    rvMarqueeAdvertisment.smoothScrollToPosition(++count);
+                    //rvMarqueeAdvertisment.smoothScrollToPosition(++count);
                     handler.postDelayed(this,speedScroll);
                 }
             }

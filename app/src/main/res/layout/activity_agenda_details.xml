@@ -27,10 +27,11 @@
             android:id="@+id/np_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.Picker"
             app:np_dividerColor="@color/colorPrimaryDark"
             app:np_dividerThickness="0dp"
             app:np_fadingEdgeEnabled="false"
-            app:np_height="@dimen/margin40"
+            app:np_height="@dimen/margin60"
             app:np_max="1"
             app:np_min="0"
             app:np_order="ascending"
@@ -38,15 +39,18 @@
             app:np_selectedTextColor="@color/colorPrimaryDark"
             app:np_selectedTextSize="25sp"
             app:np_textColor="@color/colorPrimary"
-            app:np_textSize="14sp"
-            app:np_wrapSelectorWheel="true" />
+            app:np_textSize="@dimen/textsize15"
+            android:padding="@dimen/margin15"
+            app:np_width="@dimen/margin200"
+            app:np_wrapSelectorWheel="true"
+            />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

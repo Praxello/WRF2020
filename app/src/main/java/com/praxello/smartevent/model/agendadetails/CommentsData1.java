@@ -1,12 +1,43 @@
 package com.praxello.smartevent.model.agendadetails;
 
-public class CommentsData1 {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class CommentsData1 implements Parcelable {
 
     public String commentId;
     public String sessionId ;
-    public String userId;
+    public Integer userId;
     public String comment;
     public String commentDateTime;
+
+    protected CommentsData1(Parcel in) {
+        commentId = in.readString();
+        sessionId = in.readString();
+        userId = in.readInt();
+        comment = in.readString();
+        commentDateTime = in.readString();
+    }
+
+    public static final Creator<CommentsData1> CREATOR = new Creator<CommentsData1>() {
+        @Override
+        public CommentsData1 createFromParcel(Parcel in) {
+            return new CommentsData1(in);
+        }
+
+        @Override
+        public CommentsData1[] newArray(int size) {
+            return new CommentsData1[size];
+        }
+    };
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getCommentId() {
         return commentId;
@@ -24,14 +55,6 @@ public class CommentsData1 {
         this.sessionId = sessionId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -46,5 +69,19 @@ public class CommentsData1 {
 
     public void setCommentDateTime(String commentDateTime) {
         this.commentDateTime = commentDateTime;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(commentId);
+        dest.writeString(sessionId);
+        dest.writeInt(userId);
+        dest.writeString(comment);
+        dest.writeString(commentDateTime);
     }
 }
