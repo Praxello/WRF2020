@@ -7,23 +7,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.DisplayMetrics;
+import android.provider.MediaStore;
+import android.provider.SyncStateContract;
+import android.text.Html;
+import android.text.TextUtils;
+import android.text.format.Formatter;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -47,9 +53,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
-import com.praxello.smartevent.adapter.DashBoardAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
-import com.praxello.smartevent.model.DashBoardData;
 import com.praxello.smartevent.model.advertisment.AdvertismentData;
 import com.praxello.smartevent.model.advertisment.AdvertismentResponse;
 import com.praxello.smartevent.model.allattendee.AttendeeData;
@@ -60,15 +64,25 @@ import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.widget.LoopViewPager;
 import com.praxello.smartevent.widget.MarqueeView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -78,10 +92,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     RelativeLayout rrBanner;
     @BindView(R.id.viewpager)
     LoopViewPager viewpager;
-    /*@BindView(R.id.rv_dashboard)
-    RecyclerView rvDashBoardData;
-    @BindView(R.id.rv_marqueeadvertisment)
-    RecyclerView rvMarqueeAdvertisment;*/
     @BindView(R.id.navView)
     NavigationView navigationView;
     @BindView(R.id.drawerLayout)
@@ -104,6 +114,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.marquee)
     MarqueeView marqueeView;
     public static Map<Integer,AttendeeData> mapAttendeeData;
+    public CircleImageView ivProfilePic;
+    private static final String IMAGE_DIRECTORY = "/WRF2020";
+    private int GALLERY = 1, CAMERA = 2;
+    final String[] items = new String[]{"Capture photo from camera", "Select photo from gallery"};
+    private static final int PICK_IMAGE = 1;
+    private static final int REQUEST_CAMERA = 2;
+    String imageBase64String;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +166,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         //CircleImageView cvImage=navigationView.getHeaderView(0).findViewById(R.id.ivProfile);
         TextView tvName=navigationView.getHeaderView(0).findViewById(R.id.tvName);
+        ivProfilePic=navigationView.getHeaderView(0).findViewById(R.id.ivProfile);
 
         if(!CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.FIRST_NAME).equals(AllKeys.DNF)){
             tvName.setText(CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.FIRST_NAME)+" "+CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.LAST_NAME));
@@ -163,26 +181,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         cvQuiz.setOnClickListener(this);
 
 
-       // rvMarqueeAdvertisment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
-
-        /*LinearLayoutManager layoutManager = new LinearLayoutManager(DashBoardActivity.this) {
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void smoothScrollToPosition(RecyclerView recyclerView,RecyclerView.State state, int position) {
-                LinearSmoothScroller smoothScroller = new LinearSmoothScroller(DashBoardActivity.this) {
-                    private static final float SPEED = 4000f;// Change this value (default=25f)
-                    @Override
-                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                        return SPEED / displayMetrics.densityDpi;
-                    }
-                };
-                smoothScroller.setTargetPosition(position);
-                startSmoothScroll(smoothScroller);
+            public void onClick(View v) {
+                //set_image();
+                showPictureDialog();
             }
-
-        };*/
-        //rvMarqueeAdvertisment.setLayoutManager(layoutManager);
-
-        //rvMarqueeAdvertisment.setNestedScrollingEnabled(false);
+        });
     }
 
    /* private void loadDashBoardData() {
@@ -205,16 +210,17 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         switch (item.getItemId()){
 
-
-
             case R.id.nav_home:break;
 
             case R.id.nav_myid:
-                Toast.makeText(this, "My id", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(DashBoardActivity.this,MyIdActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 break;
 
             case R.id.nav_upload_profile:
-                Intent intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
+                intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -286,7 +292,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.cardview_booths:
-
+                intent=new Intent(DashBoardActivity.this, PreViewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("toolbar_title","Booths");
+                intent.putExtra("image_url",CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.CONFERENCE_BOOTH_MAP_URL));
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 break;
 
             case R.id.cardview_about:
@@ -297,54 +308,64 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.cardview_quiz:
+
                 break;
 
         }
     }
 
-    public void loadAdvertisment(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ADVERTISMENT_URL, new Response.Listener<String>() {
+    public void loadAdvertisment() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.ADVERTISMENT_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Gson gson=new Gson();
+                Gson gson = new Gson();
 
-                Log.e(TAG,"response"+response);
-                AdvertismentResponse advertismentResponse=gson.fromJson(response,AdvertismentResponse.class);
+                Log.e(TAG, "response" + response);
+                AdvertismentResponse advertismentResponse = gson.fromJson(response, AdvertismentResponse.class);
 
-                if(advertismentResponse.Responsecode.equals("200")){
-                    if(advertismentResponse.getData().size()>0){
+                if (advertismentResponse.Responsecode.equals("200")) {
+                    if (advertismentResponse.getData().size() > 0) {
 
                         ArrayList<AdvertismentData> advertismentDataArrayList;
-                        advertismentDataArrayList=new ArrayList<>();
+                        advertismentDataArrayList = new ArrayList<>();
 
                         ArrayList<AdvertismentData> advertismentDataArrayList1;
-                        advertismentDataArrayList1=new ArrayList<>();
-                        for(int i=0;i<advertismentResponse.getData().size();i++){
-                            if(!advertismentResponse.getData().get(i).getAdType().equals("0")){
+                        advertismentDataArrayList1 = new ArrayList<>();
+
+                        for (int i = 0; i < advertismentResponse.getData().size(); i++) {
+                            if (!advertismentResponse.getData().get(i).getAdType().equals("0")) {
                                 advertismentDataArrayList.add(advertismentResponse.getData().get(i));
                             }
-                            if(advertismentResponse.getData().get(i).getAdType().equals("0")){
+
+                            if (advertismentResponse.getData().get(i).getAdType().equals("0")) {
                                 advertismentDataArrayList1.add(advertismentResponse.getData().get(i));
                             }
+
+                            Log.e(TAG, "onResponse: advertisment size" + advertismentDataArrayList1.size());
+                            Log.e(TAG, "onResponse: advertisment data" + advertismentDataArrayList1.toString());
                         }
-                        CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this,advertismentDataArrayList);
-                        viewpager.setAdapter(customPagerAdapter);
 
-                        Log.e(TAG, "onResponse: advertisment data"+advertismentResponse.getData() );
+                        String marqueeString = "";
 
-                           // if(advertismentData.getAdType().equals("0")) {
-                                //found it!
-                               // marqueeView.setText(advertismentDataArrayList1);
-                               // marqueeView.start();
-                           // }
+                        for (AdvertismentData data : advertismentDataArrayList1) {
+                            marqueeString += "    " + data.getAdTitle();
+
+                        }
+
+                        marqueeView.setText(marqueeString);
+                        marqueeView.start();
 
 
-                        /*marqueeAdvertismentAdapter=new MarqueeAdvertismentAdapter(DashBoardActivity.this,advertismentResponse.getData());
-                        rvMarqueeAdvertisment.setAdapter(marqueeAdvertismentAdapter);
-*/
-                       // autoScroll();
+                        if (advertismentDataArrayList.size() > 0) {
+                            CustomPagerAdapter customPagerAdapter = new CustomPagerAdapter(DashBoardActivity.this, advertismentDataArrayList);
+                            viewpager.setAdapter(customPagerAdapter);
+                        } else {
+                            rrBanner.setVisibility(View.GONE);
+                        }
 
-                    }else{
+                        Log.e(TAG, "onResponse: advertisment data" + advertismentResponse.getData());
+
+                    } else {
                         rrBanner.setVisibility(View.GONE);
                     }
 
@@ -357,7 +378,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             e.printStackTrace();
                         }
                     }
-                }else{
+                } else {
                     Toast.makeText(DashBoardActivity.this, advertismentResponse.Message, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -365,13 +386,99 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(DashBoardActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                Log.e(TAG, "server error" + error);
             }
         });
-        RequestQueue mQueue= Volley.newRequestQueue(this);
+        RequestQueue mQueue = Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }
 
+
+    public void uploadImage(String filePath) {
+        Bitmap bm;
+        File file = new File(filePath);
+        long fileSizeInBytes = 0;
+        if (file.length() > 0) {
+            fileSizeInBytes = file.length();
+        }
+        long fileSizeInKB = 0;
+        if (fileSizeInBytes > 1024) {
+            fileSizeInKB = fileSizeInBytes / 1024;
+        }
+        if (fileSizeInKB > 500) {
+            bm = decodeSampledBitmapFromResource(filePath, 400, 200);
+        } else {
+            bm = BitmapFactory.decodeFile(filePath);
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 40, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+        final String strFile = Base64.encodeToString(b, Base64.DEFAULT);
+        HashMap<String, RequestBody> map = new HashMap<>();
+        map.put("imageName", createPartFromString("profilepics/" + CommonMethods.getPrefrence(this,AllKeys.USER_ID) + ".jpg"));
+        map.put("angle", createPartFromString("0"));
+        map.put("imageData", createPartFromString(strFile));
+        //ConnectionDetector cd = new ConnectionDetector(mContext);
+       /* if (CommonMethods.isNetworkAvailable(this)) {
+            hridayamApp.getApiRequestHelper().uploadimage(map, new ApiRequestHelper.OnRequestComplete() {
+                @Override
+                public void onSuccess(Object object) {
+                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String apiResponse) {
+                    Toast.makeText(this, apiResponse, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+        }*/
+    }
+
+    @NonNull
+    private RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(
+                MultipartBody.FORM, descriptionString);
+    }
+
+
+
+    public static Bitmap decodeSampledBitmapFromResource(String strPath, int reqWidth, int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+//        if (Build.VERSION.SDK_INT < 21) {
+//            options.inPurgeable = true;
+//        }else {
+//            options.inBitmap= true;
+//        }
+        BitmapFactory.decodeFile(strPath, options);
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(strPath, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            // Calculate the largest inSampleSize value that is a power of 2 and
+            // keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
+    }
     public void loadAllAttendee(){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_ATTENDEE_URL, new Response.Listener<String>() {
             @Override
@@ -410,6 +517,127 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         };
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
+    }
+
+    private void showPictureDialog(){
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+        pictureDialog.setTitle("Select Action");
+        String[] pictureDialogItems = {"Capture photo from camera",
+                "Select photo from gallery"
+        };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                takePhotoFromCamera();
+                                break;
+                            case 1:
+                                choosePhotoFromGallary();
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+
+    public void choosePhotoFromGallary() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    //String path = saveImage(bitmap);
+                    ivProfilePic.setImageBitmap(bitmap);
+
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    Bitmap decodedImage = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+
+                    //Uri imagePath=getImageUri(this,bitmap);
+
+                    byte[] byteArray = out .toByteArray();
+                     imageBase64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                     //Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
+                     //uploadImage(imageBase64String);
+
+                    Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(DashBoardActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        } else if (requestCode == CAMERA && resultCode == RESULT_OK) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            ivProfilePic.setImageBitmap(thumbnail);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.PNG, 100, out);
+            Bitmap decodedImage= BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+
+            byte[] byteArray = out .toByteArray();
+            imageBase64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+           // uploadImage(imageBase64String);
+            Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
+
+            Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private class LoadImageDataTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private Uri imagePath;
+
+        LoadImageDataTask(Uri imagePath) {
+            this.imagePath = imagePath;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                InputStream imageStream = getContentResolver().openInputStream(imagePath);
+                return BitmapFactory.decodeStream(imageStream);
+            } catch (FileNotFoundException e) {
+                Toast.makeText(DashBoardActivity.this, "The file " + imagePath + " does not exists",
+                        Toast.LENGTH_SHORT).show();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            Toast.makeText(DashBoardActivity.this, "I got the image data, with size: " +
+                            Formatter.formatFileSize(DashBoardActivity.this, bitmap.getByteCount()),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void autoScroll(){

@@ -1,5 +1,7 @@
 package com.praxello.smartevent.model.advertisment;
 
+import androidx.annotation.NonNull;
+
 public class AdvertismentData {
 
     public String adId;
@@ -73,5 +75,11 @@ public class AdvertismentData {
 
     public void setIsActive(String isActive) {
         this.isActive = isActive;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

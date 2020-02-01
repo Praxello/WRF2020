@@ -140,6 +140,8 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
+
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.AGENDA_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

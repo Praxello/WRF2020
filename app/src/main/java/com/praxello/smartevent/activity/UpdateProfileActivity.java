@@ -152,6 +152,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         progress.setMessage("Updating please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.UPDATE_PROFILE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

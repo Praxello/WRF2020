@@ -78,12 +78,14 @@ public class AllConferenceAdapter extends RecyclerView.Adapter<AllConferenceAdap
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                    activity.finish();
                 }else{
                     Activity activity = (Activity) context;
                     Intent intent=new Intent(context, DashBoardActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                    activity.finish();
                 }
             });
         }

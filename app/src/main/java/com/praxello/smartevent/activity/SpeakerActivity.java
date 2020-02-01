@@ -85,6 +85,8 @@ public class SpeakerActivity extends AppCompatActivity {
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
+
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_SPEAKER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

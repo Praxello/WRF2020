@@ -23,6 +23,7 @@
             android:layout_height="@dimen/margin170"
             android:elevation="@dimen/margin10"
             app:cardCornerRadius="@dimen/margin1"
+
             app:cardElevation="@dimen/margin10"
             app:cardPreventCornerOverlap="true">
 

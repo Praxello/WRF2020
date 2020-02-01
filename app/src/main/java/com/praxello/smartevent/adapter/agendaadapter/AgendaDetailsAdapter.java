@@ -2,6 +2,7 @@ package com.praxello.smartevent.adapter.agendaadapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -86,12 +87,13 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                 if (agendaDataArrayList.get(position).getSessionType().equals("Session")) {
                     holder.cardView.setVisibility(View.VISIBLE);
                     holder.cvTeaCarView.setVisibility(View.GONE);
-                    holder.cardView.setCardBackgroundColor(Color.parseColor("#fffde7"));
+                   // holder.cardView.setCardBackgroundColor(Color.parseColor("#fffde7"));
                     holder.tvTitle.setText(agendaDataArrayList.get(position).getTitle());
                     holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
                     holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
                     holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
                     //holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
+
             /*try{
                 if(agendaDataArrayList.get(position).getSpeakers()==null ||agendaDataArrayList.get(position).getSpeakers().size()==0){
                     holder.tvSpeakerName.setVisibility(View.GONE);
@@ -104,16 +106,13 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
 
             Log.e(TAG,"Speaker Data"+agendaDataArrayList.get(position).getSpeakers());
           */
+
                     try {
-                        if (agendaDataArrayList.get(position).getSpeakers() != null) {
+                         if (agendaDataArrayList.get(position).getSpeakers() != null) {
                             AgendaSpeakerAdapter agendaSpeakerAdapter = new AgendaSpeakerAdapter(context, agendaDataArrayList.get(position).getSpeakers());
                             holder.rvSpeakerData.setAdapter(agendaSpeakerAdapter);
                             //Log.e(TAG, "onBindViewHolder: speaker data response "+agendaDataArrayList.get(position).getSpeakers().size());
                             //Paper.book().write("speaker_data",agendaDataArrayList.get(position).getSpeakers());
-
-
-
-
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
@@ -247,6 +246,11 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
     }
 
     private void hitLikes(String sessionId,AgendaDetailsViewHolder holder,int position) {
+        final ProgressDialog progress=new ProgressDialog(context);
+        progress.setMessage("Please wait");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+        progress.setCancelable(false);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.LIKE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -257,6 +261,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                 LikesResponse likesResponse = gson.fromJson(response, LikesResponse.class);
 
                 if (likesResponse.getResponsecode().equals("200")) {
+                    progress.dismiss();
                     holder.tvLike.setText("Like (" + likesResponse.getLikes() + ")");
                     Log.e(TAG, "is Liked" + likesResponse.isLiked);
 
@@ -269,6 +274,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                         holder.tvLike.setTypeface(null, Typeface.NORMAL);
                     }
                 } else {
+                    progress.dismiss();
                     Toast.makeText(context, likesResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -276,6 +282,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "volley error" + error);
+                progress.dismiss();
                 Toast.makeText(context, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
         }) {

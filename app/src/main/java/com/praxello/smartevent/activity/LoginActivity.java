@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.USER_LOGIN_URL, new Response.Listener<String>() {
             @Override
@@ -123,6 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.SALUATION, loginResponse.getData().getSalutation());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.FIRST_NAME, loginResponse.getData().getFirstName());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.LAST_NAME, loginResponse.getData().getLastName());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.USER_TYPE, loginResponse.getData().getUserType());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.MOBILE, loginResponse.getData().getMobile());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.EMAIL, loginResponse.getData().getEmail());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.CITY, loginResponse.getData().getCity());
@@ -168,6 +170,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.REG_PUSH_NOTIFICATION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -1,6 +1,9 @@
 package com.praxello.smartevent.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -16,6 +19,8 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.praxello.smartevent.R;
+import com.praxello.smartevent.activity.LoginActivity;
+import com.praxello.smartevent.activity.PreViewActivity;
 import com.praxello.smartevent.model.advertisment.AdvertismentData;
 import com.praxello.smartevent.utility.CommonMethods;
 
@@ -85,6 +90,7 @@ public class CustomPagerAdapter extends PagerAdapter {
                 rlCustomeAdapter.setVisibility(View.VISIBLE);
                 if(advertisements.get(position).getAdType().equals("1")){
                     Glide.with(mContext).load(advertisement.getAdImageUrl()).into(iv_banner);
+
                 }else{
                     Glide.with(mContext).load("https://img.youtube.com/vi/"+(advertisement.getAdVideourl())+"/0.jpg").into(iv_banner);
                 }
@@ -96,14 +102,22 @@ public class CustomPagerAdapter extends PagerAdapter {
                 }*/
                     if (advertisements.get(position).getAdType().equals("2")) {
                         if (advertisements.get(position).getAdVideourl() != null && !TextUtils.isEmpty(advertisements.get(position).getAdVideourl())) {
-                            CommonMethods.openBrowser(mContext, advertisements.get(position).getAdVideourl());
+                           // CommonMethods.openBrowser(mContext, advertisements.get(position).getAdVideourl());
+                            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+advertisements.get(position).getAdVideourl())));
 
                         }
                     }
 
                     if (advertisements.get(position).getAdType().equals("1")) {
                         if (advertisements.get(position).getAdVideourl() != null && !TextUtils.isEmpty(advertisements.get(position).getAdVideourl())) {
-                            CommonMethods.openBrowser(mContext, advertisements.get(position).getAdImageUrl());
+                            //CommonMethods.openBrowser(mContext, advertisements.get(position).getAdImageUrl());
+                            Activity activity = (Activity) mContext;
+                            Intent intent=new Intent(mContext, PreViewActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("image_url",advertisement.getAdImageUrl());
+                            intent.putExtra("toolbar_title","Preview");
+                            mContext.startActivity(intent);
+                            activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                         }
                     }
                 });

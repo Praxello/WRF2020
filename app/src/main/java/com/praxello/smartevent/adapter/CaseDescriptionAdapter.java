@@ -53,7 +53,6 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
         this.allCasesDataArrayList = allCasesDataArrayList;
     }
 
-
     @NonNull
     @Override
     public CaseDesciptionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -210,6 +209,7 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.SAVE_CASE_DIAGNOSIS_URL, new Response.Listener<String>() {
             @Override

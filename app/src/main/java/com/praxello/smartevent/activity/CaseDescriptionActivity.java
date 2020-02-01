@@ -3,7 +3,9 @@ package com.praxello.smartevent.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -43,13 +45,14 @@ public class CaseDescriptionActivity extends AppCompatActivity {
     @BindView(R.id.ll_nodata) public LinearLayout llNoData;
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case_description);
         ButterKnife.bind(this);
+
         //basic intialisation...
         initViews();
 
@@ -65,7 +68,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        Toolbar toolbar=findViewById(R.id.toolbar_casedescription);
+        toolbar=findViewById(R.id.toolbar_casedescription);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -75,6 +78,10 @@ public class CaseDescriptionActivity extends AppCompatActivity {
 
         //Recyclerview declaration...
         rvCaseDescription=findViewById(R.id.rv_load_case_description);
+
+        SnapHelper mSnapHelper = new PagerSnapHelper();
+        mSnapHelper.attachToRecyclerView(rvCaseDescription);
+
         //rvCaseDescription.setLayoutManager(new LinearLayoutManager(CaseDescriptionActivity.this,LinearLayoutManager.HORIZONTAL,true));
         LinearLayoutManager layoutManager = new LinearLayoutManager(CaseDescriptionActivity.this, LinearLayoutManager.HORIZONTAL, true);
         layoutManager.setReverseLayout(false);
@@ -84,6 +91,8 @@ public class CaseDescriptionActivity extends AppCompatActivity {
         llNoData=findViewById(R.id.ll_nodata);
         llNoServerFound=findViewById(R.id.ll_noserver);
         llNoInternet=findViewById(R.id.ll_nointernet);
+
+
     }
 
     private void loadData() {
@@ -91,6 +100,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_CASES_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -102,6 +112,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
                     progress.dismiss();
                     caseDescriptionAdapter=new CaseDescriptionAdapter(CaseDescriptionActivity.this,allCasesResponse.Data);
                     rvCaseDescription.setAdapter(caseDescriptionAdapter);
+
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
                     rvCaseDescription.setVisibility(View.GONE);

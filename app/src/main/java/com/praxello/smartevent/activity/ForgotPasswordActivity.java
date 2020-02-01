@@ -94,6 +94,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
+        progress.setCancelable(false);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.FORGOT_PASSWORD_URL, new Response.Listener<String>() {
             @Override

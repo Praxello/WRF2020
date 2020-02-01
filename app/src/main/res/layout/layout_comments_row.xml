@@ -77,6 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin5"
                 android:text=""
+                android:visibility="gone"
                 android:layout_gravity="left"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
