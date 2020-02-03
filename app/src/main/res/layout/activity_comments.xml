@@ -12,37 +12,40 @@
         layout="@layout/toolbar" />
 
     <ImageView
+        android:id="@+id/ivbackgroundimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ivbackgroundimg"
         android:layout_below="@id/toolbar_comments"
-        android:alpha="0.1"/>
+        android:alpha="0.1" />
 
     <RelativeLayout
+        android:id="@+id/rl_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rl_background"
         android:layout_below="@id/toolbar_comments"
         android:layout_marginLeft="@dimen/margin20"
         android:layout_marginTop="@dimen/margin20"
         android:layout_marginRight="@dimen/margin20"
-        android:layout_marginBottom="@dimen/margin80"
-        >
+        android:layout_marginBottom="@dimen/margin80">
 
 
-            <LinearLayout
-                android:id="@+id/ll_recyclerdata"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <!--    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        --><LinearLayout
+            android:id="@+id/ll_recyclerdata"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
                     android:nestedScrollingEnabled="false" />
-            </LinearLayout>
 
+        </LinearLayout>
+        <!--</androidx.core.widget.NestedScrollView>-->
 
         <LinearLayout
             android:id="@+id/ll_nodata"

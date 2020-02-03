@@ -11,10 +11,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
@@ -38,6 +40,7 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvPhone;
     @BindView(R.id.tv_confenceID)
     TextView tvConferenceId;
+    public static String TAG="MyIdActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +90,9 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
             tvConferenceId.setText("ConferenceId: #Prax"+CommonMethods.getPrefrence(MyIdActivity.this,AllKeys.CONFERENCE_ID)+"2266");
         }
 
+        Log.e(TAG, "appendDataToText: "+ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID)+".jpg");
         if(!CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID).equals(AllKeys.DNF)){
-            Glide.with(this).load(ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID)+".jpg").into(ivProfilePic);
+            Glide.with(this).load(ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID)+".jpg").diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(ivProfilePic);
         }
 
     }
