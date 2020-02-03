@@ -72,7 +72,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         token = FirebaseInstanceId.getInstance().getToken();
-        Toast.makeText(this, "token" + token, Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(this, "token" + token, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -133,6 +134,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.PINCODE, loginResponse.getData().getPincode());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.DATEOFBIRTH, loginResponse.getData().getBirthDate());
                     CommonMethods.setPreference(LoginActivity.this, AllKeys.ADDRESS, loginResponse.getData().getAddress());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.PASSWORD, loginResponse.getData().getPassword());
+
                     Intent mainIntent = new Intent(LoginActivity.this, DashBoardActivity.class);
                     mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(mainIntent);

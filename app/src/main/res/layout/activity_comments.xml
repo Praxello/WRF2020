@@ -11,6 +11,13 @@
         android:id="@+id/toolbar_comments"
         layout="@layout/toolbar" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ivbackgroundimg"
+        android:layout_below="@id/toolbar_comments"
+        android:alpha="0.1"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,10 +29,7 @@
         android:layout_marginBottom="@dimen/margin80"
         >
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/nestedScrollView">
+
             <LinearLayout
                 android:id="@+id/ll_recyclerdata"
                 android:layout_width="match_parent"
@@ -38,7 +42,7 @@
                     android:focusableInTouchMode="true"
                     android:nestedScrollingEnabled="false" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+
 
         <LinearLayout
             android:id="@+id/ll_nodata"

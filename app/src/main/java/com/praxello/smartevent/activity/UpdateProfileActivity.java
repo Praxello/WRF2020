@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +64,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     EditText etPassword;
     @BindView(R.id.btnupdateprofile)
     AppCompatButton btnUpdateProfile;
-
+    private int mYear, mMonth, mDay;
     public static final String TAG="UpdateProfileActivity";
 
 
@@ -89,6 +92,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
         //Button intialisation
         btnUpdateProfile.setOnClickListener(this);
+        etDateOfBirth.setOnClickListener(this);
 
     }
 
@@ -132,11 +136,38 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         if(!CommonMethods.getPrefrence(UpdateProfileActivity.this, AllKeys.ADDRESS).equals(AllKeys.DNF)){
             etAddress.setText(CommonMethods.getPrefrence(UpdateProfileActivity.this, AllKeys.ADDRESS));
         }
+
+        if(!CommonMethods.getPrefrence(UpdateProfileActivity.this, AllKeys.PASSWORD).equals(AllKeys.DNF)){
+            etPassword.setText(CommonMethods.getPrefrence(UpdateProfileActivity.this, AllKeys.PASSWORD));
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.etbirthdate:
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                etDateOfBirth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+                break;
+
             case R.id.btnupdateprofile:
                 if(CommonMethods.isNetworkAvailable(UpdateProfileActivity.this)){
                     if(isValidated()){

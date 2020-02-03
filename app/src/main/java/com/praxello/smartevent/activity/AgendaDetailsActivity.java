@@ -107,7 +107,6 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
             }
             // Toast.makeText(this,String.valueOf(value), Toast.LENGTH_SHORT).show();
         });
-
     }
 
 
@@ -127,6 +126,7 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
 
         //Recyclerview declaration...
         rvAgendaDetails.setLayoutManager(new LinearLayoutManager(AgendaDetailsActivity.this));
+
     }
 
     @Override

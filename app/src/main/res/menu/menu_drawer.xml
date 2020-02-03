@@ -18,7 +18,7 @@
         <item
             android:id="@+id/nav_upload_profile"
             android:title="@string/my_profile"
-            android:icon="@drawable/ic_politician"/>
+            android:icon="@drawable/ic_account_new"/>
 
         <item
             android:id="@+id/nav_logout"

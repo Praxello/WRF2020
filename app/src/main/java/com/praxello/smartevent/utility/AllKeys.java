@@ -18,6 +18,7 @@ public class AllKeys
     public static final String DATEOFBIRTH="DATEOFBIRTH";
     public static final String ADDRESS="ADDRESS";
     public static final String USER_TYPE="USER_TYPE";
+    public static final String PASSWORD="PASSWORD";
     public static final String CONFERENCE_ID="CONFERENCE_ID";
     public static final String CONFERENCE_TITLE="CONFERENCE_TITLE";
     public static final String CONFERENCE_LOGO_URL="CONFERENCE_LOGO_URL";

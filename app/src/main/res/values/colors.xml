@@ -10,6 +10,7 @@
     <color name="session">#fffde7</color>
     <color name="breaks">#efebe9</color>
     <color name="blue500">#1a237e</color>
+    <color name="semiTransparentColor">#20ffffff</color>
 
     <bool name="default_circle_indicator_centered">true</bool>
 
@@ -28,6 +29,7 @@
     <color name="cyan100">#84ffff</color>
     <color name="grey50">#fafafa</color>
     <color name="blue">#0000ff</color>
+    <color name="grey700">#616161</color>
 
     <dimen name="default_circle_indicator_stroke_width">0dp</dimen>
 

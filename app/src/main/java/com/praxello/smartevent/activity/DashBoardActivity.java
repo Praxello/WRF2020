@@ -294,7 +294,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             case R.id.cardview_booths:
                 intent=new Intent(DashBoardActivity.this, PreViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("toolbar_title","Booths");
+                intent.putExtra("toolbar_title","Floor Map");
                 intent.putExtra("image_url",CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.CONFERENCE_BOOTH_MAP_URL));
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -415,7 +415,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         byte[] b = baos.toByteArray();
         final String strFile = Base64.encodeToString(b, Base64.DEFAULT);
         HashMap<String, RequestBody> map = new HashMap<>();
-        map.put("imageName", createPartFromString("profilepics/" + CommonMethods.getPrefrence(this,AllKeys.USER_ID) + ".jpg"));
+        map.put("imageName", createPartFromString("profilepics/" + CommonMethods.getPrefrence(this, AllKeys.USER_ID) + ".jpg"));
         map.put("angle", createPartFromString("0"));
         map.put("imageData", createPartFromString(strFile));
         //ConnectionDetector cd = new ConnectionDetector(mContext);

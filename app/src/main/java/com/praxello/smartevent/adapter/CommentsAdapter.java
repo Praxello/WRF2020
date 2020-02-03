@@ -3,9 +3,7 @@ package com.praxello.smartevent.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,14 +26,12 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.DashBoardActivity;
-import com.praxello.smartevent.activity.LoginActivity;
+import com.praxello.smartevent.model.agendadetails.AgendaCommentsData;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
-import com.praxello.smartevent.model.agendadetails.CommentsData1;
 import com.praxello.smartevent.model.agendadetails.SpeakersName;
 import com.praxello.smartevent.model.allattendee.AttendeeData;
-import com.praxello.smartevent.model.comments.CommentData1;
 import com.praxello.smartevent.model.comments.CommentsResponse;
-import com.praxello.smartevent.model.likes.LikesResponse;
+import com.praxello.smartevent.model.comments.LatestCommentData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.ConfiUrl;
@@ -49,24 +45,23 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.paperdb.Paper;
 
 public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>{
 
     public Context context;
-    public ArrayList<CommentsData1> commentsDataArrayList;
+    public ArrayList<LatestCommentData> commentsDataArrayList;
     ArrayList<AttendeeData> attendeeDataArrayList;
     AgendaData agendaData;
 
 
 
-   /* public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList) {
+   /* public CommentsAdapter(Context context, ArrayList<AgendaCommentsData> commentsDataArrayList) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
     }*/
     public static final String TAG="CommentsAdapter";
 
-    public CommentsAdapter(Context context, ArrayList<CommentsData1> commentsDataArrayList, AgendaData agendaData) {
+    public CommentsAdapter(Context context, ArrayList<LatestCommentData> commentsDataArrayList, AgendaData agendaData) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
 
@@ -98,19 +93,22 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
             date = spf.format(newDate);
             System.out.println(date);
 
-            int temp=1;
-            if(temp==commentsDataArrayList.get(position).getUserId()){
+            int id= Integer.parseInt(CommonMethods.getPrefrence(context, AllKeys.USER_ID));
+            if(id == commentsDataArrayList.get(position).getUserId()){
                 //Log.e(TAG,"parcelable data"+data.getSessionType());
                 holder.llOurOwnComments.setVisibility(View.VISIBLE);
                 holder.llOtherComments.setVisibility(View.GONE);
                 // holder.tvUserName.setText(commentsDataArrayList.get(position).getUserId());
                 holder.tvOurCommentMessage.setText(commentsDataArrayList.get(position).getComment());
                 holder.tvOurCommentTime.setText(date);
+                //holder.cvDelete.setCardBackgroundColor(Color.TRANSPARENT);
+                holder.cvDelete.setCardBackgroundColor(Color.parseColor("#70ffffff"));
 
             }else{
                 holder.llOurOwnComments.setVisibility(View.GONE);
                 holder.llOtherComments.setVisibility(View.VISIBLE);
-
+                //holder.cvOther.setCardBackgroundColor(Color.TRANSPARENT);
+                holder.cvOther.setCardBackgroundColor(Color.parseColor("#70ffffff"));
                 holder.tvCommentTime.setText(date);
                 String attendeeName="";
                 Log.e(TAG, "onBindViewHolder:HashMapData "+DashBoardActivity.mapAttendeeData.size() );
@@ -173,6 +171,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
 
                 if (commentsResponse.getResponsecode().equals("200")) {
                     Toast.makeText(context, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
                 } else {
                     Toast.makeText(context, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -226,6 +225,8 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
         public LinearLayout llOurOwnComments;
         @BindView(R.id.cv_delete)
         public CardView cvDelete;
+        @BindView(R.id.cvother)
+        public CardView cvOther;
 
 
         public CommentsViewHolder(@NonNull View itemView) {

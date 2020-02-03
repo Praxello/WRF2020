@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/iv_first_image"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin200"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin30"
                 android:layout_marginRight="@dimen/margin30" />
 
@@ -47,10 +47,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin15"
-                android:textSize="@dimen/textsize20"
+                android:textSize="@dimen/textsize18"
                 android:drawableLeft="@drawable/ic_pin"
                 android:drawablePadding="@dimen/margin10"
-                android:textColor="@color/black" />
+                android:textColor="@color/grey700" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_getdirections"
@@ -69,8 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin15"
-                android:textSize="@dimen/textsize20"
-                android:textColor="@color/black"/>
+                android:textSize="@dimen/textsize18"
+                android:textColor="@color/grey700"/>
 
         </LinearLayout>
     </ScrollView>

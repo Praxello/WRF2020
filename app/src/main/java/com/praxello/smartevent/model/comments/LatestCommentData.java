@@ -2,11 +2,11 @@ package com.praxello.smartevent.model.comments;
 
 import java.io.Serializable;
 
-public class CommentData1 implements Serializable {
+public class LatestCommentData implements Serializable {
 
     public String commentId;
     public String sessionId;
-    public String userId;
+    public Integer userId;
     public String comment;
     public String commentDateTime;
 
@@ -26,11 +26,11 @@ public class CommentData1 implements Serializable {
         this.sessionId = sessionId;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

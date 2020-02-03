@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -37,44 +38,63 @@
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <activity
             android:name=".activity.AboutActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".activity.MainActivity" />
+
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.UpdateProfileActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".activity.ForgotPasswordActivity" />
+
+        <activity android:name=".activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.SpeakerActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <activity
             android:name=".activity.CommentsActivity"
             android:parentActivityName=".activity.AgendaDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <activity android:name=".activity.DemoActivity" />
+
         <activity
             android:name=".activity.AgendaDetailsActivity"
-            android:parentActivityName=".activity.DashBoardActivity" />
+            android:parentActivityName=".activity.DashBoardActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.CaseDescriptionActivity"
-            android:parentActivityName=".activity.DashBoardActivity" />
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.DashBoardActivity" />
-        <activity android:name=".activity.AllConferenceActivity">
+            android:parentActivityName=".activity.DashBoardActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.DashBoardActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.AllConferenceActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.WebviewActivity"
             android:screenOrientation="portrait"

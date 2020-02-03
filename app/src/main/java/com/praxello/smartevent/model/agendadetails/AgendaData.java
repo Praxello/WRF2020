@@ -20,7 +20,7 @@ public class AgendaData implements Parcelable {
     public String isBookmarked;
     public String isLiked;
     public String Likes;
-    public ArrayList<CommentsData1> Comments;
+    public ArrayList<AgendaCommentsData> Comments;
     public String slotTitle;
     public String sessionLocation;
     public String sessionType;
@@ -39,7 +39,7 @@ public class AgendaData implements Parcelable {
         isBookmarked = in.readString();
         isLiked = in.readString();
         Likes = in.readString();
-        Comments = in.createTypedArrayList(CommentsData1.CREATOR);
+        Comments = in.createTypedArrayList(AgendaCommentsData.CREATOR);
         slotTitle = in.readString();
         sessionLocation = in.readString();
         sessionType = in.readString();
@@ -153,11 +153,11 @@ public class AgendaData implements Parcelable {
         Likes = likes;
     }
 
-    public ArrayList<CommentsData1> getComments() {
+    public ArrayList<AgendaCommentsData> getComments() {
         return Comments;
     }
 
-    public void setComments(ArrayList<CommentsData1> comments) {
+    public void setComments(ArrayList<AgendaCommentsData> comments) {
         Comments = comments;
     }
 

@@ -35,7 +35,7 @@ public class PreViewActivity extends AppCompatActivity {
         if(getIntent().getStringExtra("toolbar_title").equals("Preview")){
             toolbar.setTitle("Preview");
         }else{
-            toolbar.setTitle("Booth");
+            toolbar.setTitle("Floor Map");
         }
 
         toolbar.setTitleTextColor(Color.WHITE);

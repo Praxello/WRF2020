@@ -166,7 +166,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                 if (agendaDataArrayList.get(position).getSessionType().equals("Session")) {
                     holder.cardView.setVisibility(View.VISIBLE);
                     holder.cvTeaCarView.setVisibility(View.GONE);
-                    holder.cardView.setCardBackgroundColor(Color.parseColor("#fffde7"));
+                    //holder.cardView.setCardBackgroundColor(Color.parseColor("#fffde7"));
                     holder.tvTitle.setText(agendaDataArrayList.get(position).getTitle());
                     holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
                     holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());

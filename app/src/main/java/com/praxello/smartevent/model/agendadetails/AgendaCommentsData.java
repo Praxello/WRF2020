@@ -3,7 +3,7 @@ package com.praxello.smartevent.model.agendadetails;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CommentsData1 implements Parcelable {
+public class AgendaCommentsData implements Parcelable {
 
     public String commentId;
     public String sessionId ;
@@ -11,7 +11,7 @@ public class CommentsData1 implements Parcelable {
     public String comment;
     public String commentDateTime;
 
-    protected CommentsData1(Parcel in) {
+    protected AgendaCommentsData(Parcel in) {
         commentId = in.readString();
         sessionId = in.readString();
         userId = in.readInt();
@@ -19,15 +19,15 @@ public class CommentsData1 implements Parcelable {
         commentDateTime = in.readString();
     }
 
-    public static final Creator<CommentsData1> CREATOR = new Creator<CommentsData1>() {
+    public static final Creator<AgendaCommentsData> CREATOR = new Creator<AgendaCommentsData>() {
         @Override
-        public CommentsData1 createFromParcel(Parcel in) {
-            return new CommentsData1(in);
+        public AgendaCommentsData createFromParcel(Parcel in) {
+            return new AgendaCommentsData(in);
         }
 
         @Override
-        public CommentsData1[] newArray(int size) {
-            return new CommentsData1[size];
+        public AgendaCommentsData[] newArray(int size) {
+            return new AgendaCommentsData[size];
         }
     };
 

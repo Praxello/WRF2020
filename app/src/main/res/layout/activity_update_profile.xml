@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email_address"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress" />
+                    android:editable="false"
+                     />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -155,8 +155,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date_of_birth"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" />
+                    android:focusable="false"
+                    android:editable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -186,8 +186,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:maxLength="4"/>
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton

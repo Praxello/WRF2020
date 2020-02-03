@@ -2,23 +2,14 @@ package com.praxello.smartevent.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -42,26 +32,18 @@ import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CommentsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.model.agendadetails.SpeakersName;
-import com.praxello.smartevent.model.allattendee.AttendeeData;
+import com.praxello.smartevent.model.comments.LatestCommentData;
 import com.praxello.smartevent.model.comments.CommentsResponse;
 import com.praxello.smartevent.model.comments.LoadPreviousCommentResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.parsers.SAXParserFactory;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.paperdb.Paper;
 
 public class CommentsActivity extends AppCompatActivity {
 
@@ -74,15 +56,16 @@ public class CommentsActivity extends AppCompatActivity {
     @BindView(R.id.rv_comments)
     RecyclerView rvComments;
     AgendaData data;
-    SpeakersName speakersName;
     @BindView(R.id.ll_nodata) public LinearLayout llNoData;
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
-    @BindView(R.id.nestedScrollView)
-    public NestedScrollView scrollView;
     @BindView(R.id.rl_background)
     public RelativeLayout rlBackground;
-
+    @BindView(R.id.ivbackgroundimg)
+    public ImageView ivBackgroundImage;
+    private ArrayList<LatestCommentData> latestCommentDataArrayList;
+    private Boolean isSet=true;
+    CommentsAdapter commentsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,51 +76,14 @@ public class CommentsActivity extends AppCompatActivity {
         //Getting Data from intent using parcelable...
         Intent intent=getIntent();
         data=intent.getParcelableExtra("data");
-       // speakersName=intent.getParcelableExtra("speaker_data");
+        //speakersName=intent.getParcelableExtra("speaker_data");
 
-
-       Log.e(TAG, "onCreate: speaker data "+data.getSpeakers().get(0).getFirstname());
-       // Log.e(TAG, "onCreate: speaker data"+speakersName );
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
+        //layoutManager.setReverseLayout(false);
+
         rvComments.setLayoutManager(layoutManager);
-
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-               // scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-               // scrollView.scrollTo(0, scrollView.getBottom());
-               // scrollView.fullScroll(View.FOCUS_DOWN);
-                scrollView.setScrollY(scrollView.getMaxScrollAmount());
-            }
-        });
-
-
-       /* layoutManager = new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-*/
-        /*Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try  {
-                    //Your code goes here
-                    Bitmap myImage = getBitmapFromURL(CommonMethods.getPrefrence(CommentsActivity.this,AllKeys.CONFERENCE_LOGO_URL));
-                    //BitmapDrawable(obj) convert Bitmap object into drawable object.
-                    Drawable dr = new BitmapDrawable(myImage);
-                    rlBackground.setBackgroundDrawable(dr);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();*/
 
 
         Toolbar toolbar=findViewById(R.id.toolbar_comments);
@@ -152,6 +98,11 @@ public class CommentsActivity extends AppCompatActivity {
             loadComments();
         }
 
+        if(!CommonMethods.getPrefrence(CommentsActivity.this,AllKeys.CONFERENCE_LOGO_URL).equals(AllKeys.DNF)){
+            Glide.with(CommentsActivity.this).load(CommonMethods.getPrefrence(CommentsActivity.this,AllKeys.CONFERENCE_LOGO_URL)).into(ivBackgroundImage);
+        }
+
+
         final Handler ha=new Handler();
         ha.postDelayed(new Runnable() {
 
@@ -161,6 +112,7 @@ public class CommentsActivity extends AppCompatActivity {
                 if(CommonMethods.isNetworkAvailable(CommentsActivity.this)){
                     loadComments();
                 }
+
                 ha.postDelayed(this, 3000);
             }
         }, 3000);
@@ -176,20 +128,6 @@ public class CommentsActivity extends AppCompatActivity {
        });
     }
 
-    public Bitmap getBitmapFromURL(String imageUrl) {
-        try {
-            URL url = new URL(imageUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
     public void loadComments(){
        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_COMMENTS_URL, new Response.Listener<String>() {
             @Override
@@ -202,9 +140,18 @@ public class CommentsActivity extends AppCompatActivity {
                 if(loadPreviousCommentResponse.Responsecode.equals("200")){
                     //progress.dismiss();
                     if(loadPreviousCommentResponse.getData()!=null){
+                        latestCommentDataArrayList=new ArrayList<LatestCommentData>();
+                        for(int i=0;i<loadPreviousCommentResponse.getData().size();i++){
+                            latestCommentDataArrayList.add(loadPreviousCommentResponse.getData().get(i));
+                        }
 
-                        CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,loadPreviousCommentResponse.getData(),data);
-                        rvComments.setAdapter(commentsAdapter);
+                        Log.e(TAG, "onResponse: size of arraylist"+latestCommentDataArrayList.size() );
+                        if(isSet==true){
+                            commentsAdapter=new CommentsAdapter(CommentsActivity.this,loadPreviousCommentResponse.getData(),data);
+                            //commentsAdapter.notifyDataSetChanged();
+                            rvComments.setAdapter(commentsAdapter);
+                            isSet=false;
+                        }
                     }else{
                         llNoData.setVisibility(View.VISIBLE);
                         rvComments.setVisibility(View.GONE);
@@ -252,6 +199,8 @@ public class CommentsActivity extends AppCompatActivity {
                     rvComments.setVisibility(View.VISIBLE);
                     etComments.setText(null);
                     Toast.makeText(CommentsActivity.this, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    //commentsAdapter.notifyDataSetChanged();
+
                    /* if(commentsResponse.getCommentsData()!=null){
                         CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,commentsResponse.getCommentsData(),data);
                         rvComments.setAdapter(commentsAdapter);
@@ -284,6 +233,14 @@ public class CommentsActivity extends AppCompatActivity {
         };
         RequestQueue mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onResume: " );
+
     }
 
     private boolean isValidated(){

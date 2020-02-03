@@ -21,7 +21,7 @@
             android:layout_width="@dimen/margin100"
             android:layout_height="@dimen/margin100"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_chat"
+            android:src="@drawable/ic_account_new"
             android:elevation="@dimen/margin200"
             android:layout_centerInParent="true"
             android:layout_alignTop="@id/cardview"
@@ -71,7 +71,7 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="@dimen/margin20"
                 android:layout_marginLeft="@dimen/margin20"
-                android:drawableLeft="@drawable/ic_gmail"
+                android:drawableLeft="@drawable/ic_mail"
                 android:drawablePadding="@dimen/margin15" />
 
             <TextView

@@ -1,13 +1,13 @@
 package com.praxello.smartevent.model.comments;
 
-import com.praxello.smartevent.model.agendadetails.CommentsData1;
+import com.praxello.smartevent.model.agendadetails.AgendaCommentsData;
 
 import java.util.ArrayList;
 
 public class CommentsResponse {
 
     public String Message;
-    public ArrayList<CommentsData1> CommentsData;
+    public ArrayList<LatestCommentData> CommentsData;
     public String Responsecode;
 
     public String getMessage() {
@@ -18,11 +18,11 @@ public class CommentsResponse {
         Message = message;
     }
 
-    public ArrayList<CommentsData1> getCommentsData() {
+    public ArrayList<LatestCommentData> getCommentsData() {
         return CommentsData;
     }
 
-    public void setCommentsData(ArrayList<CommentsData1> commentsData) {
+    public void setCommentsData(ArrayList<LatestCommentData> commentsData) {
         CommentsData = commentsData;
     }
 
