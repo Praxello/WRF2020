@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rect_round_outline_white"
@@ -36,8 +35,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@+id/tvOption1"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_check_circle_outline"
-                tools:ignore="VectorDrawableCompat" />
+                app:srcCompat="@drawable/ic_check_circle_outline" />
 
             <TextView
                 android:id="@+id/tvOption1"
@@ -63,8 +61,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@+id/tvOption2"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_check_circle_outline"
-                tools:ignore="VectorDrawableCompat" />
+                app:srcCompat="@drawable/ic_check_circle_outline" />
 
             <TextView
                 android:id="@+id/tvOption2"
@@ -90,8 +87,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@+id/tvOption3"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_check_circle_outline"
-                tools:ignore="VectorDrawableCompat" />
+                app:srcCompat="@drawable/ic_check_circle_outline" />
 
             <TextView
                 android:id="@+id/tvOption3"
@@ -117,8 +113,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@+id/tvOption4"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_check_circle_outline"
-                tools:ignore="VectorDrawableCompat" />
+                app:srcCompat="@drawable/ic_check_circle_outline" />
 
             <TextView
                 android:id="@+id/tvOption4"
@@ -172,8 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_lightbulb"
-            tools:ignore="VectorDrawableCompat" />
+            app:srcCompat="@drawable/ic_lightbulb" />
 
         <TextView
             android:id="@+id/tvAnswer"

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(mainIntent);
                     finish();
                 }else{
-                    Intent mainIntent = new Intent(MainActivity.this, DashBoardActivity.class);
+                    Intent mainIntent = new Intent(MainActivity.this, AllConferenceActivity.class);
                     startActivity(mainIntent);
                     finish();
                 }

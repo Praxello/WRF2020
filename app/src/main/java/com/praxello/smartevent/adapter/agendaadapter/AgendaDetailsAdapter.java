@@ -227,7 +227,6 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                     public void onClick(View v) {
                         Activity activity = (Activity) context;
                         Intent intent = new Intent(context, CommentsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("data", agendaDataArrayList.get(position));
                         context.startActivity(intent);
                         activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

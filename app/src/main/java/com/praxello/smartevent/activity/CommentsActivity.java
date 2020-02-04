@@ -2,9 +2,9 @@ package com.praxello.smartevent.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -31,14 +32,12 @@ import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.adapter.CommentsAdapter;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
-import com.praxello.smartevent.model.agendadetails.SpeakersName;
 import com.praxello.smartevent.model.comments.LatestCommentData;
 import com.praxello.smartevent.model.comments.CommentsResponse;
 import com.praxello.smartevent.model.comments.LoadPreviousCommentResponse;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,8 +63,11 @@ public class CommentsActivity extends AppCompatActivity {
     @BindView(R.id.ivbackgroundimg)
     public ImageView ivBackgroundImage;
     private ArrayList<LatestCommentData> latestCommentDataArrayList;
-    private Boolean isSet=true;
+    private Boolean isFirstLaunched=false;
     CommentsAdapter commentsAdapter;
+    @BindView(R.id.nestedScrollView)
+    public NestedScrollView nestedScrollView;
+    private int totalSizeOfList=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class CommentsActivity extends AppCompatActivity {
         //layoutManager.setReverseLayout(false);
 
         rvComments.setLayoutManager(layoutManager);
+        rvComments.setNestedScrollingEnabled(false);
 
 
         Toolbar toolbar=findViewById(R.id.toolbar_comments);
@@ -110,12 +113,15 @@ public class CommentsActivity extends AppCompatActivity {
             public void run() {
                 //call function
                 if(CommonMethods.isNetworkAvailable(CommentsActivity.this)){
-                    loadComments();
+
+                        loadComments();
+
                 }
 
                 ha.postDelayed(this, 3000);
             }
         }, 3000);
+
 
 
         ivSubmitComment.setOnClickListener(new View.OnClickListener() {
@@ -140,26 +146,28 @@ public class CommentsActivity extends AppCompatActivity {
                 if(loadPreviousCommentResponse.Responsecode.equals("200")){
                     //progress.dismiss();
                     if(loadPreviousCommentResponse.getData()!=null){
+                        commentsAdapter=new CommentsAdapter(CommentsActivity.this,loadPreviousCommentResponse.getData(),data);
+                        //commentsAdapter.notifyDataSetChanged();
+                        rvComments.setAdapter(commentsAdapter);
 
-                        latestCommentDataArrayList=new ArrayList<LatestCommentData>();
 
-                        for(int i=0;i<loadPreviousCommentResponse.getData().size();i++){
-                            latestCommentDataArrayList.add(loadPreviousCommentResponse.getData().get(i));
-                        }
+                        if(!isFirstLaunched || totalSizeOfList != loadPreviousCommentResponse.getData().size())
+                        {
+                            totalSizeOfList=loadPreviousCommentResponse.getData().size();
+                            isFirstLaunched = true;
+                            nestedScrollView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //nestedScrollView.scrollTo(0,0);
+                                    nestedScrollView.fullScroll(View.FOCUS_DOWN);
+                                    //rvComments.scrollToPosition(commentsAdapter.getItemCount()-1);
+                                }
+                            });
 
-                        Log.e(TAG, "onResponse: size of arraylist"+latestCommentDataArrayList.size());
-
-                        if(isSet==true){
-                            commentsAdapter=new CommentsAdapter(CommentsActivity.this,loadPreviousCommentResponse.getData(),data);
-                            //commentsAdapter.notifyDataSetChanged();
-                            rvComments.setAdapter(commentsAdapter);
-                            isSet=false;
-                        }else{
-                            //commentsAdapter.notifyDataSetChanged();
                         }
                     }else{
-                        llNoData.setVisibility(View.VISIBLE);
-                        rvComments.setVisibility(View.GONE);
+                        //llNoData.setVisibility(View.VISIBLE);
+                        //rvComments.setVisibility(View.GONE);
                        // progress.dismiss();
                     }
                 }else{
@@ -173,8 +181,8 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //progress.dismiss();
-                llNoServerFound.setVisibility(View.VISIBLE);
-                rvComments.setVisibility(View.GONE);
+                //llNoServerFound.setVisibility(View.VISIBLE);
+                //rvComments.setVisibility(View.GONE);
                 Toast.makeText(CommentsActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                 Log.e(TAG,"server error"+error);
             }
@@ -204,9 +212,7 @@ public class CommentsActivity extends AppCompatActivity {
                     rvComments.setVisibility(View.VISIBLE);
                     etComments.setText(null);
                     Toast.makeText(CommentsActivity.this, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    //commentsAdapter.notifyDataSetChanged();
-                    CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,latestCommentDataArrayList,data);
-                    rvComments.setAdapter(commentsAdapter);
+                   // loadComments();
 
                     //hide keyboard when success...
                     hideKeyboard(CommentsActivity.this);
@@ -270,6 +276,5 @@ public class CommentsActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 
 }

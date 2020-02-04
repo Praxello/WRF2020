@@ -10,6 +10,7 @@
     <color name="session">#fffde7</color>
     <color name="breaks">#efebe9</color>
     <color name="blue500">#1a237e</color>
+    <color name="yellow">#ffeb3b</color>
     <color name="semiTransparentColor">#20ffffff</color>
 
     <bool name="default_circle_indicator_centered">true</bool>
