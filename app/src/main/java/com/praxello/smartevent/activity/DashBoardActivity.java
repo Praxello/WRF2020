@@ -9,7 +9,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,16 +18,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
-import android.text.Html;
-import android.text.TextUtils;
-import android.text.format.Formatter;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,9 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -55,6 +46,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
+import com.praxello.smartevent.activity.retrofit.ApiRequestHelper;
+import com.praxello.smartevent.activity.retrofit.HridayamApp;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.advertisment.AdvertismentData;
@@ -66,13 +59,10 @@ import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.widget.LoopViewPager;
 import com.praxello.smartevent.widget.MarqueeView;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,9 +73,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -124,6 +111,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     private static final int PICK_IMAGE = 1;
     private static final int REQUEST_CAMERA = 2;
     String imageBase64String;
+    HridayamApp hridayamApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +119,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
         Paper.init(this);
+        hridayamApp = (HridayamApp) getApplication();
 
         //Basic intialisation....
         initViews();
-
-        //load data to recyclerview of dashboard data..
-        //loadDashBoardData();
 
         //load Ads
         loadAdvertisment();
@@ -151,10 +137,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //toolbar.setTitle("DashBoard");
         toolbar.setTitleTextColor(Color.WHITE);
-
-        //Recycler View intialisation...
-        //rvDashBoardData.setLayoutManager(new GridLayoutManager(this,2));
-        //rvDashBoardData.setNestedScrollingEnabled(false);
 
         //Navigaiton intialisatio...
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -386,89 +368,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    public void uploadImage(String filePath) {
-        Bitmap bm;
-        File file = new File(filePath);
-        long fileSizeInBytes = 0;
-        if (file.length() > 0) {
-            fileSizeInBytes = file.length();
-        }
-        long fileSizeInKB = 0;
-        if (fileSizeInBytes > 1024) {
-            fileSizeInKB = fileSizeInBytes / 1024;
-        }
-        if (fileSizeInKB > 500) {
-            bm = decodeSampledBitmapFromResource(filePath, 400, 200);
-        } else {
-            bm = BitmapFactory.decodeFile(filePath);
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 40, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
-        final String strFile = Base64.encodeToString(b, Base64.DEFAULT);
-        HashMap<String, RequestBody> map = new HashMap<>();
-        map.put("imageName", createPartFromString("profilepics/" + CommonMethods.getPrefrence(this, AllKeys.USER_ID) + ".jpg"));
-        map.put("angle", createPartFromString("0"));
-        map.put("imageData", createPartFromString(strFile));
-        //ConnectionDetector cd = new ConnectionDetector(mContext);
-       /* if (CommonMethods.isNetworkAvailable(this)) {
-            hridayamApp.getApiRequestHelper().uploadimage(map, new ApiRequestHelper.OnRequestComplete() {
-                @Override
-                public void onSuccess(Object object) {
-                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(String apiResponse) {
-                    Toast.makeText(this, apiResponse, Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
-        }*/
-    }
-
     @NonNull
     private RequestBody createPartFromString(String descriptionString) {
         return RequestBody.create(
                 MultipartBody.FORM, descriptionString);
     }
 
-    public static Bitmap decodeSampledBitmapFromResource(String strPath, int reqWidth, int reqHeight) {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-//        if (Build.VERSION.SDK_INT < 21) {
-//            options.inPurgeable = true;
-//        }else {
-//            options.inBitmap= true;
-//        }
-        BitmapFactory.decodeFile(strPath, options);
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(strPath, options);
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-        if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and
-            // keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
 
     public void loadAllAttendee(){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_ATTENDEE_URL, new Response.Listener<String>() {
@@ -565,11 +470,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
                     ivProfilePic.setImageBitmap(compressedBitmap);
 
-                    imageBase64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                     //Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
-                     //uploadImage(imageBase64String);
-                   // uploadImageDemo(imageBase64String);
-                    uploadBitmap(compressedBitmap);
+                    String selectedImagePath =  getRealPathFromURIForGallery(contentURI);
+                    uploadImageRetrofit(selectedImagePath);
 
                     Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
@@ -587,102 +489,126 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             ivProfilePic.setImageBitmap(decodedImage);
 
             byte[] byteArray = out .toByteArray();
-            imageBase64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-            //upload Image
-            //uploadImageDemo(imageBase64String);
-            uploadBitmap(decodedImage);
-           // uploadImage(imageBase64String);
+            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+            Uri tempUri = getImageUri(DashBoardActivity.this, thumbnail);
+
+            // CALL THIS METHOD TO GET THE ACTUAL PATH
+            File finalFile = new File(getRealPathFromURI(tempUri));
+            imageBase64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            uploadImageRetrofit(finalFile.getAbsolutePath());
+
             Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
 
             Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
+    public String getRealPathFromURIForGallery(Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = DashBoardActivity.this.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        return uri.getPath();
     }
 
-    private void uploadBitmap(final Bitmap bitmap) {
-
-        //getting the tag from the edittext
-        //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, ConfiUrl.UPLOAD_IMAGE_URL,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        Toast.makeText(getApplicationContext(), "Image upload successfully"+response, Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-
-                    /*
-                     * If you want to add more parameters with the image
-                     * you can do it here
-                     * */
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("imageName","profilepics/"+CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.USER_ID)+".jpg");
-                params.put("angle","0");
-                //params.put("imageData",imageBase64String);
-                Log.e(TAG, "getParams: "+params );
-                return params;
-            }
-
-            /*
-             * Here we are passing image by renaming it with a unique name
-             * */
-            @Override
-            protected Map<String, DataPart> getByteData() {
-                Map<String, DataPart> params = new HashMap<>();
-                long imagename = System.currentTimeMillis();
-                //params.put("pic", new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
-                params.put("imageData", new DataPart("profilepics/"+CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.USER_ID)+".jpg",imageBase64String));
-                //params.put("imageData",new DataPart("profilepics/"+CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.USER_ID)+".jpg", imageBase64String));
-
-                Log.e(TAG, "getByteData: "+params );
-                return params;
-            }
-        };
-
-        //adding the request to volley
-        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    public static Bitmap decodeSampledBitmapFromResource(String strPath, int reqWidth, int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+//        if (Build.VERSION.SDK_INT < 21) {
+//            options.inPurgeable = true;
+//        }else {
+//            options.inBitmap= true;
+//        }
+        BitmapFactory.decodeFile(strPath, options);
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(strPath, options);
     }
-    public void uploadImageDemo(String imageBase64String){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.UPLOAD_IMAGE_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e(TAG, "onResponse: "+response );
 
-                Toast.makeText(DashBoardActivity.this, "Profile photo updated"+response, Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onErrorResponse: "+error );
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> params=new HashMap<>();
-                params.put("imageName","profilepics/"+CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.USER_ID)+".jpg");
-                params.put("angle","0");
-                params.put("imageData",imageBase64String);
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 
-                Log.e(TAG, "getParams: "+params );
-                return params;
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = DashBoardActivity.this.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            // Calculate the largest inSampleSize value that is a power of 2 and
+            // keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
             }
-        };
-        RequestQueue mQueue=Volley.newRequestQueue(this);
-        mQueue.add(stringRequest);
+        }
+        return inSampleSize;
+    }
+
+    public void uploadImageRetrofit(String filePath){
+
+        Bitmap bm;
+        File file = new File(filePath);
+        long fileSizeInBytes = 0;
+        if (file.length() > 0) {
+            fileSizeInBytes = file.length();
+        }
+        long fileSizeInKB = 0;
+        if (fileSizeInBytes > 1024) {
+            fileSizeInKB = fileSizeInBytes / 1024;
+        }
+        if (fileSizeInKB > 500) {
+            bm = decodeSampledBitmapFromResource(filePath, 400, 200);
+        } else {
+            bm = BitmapFactory.decodeFile(filePath);
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 40, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+        imageBase64String= Base64.encodeToString(b, Base64.DEFAULT);
+
+        HashMap<String, RequestBody> map = new HashMap<>();
+        map.put("imageName", createPartFromString("profilepics/"+CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.USER_ID)+".jpg"));
+        map.put("angle", createPartFromString("0"));
+        map.put("imageData", createPartFromString(imageBase64String));
+
+            hridayamApp.getApiRequestHelper().uploadimage(map, new ApiRequestHelper.OnRequestComplete() {
+                @Override
+                public void onSuccess(Object object) {
+                    Toast.makeText(DashBoardActivity.this, "profile updated successful", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String apiResponse) {
+                    Toast.makeText(DashBoardActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+                }
+            });
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

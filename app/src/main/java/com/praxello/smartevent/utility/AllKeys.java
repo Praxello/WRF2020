@@ -28,5 +28,6 @@ public class AllKeys
     public static final String CONFERENCE_ADDRESS="CONFERENCE_ADDRESS";
     public static final String CONFERENCE_LONGITUE="CONFERENCE_LONGITUE";
     public static final String CONFERENCE_LATITUDE="CONFERENCE_LATITUDE";
+    public static String UNPROPER_RESPONSE = "Something went wrong. Please, Try gain later.";
 
 }

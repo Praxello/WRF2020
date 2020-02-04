@@ -3,6 +3,7 @@ package com.praxello.smartevent.utility;
 public class ConfiUrl {
 
     public static final String BASE_URL="https://esmartsolution.in/sem/user/";
+    public static final String BASE_URL1="https://esmartsolution.in/sem/";
 
     public static final String USER_LOGIN_URL=BASE_URL+"login.php";
     public static final String ALL_CASES_URL=BASE_URL+"allcases.php";
