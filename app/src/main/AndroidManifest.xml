@@ -4,10 +4,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -19,10 +20,10 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".activity.retrofit.HridayamApp"
+        android:name=".activity.retrofit.WRFApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,66 +32,63 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".activity.PreViewActivity"
+        <activity android:name=".activity.FeedBackActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
+        <activity
+            android:name=".activity.PreViewActivity"
+            android:parentActivityName=".activity.DashBoardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.MyIdActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.AboutActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.UpdateProfileActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity android:name=".activity.ForgotPasswordActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SpeakerActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.CommentsActivity"
             android:parentActivityName=".activity.AgendaDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity android:name=".activity.DemoActivity" />
-
         <activity
             android:name=".activity.AgendaDetailsActivity"
             android:parentActivityName=".activity.DashBoardActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CaseDescriptionActivity"
             android:parentActivityName=".activity.DashBoardActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.DashBoardActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activity.AllConferenceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DashBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AllConferenceActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,7 +96,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.WebviewActivity"
             android:screenOrientation="portrait"

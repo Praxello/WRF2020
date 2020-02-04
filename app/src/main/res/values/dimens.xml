@@ -20,5 +20,6 @@
     <dimen name="margin250">250dp</dimen>
     <dimen name="textview20">20sp</dimen>
     <dimen name="textsize18">18sp</dimen>
+    <dimen name="margin50">50dp</dimen>
 
 </resources>

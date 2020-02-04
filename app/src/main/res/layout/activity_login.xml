@@ -10,26 +10,6 @@
     android:orientation="vertical"
     tools:context=".activity.LoginActivity">
 
-
-
-    <!--<TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin10"
-        android:text="@string/welcome"
-        android:textColor="@color/default_circle_indicator_stroke_color"
-        android:textSize="@dimen/textsize40"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin10"
-        android:gravity="center"
-        android:text="@string/to_access_all_features_of_the_provided_by_code_is_all_you_need_to_login_first"
-        android:textSize="@dimen/textsize15" />-->
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,7 +30,6 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin150"
-                android:src="@drawable/logo"
                 android:id="@+id/ivLogoImage"
                 android:gravity="center"
                 android:layout_marginBottom="50dp"/>
@@ -112,6 +91,7 @@
                     android:text="@string/login"
                     android:textColor="@color/white" />
             </LinearLayout>
+
             <ImageView
                 android:layout_width="@dimen/margin60"
                 android:layout_height="@dimen/margin40"

@@ -30,6 +30,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.retrofit.ApiRequestHelper;
-import com.praxello.smartevent.activity.retrofit.HridayamApp;
+import com.praxello.smartevent.activity.retrofit.WRFApp;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
 import com.praxello.smartevent.adapter.MarqueeAdvertismentAdapter;
 import com.praxello.smartevent.model.advertisment.AdvertismentData;
@@ -103,6 +104,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public CardView cvQuiz;
     @BindView(R.id.marquee)
     MarqueeView marqueeView;
+    @BindView(R.id.iv_about)
+    ImageView ivAbout;
     public static Map<Integer,AttendeeData> mapAttendeeData;
     public CircleImageView ivProfilePic;
     private static final String IMAGE_DIRECTORY = "/WRF2020";
@@ -111,7 +114,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     private static final int PICK_IMAGE = 1;
     private static final int REQUEST_CAMERA = 2;
     String imageBase64String;
-    HridayamApp hridayamApp;
+    WRFApp WRFApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +122,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
         Paper.init(this);
-        hridayamApp = (HridayamApp) getApplication();
+        WRFApp = (WRFApp) getApplication();
 
         //Basic intialisation....
         initViews();
@@ -159,6 +162,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             Glide.with(this).load(ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.USER_ID)+".jpg").diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(ivProfilePic);
         }
 
+        if(!CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.CONFERENCE_LOGO_URL).equals(AllKeys.DNF)){
+            Glide.with(this).load(CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.CONFERENCE_LOGO_URL)).into(ivAbout);
+        }
+
         //CardView object intialisation...
         cvProgram.setOnClickListener(this);
         cvCases.setOnClickListener(this);
@@ -193,6 +200,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.nav_upload_profile:
                 intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.nav_feedback:
+                intent=new Intent(DashBoardActivity.this,FeedBackActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -457,6 +471,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         if (resultCode == RESULT_CANCELED) {
             return;
         }
+
         if (requestCode == GALLERY && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri contentURI = data.getData();
@@ -473,7 +488,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     String selectedImagePath =  getRealPathFromURIForGallery(contentURI);
                     uploadImageRetrofit(selectedImagePath);
 
-                    Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(DashBoardActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
@@ -500,7 +515,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
 
-            Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -597,7 +612,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         map.put("angle", createPartFromString("0"));
         map.put("imageData", createPartFromString(imageBase64String));
 
-            hridayamApp.getApiRequestHelper().uploadimage(map, new ApiRequestHelper.OnRequestComplete() {
+            WRFApp.getApiRequestHelper().uploadimage(map, new ApiRequestHelper.OnRequestComplete() {
                 @Override
                 public void onSuccess(Object object) {
                     Toast.makeText(DashBoardActivity.this, "profile updated successful", Toast.LENGTH_SHORT).show();

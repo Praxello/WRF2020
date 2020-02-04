@@ -3,7 +3,7 @@ package com.praxello.smartevent.activity.retrofit;
 import android.app.Application;
 import android.content.Context;
 
-public class HridayamApp extends Application {
+public class WRFApp extends Application {
 
     private ApiRequestHelper apiRequestHelper;
     Context context;

@@ -64,15 +64,21 @@ dependencies {
     //paper db..
     implementation 'io.paperdb:paperdb:2.6'
 
+    //Zoomin effect to ImageView
     implementation 'com.commit451:PhotoView:1.2.4'
 
+    //For runtime permission
     implementation 'com.karumi:dexter:4.2.0'
 
+    //Retrofit dependency...
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.okhttp3:okhttp:3.14.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'javax.annotation:jsr250-api:1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+
+    //Rating dependency
+    implementation 'com.github.ome450901:SimpleRatingBar:1.4.3'
 
 
 }

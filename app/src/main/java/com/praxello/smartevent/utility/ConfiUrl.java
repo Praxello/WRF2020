@@ -20,6 +20,7 @@ public class ConfiUrl {
     public static final String ALL_CONFERENCE_URL=BASE_URL+"allconference.php";
     public static final String ALL_ATTENDEE_URL=BASE_URL+"allattendee.php";
     public static final String DELETE_COMMENT_URL=BASE_URL+"removesessioncomment.php";
+    public static final String SAVE_FEEDBACK_URL=BASE_URL+"savefeedback.php";
     public static final String VIEW_PROFILE_PIC_URL="https://esmartsolution.in/sem/profilepics/";
     public static final String UPLOAD_IMAGE_URL="https://esmartsolution.in/sem/uploadimage.php";
 }

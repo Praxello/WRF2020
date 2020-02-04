@@ -145,7 +145,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with delete operation
-                                    deleteComment(commentsDataArrayList.get(position).getSessionId(),commentsDataArrayList.get(position).getCommentId());
+                                    deleteComment(commentsDataArrayList.get(position).getSessionId(),commentsDataArrayList.get(position).getCommentId(),position);
                                 }
                             })
 
@@ -159,7 +159,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
         }
     }
 
-    private void deleteComment(String sessionId,String commentId) {
+    private void deleteComment(String sessionId,String commentId,Integer position) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.DELETE_COMMENT_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -171,6 +171,9 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
 
                 if (commentsResponse.getResponsecode().equals("200")) {
                     Toast.makeText(context, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    commentsDataArrayList.remove(position);
+                    //notifyDataSetChanged();
+                    notifyItemRemoved(position);
                     notifyDataSetChanged();
                 } else {
                     Toast.makeText(context, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -196,14 +199,12 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
         };
         RequestQueue mQueue = Volley.newRequestQueue(context);
         mQueue.add(stringRequest);
-
     }
 
     @Override
     public int getItemCount() {
         return commentsDataArrayList.size();
     }
-
 
     public class CommentsViewHolder extends RecyclerView.ViewHolder{
 

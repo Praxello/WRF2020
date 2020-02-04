@@ -37,11 +37,11 @@ public class ApiRequestHelper {
     }
 
     private static ApiRequestHelper instance;
-    private HridayamApp application;
-    private HridayamService hridayamService;
+    private WRFApp application;
+    private WRFService WRFService;
     static Gson gson;
 
-    public static synchronized ApiRequestHelper init(HridayamApp application) {
+    public static synchronized ApiRequestHelper init(WRFApp application) {
         if (null == instance) {
             instance = new ApiRequestHelper();
             instance.setApplication(application);
@@ -66,7 +66,7 @@ public class ApiRequestHelper {
     }
 
     public void uploadimage(Map<String, RequestBody> params, final OnRequestComplete onRequestComplete) {
-        Call<ResponseBody> call = hridayamService.uploadimage(params);
+        Call<ResponseBody> call = WRFService.uploadimage(params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -158,18 +158,18 @@ public class ApiRequestHelper {
                         .baseUrl(ConfiUrl.BASE_URL1)
                         .addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit = builder.client(httpClient.build()).build();
-        hridayamService = retrofit.create(HridayamService.class);
+        WRFService = retrofit.create(WRFService.class);
     }
 
     /**
      * End REST Adapter Configuration
      */
 
-    public HridayamApp getApplication() {
+    public WRFApp getApplication() {
         return application;
     }
 
-    public void setApplication(HridayamApp application) {
+    public void setApplication(WRFApp application) {
         this.application = application;
     }
 

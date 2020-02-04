@@ -13,6 +13,7 @@
     <color name="semiTransparentColor">#20ffffff</color>
 
     <bool name="default_circle_indicator_centered">true</bool>
+    <color name="font_black_0">#212121</color>
 
     <color name="default_circle_indicator_fill_color">@color/colorPrimary</color>
     <color name="default_circle_indicator_page_color">#FFFFFFFF</color>

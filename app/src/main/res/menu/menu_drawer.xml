@@ -21,6 +21,11 @@
             android:icon="@drawable/ic_account_new"/>
 
         <item
+            android:id="@+id/nav_feedback"
+            android:title="@string/feedback"
+            android:icon="@drawable/ic_review"/>
+
+        <item
             android:id="@+id/nav_logout"
             android:title="@string/log_out"
             android:icon="@drawable/ic_logout"/>

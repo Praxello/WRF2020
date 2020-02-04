@@ -9,7 +9,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 
-public interface HridayamService {
+public interface WRFService {
 
     @Multipart
     @POST("uploadimage.php")

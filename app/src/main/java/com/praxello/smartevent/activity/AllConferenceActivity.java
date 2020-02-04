@@ -49,11 +49,13 @@ public class AllConferenceActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_all_conference)
     RecyclerView rvAllConference;
-    @BindView(R.id.ll_nodata) public LinearLayout llNoData;
-    @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
-    @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
-
-    private static final String TAG="AllConferenceActivity";
+    @BindView(R.id.ll_nodata)
+    public LinearLayout llNoData;
+    @BindView(R.id.ll_nointernet)
+    public LinearLayout llNoInternet;
+    @BindView(R.id.ll_noserver)
+    public LinearLayout llNoServerFound;
+    private static final String TAG = "AllConferenceActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,20 +69,20 @@ public class AllConferenceActivity extends AppCompatActivity {
         requestPermissions();
 
         //load Conference data
-        if(CommonMethods.isNetworkAvailable(AllConferenceActivity.this)){
+        if (CommonMethods.isNetworkAvailable(AllConferenceActivity.this)) {
             loadData();
-        }else{
+        } else {
             Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
             rvAllConference.setVisibility(View.GONE);
         }
     }
 
-    private void initViews(){
+    private void initViews() {
         FirebaseInstanceId.getInstance().getToken();
 
         //Toolbar intialisation...
-        Toolbar toolbar=findViewById(R.id.toolbar_allconference);
+        Toolbar toolbar = findViewById(R.id.toolbar_allconference);
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -93,25 +95,25 @@ public class AllConferenceActivity extends AppCompatActivity {
         rvAllConference.setLayoutManager(layoutManager);
     }
 
-    private void loadData(){
-        final ProgressDialog progress=new ProgressDialog(this);
+    private void loadData() {
+        final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Please wait");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
         progress.setCancelable(false);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_CONFERENCE_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.ALL_CONFERENCE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Gson gson=new Gson();
+                Gson gson = new Gson();
 
-                Log.e(TAG, "onResponse: "+response );
-                AllConferenceResponse allConferenceResponse=gson.fromJson(response,AllConferenceResponse.class);
+                Log.e(TAG, "onResponse: " + response);
+                AllConferenceResponse allConferenceResponse = gson.fromJson(response, AllConferenceResponse.class);
 
-                if(allConferenceResponse.getResponsecode().equals("200")){
+                if (allConferenceResponse.getResponsecode().equals("200")) {
                     progress.dismiss();
-                    AllConferenceAdapter allConferenceAdapter=new AllConferenceAdapter(AllConferenceActivity.this,allConferenceResponse.getData());
+                    AllConferenceAdapter allConferenceAdapter = new AllConferenceAdapter(AllConferenceActivity.this, allConferenceResponse.getData());
                     rvAllConference.setAdapter(allConferenceAdapter);
-                }else{
+                } else {
                     llNoData.setVisibility(View.VISIBLE);
                     rvAllConference.setVisibility(View.GONE);
                     progress.dismiss();
@@ -127,11 +129,11 @@ public class AllConferenceActivity extends AppCompatActivity {
                 Toast.makeText(AllConferenceActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueue mQueue= Volley.newRequestQueue(this);
+        RequestQueue mQueue = Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }
 
-    private void  requestPermissions(){
+    private void requestPermissions() {
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
@@ -142,7 +144,7 @@ public class AllConferenceActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                           // Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
                         }
 
                         // check for permanent denial of any permission

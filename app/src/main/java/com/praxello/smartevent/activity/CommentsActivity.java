@@ -140,17 +140,22 @@ public class CommentsActivity extends AppCompatActivity {
                 if(loadPreviousCommentResponse.Responsecode.equals("200")){
                     //progress.dismiss();
                     if(loadPreviousCommentResponse.getData()!=null){
+
                         latestCommentDataArrayList=new ArrayList<LatestCommentData>();
+
                         for(int i=0;i<loadPreviousCommentResponse.getData().size();i++){
                             latestCommentDataArrayList.add(loadPreviousCommentResponse.getData().get(i));
                         }
 
-                        Log.e(TAG, "onResponse: size of arraylist"+latestCommentDataArrayList.size() );
+                        Log.e(TAG, "onResponse: size of arraylist"+latestCommentDataArrayList.size());
+
                         if(isSet==true){
                             commentsAdapter=new CommentsAdapter(CommentsActivity.this,loadPreviousCommentResponse.getData(),data);
                             //commentsAdapter.notifyDataSetChanged();
                             rvComments.setAdapter(commentsAdapter);
                             isSet=false;
+                        }else{
+                            //commentsAdapter.notifyDataSetChanged();
                         }
                     }else{
                         llNoData.setVisibility(View.VISIBLE);
@@ -200,17 +205,14 @@ public class CommentsActivity extends AppCompatActivity {
                     etComments.setText(null);
                     Toast.makeText(CommentsActivity.this, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     //commentsAdapter.notifyDataSetChanged();
+                    CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,latestCommentDataArrayList,data);
+                    rvComments.setAdapter(commentsAdapter);
 
-                   /* if(commentsResponse.getCommentsData()!=null){
-                        CommentsAdapter commentsAdapter=new CommentsAdapter(CommentsActivity.this,commentsResponse.getCommentsData(),data);
-                        rvComments.setAdapter(commentsAdapter);
-                    }*/
-                   //hide keyboard when success...
+                    //hide keyboard when success...
                     hideKeyboard(CommentsActivity.this);
                 }else{
                     Toast.makeText(CommentsActivity.this, commentsResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -227,7 +229,6 @@ public class CommentsActivity extends AppCompatActivity {
                 params.put("postid",data.getSessionId());
 
                 Log.e(TAG,"params"+params);
-
                 return params;
             }
         };
@@ -238,7 +239,7 @@ public class CommentsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
         Log.e(TAG, "onResume: " );
 
     }

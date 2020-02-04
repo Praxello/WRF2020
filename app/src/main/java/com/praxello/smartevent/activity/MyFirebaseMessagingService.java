@@ -25,9 +25,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String s) {
-        /*hridayamApp = (HridayamApp) getApplication();
+        /*WRFApp = (WRFApp) getApplication();
         if (!TextUtils.isEmpty(s))
-            hridayamApp.getPreferences().setToken(s);*/
+            WRFApp.getPreferences().setToken(s);*/
     }
 
     /**
@@ -63,7 +63,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String message, int m) {
         Intent intent;
-       /* if (hridayamApp.getPreferences().isLoggedInUser()) {
+       /* if (WRFApp.getPreferences().isLoggedInUser()) {
             intent = new Intent(this, MainActivity.class);
         } else {
             intent = new Intent(this, LoginActivity.class);

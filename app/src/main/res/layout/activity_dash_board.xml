@@ -107,9 +107,9 @@
                                 android:gravity="center">
 
                                 <ImageView
-                                    android:layout_width="@dimen/margin30"
-                                    android:layout_height="@dimen/margin30"
-                                    android:src="@drawable/ic_checklist"
+                                    android:layout_width="@dimen/margin50"
+                                    android:layout_height="@dimen/margin50"
+                                    android:src="@drawable/casediscussion"
 
                                     />
 
@@ -153,9 +153,9 @@
                                 android:gravity="center">
 
                                  <ImageView
-                                    android:layout_width="@dimen/margin30"
-                                    android:layout_height="@dimen/margin30"
-                                    android:src="@drawable/ic_completed_task"
+                                    android:layout_width="@dimen/margin50"
+                                    android:layout_height="@dimen/margin50"
+                                    android:src="@drawable/agendaicon"
                                     />
 
                                 <TextView
@@ -205,9 +205,9 @@
                                 android:gravity="center">
 
                                 <ImageView
-                                    android:layout_width="@dimen/margin30"
-                                    android:layout_height="@dimen/margin30"
-                                    android:src="@drawable/ic_lecture"
+                                    android:layout_width="@dimen/margin50"
+                                    android:layout_height="@dimen/margin50"
+                                    android:src="@drawable/speakersicon"
                                     />
 
                                 <TextView
@@ -249,9 +249,9 @@
                                 android:gravity="center">
 
                                 <ImageView
-                                    android:layout_width="@dimen/margin30"
-                                    android:layout_height="@dimen/margin30"
-                                    android:src="@drawable/ic_chat"
+                                    android:layout_width="@dimen/margin50"
+                                    android:layout_height="@dimen/margin50"
+                                    android:src="@drawable/quizicon"
                                     />
 
                                 <TextView
@@ -305,9 +305,9 @@
                                 >
 
                                 <ImageView
-                                    android:layout_width="@dimen/margin30"
-                                    android:layout_height="@dimen/margin30"
-                                    android:src="@drawable/ic_booth"
+                                    android:layout_width="@dimen/margin50"
+                                    android:layout_height="@dimen/margin50"
+                                    android:src="@drawable/boothicon"
                                     />
 
                                 <TextView
@@ -349,9 +349,9 @@
                                 android:gravity="center">
 
                                 <ImageView
-                                    android:layout_width="@dimen/margin40"
-                                    android:layout_height="@dimen/margin40"
-                                    android:src="@drawable/ic_info"
+                                    android:layout_width="@dimen/margin50"
+                                    android:layout_height="@dimen/margin50"
+                                    android:id="@+id/iv_about"
                                     />
 
                                 <TextView

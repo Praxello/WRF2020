@@ -90,6 +90,7 @@ public class AllConferenceAdapter extends RecyclerView.Adapter<AllConferenceAdap
             });
         }
 
+        holder.tvAddName.setVisibility(View.GONE);
         holder.tvAddName.setText(conferenceDataArrayList.get(position).getConferenceTitle());
     }
 
