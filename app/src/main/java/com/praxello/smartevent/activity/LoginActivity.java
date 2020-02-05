@@ -182,6 +182,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 NotificationData notificationData = gson.fromJson(response, NotificationData.class);
 
+                Log.e(TAG, "onResponse:Authentication response "+response );
                 if (notificationData.getResponsecode().equals("200")) {
                     progress.dismiss();
 
@@ -205,8 +206,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 HashMap<String, String> params = new HashMap<>();
                 params.put("userid", CommonMethods.getPrefrence(LoginActivity.this, AllKeys.USER_ID));
                 params.put("deviceid", token);
-                params.put("ostype", Build.MODEL);
-                params.put("appversion", Build.VERSION.RELEASE);
+                params.put("ostype", "Android");
+                params.put("appversion","1.0");
 
                 Log.e(TAG, "params" + params);
                 return params;

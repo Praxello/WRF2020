@@ -59,6 +59,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
         //Load data...
         if(CommonMethods.isNetworkAvailable(CaseDescriptionActivity.this)){
             loadData();
+
         }else{
             Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
@@ -79,12 +80,11 @@ public class CaseDescriptionActivity extends AppCompatActivity {
         //Recyclerview declaration...
         rvCaseDescription=findViewById(R.id.rv_load_case_description);
 
-        SnapHelper mSnapHelper = new PagerSnapHelper();
-        mSnapHelper.attachToRecyclerView(rvCaseDescription);
+        /*SnapHelper mSnapHelper = new PagerSnapHelper();
+        mSnapHelper.attachToRecyclerView(rvCaseDescription);*/
 
         //rvCaseDescription.setLayoutManager(new LinearLayoutManager(CaseDescriptionActivity.this,LinearLayoutManager.HORIZONTAL,true));
-        LinearLayoutManager layoutManager = new LinearLayoutManager(CaseDescriptionActivity.this, LinearLayoutManager.HORIZONTAL, true);
-        layoutManager.setReverseLayout(false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CaseDescriptionActivity.this);
         rvCaseDescription.setLayoutManager(layoutManager);
 
         //Linear Layout intialisation...

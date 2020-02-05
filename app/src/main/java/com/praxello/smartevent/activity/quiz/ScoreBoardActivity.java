@@ -24,10 +24,12 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.AllConferenceActivity;
+import com.praxello.smartevent.activity.CaseDescriptionActivity;
 import com.praxello.smartevent.adapter.AllConferenceAdapter;
 import com.praxello.smartevent.model.allconference.AllConferenceResponse;
 import com.praxello.smartevent.model.score.ScoreResponse;
 import com.praxello.smartevent.utility.AllKeys;
+import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 
 import java.util.HashMap;
@@ -58,7 +60,14 @@ public class ScoreBoardActivity extends AppCompatActivity {
         initViews();
 
         //load score details..
-        loadData();
+        if(CommonMethods.isNetworkAvailable(ScoreBoardActivity.this)){
+            loadData();
+
+        }else{
+            Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+            llNoInternet.setVisibility(View.VISIBLE);
+            rvScoreBoard.setVisibility(View.GONE);
+        }
     }
 
     private void initViews(){
@@ -114,7 +123,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("userid","1");
+                params.put("userid", CommonMethods.getPrefrence(ScoreBoardActivity.this,AllKeys.USER_ID));
 
                 return params;
             }

@@ -2,57 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin10"
+        android:layout_height="wrap_content"
         android:background="#f5f5f5"
         android:elevation="@dimen/margin10"
-        app:cardCornerRadius="@dimen/margin5"
+        app:cardCornerRadius="@dimen/margin10"
         app:cardElevation="@dimen/margin10"
+        android:id="@+id/cvcasedescription"
+        android:layout_margin="@dimen/margin10"
         app:cardPreventCornerOverlap="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin10"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:elevation="@dimen/margin20"
+            >
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin10"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <androidx.core.widget.NestedScrollView
-                    android:id="@+id/nestedScrollView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
-
-                        <WebView
-                            android:id="@+id/webView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </FrameLayout>
-
-                </androidx.core.widget.NestedScrollView>
-            <!--    <com.praxello.smartevent.widget.NestedScrollWebView
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/margin10" />-->
-
 
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -66,12 +43,7 @@
                     android:text="@string/diagnosis"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
-            </LinearLayout>
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="4">
+            </LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -90,7 +62,7 @@
                         android:gravity="center"
                         android:paddingTop="@dimen/margin5"
                         android:text="Ortheropedict"
-                        android:textColor="@color/black"
+                        android:textColor="#4e342e"
                         android:textSize="@dimen/textsize15"
                         android:textStyle="bold" />
 
@@ -108,9 +80,25 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin5"
                         android:layout_marginRight="@dimen/margin5"
+                        android:maxLines="3"
+                        android:ellipsize="end"
                         android:text="summary" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/margin30"
+                        android:id="@+id/btnreadmore"
+                        android:background="@drawable/rect_round_outline_white"
+                        android:text="@string/read_more"
+                        android:textColor="@color/white"
+                        android:layout_gravity="right"
+                        android:textAllCaps="false"
+                        android:paddingLeft="@dimen/margin10"
+                        android:paddingRight="@dimen/margin10"
+                        android:layout_marginRight="@dimen/margin10"
+                        android:layout_marginBottom="@dimen/margin5"
+                        />
                 </LinearLayout>
-            </ScrollView>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

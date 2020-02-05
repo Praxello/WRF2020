@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activity.CaseDescriptionActivity"
     android:orientation="vertical"
-    android:focusableInTouchMode="true"
-    android:descendantFocusability="blocksDescendants"
     >
 
     <include
@@ -18,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv_load_case_description"
-        android:visibility="visible"
-        android:descendantFocusability="blocksDescendants" />
+         />
 
     <LinearLayout
         android:layout_width="match_parent"

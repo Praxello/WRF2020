@@ -31,29 +31,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".activity.quiz.ScoreBoardActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
+        <activity android:name=".activity.CaseReadMoreActivity"
+            android:parentActivityName=".activity.CaseDescriptionActivity"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".activity.quiz.ScoreBoardActivity"
+            android:parentActivityName=".activity.DashBoardActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FeedBackActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.PreViewActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.MyIdActivity"
             android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.AboutActivity"
             android:parentActivityName=".activity.DashBoardActivity"

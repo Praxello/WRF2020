@@ -1,6 +1,9 @@
 package com.praxello.smartevent.model.allcases;
 
-public class AllCasesData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AllCasesData implements Parcelable {
 
     public String caseId;
     public String caseTitle;
@@ -10,6 +13,29 @@ public class AllCasesData {
     public String isActive;
     public String photoUrl;
     public String Submission;
+
+    protected AllCasesData(Parcel in) {
+        caseId = in.readString();
+        caseTitle = in.readString();
+        caseDetails = in.readString();
+        pdflink = in.readString();
+        owner = in.readString();
+        isActive = in.readString();
+        photoUrl = in.readString();
+        Submission = in.readString();
+    }
+
+    public static final Creator<AllCasesData> CREATOR = new Creator<AllCasesData>() {
+        @Override
+        public AllCasesData createFromParcel(Parcel in) {
+            return new AllCasesData(in);
+        }
+
+        @Override
+        public AllCasesData[] newArray(int size) {
+            return new AllCasesData[size];
+        }
+    };
 
     public String getCaseId() {
         return caseId;
@@ -73,5 +99,22 @@ public class AllCasesData {
 
     public void setSubmission(String submission) {
         Submission = submission;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(caseId);
+        dest.writeString(caseTitle);
+        dest.writeString(caseDetails);
+        dest.writeString(pdflink);
+        dest.writeString(owner);
+        dest.writeString(isActive);
+        dest.writeString(photoUrl);
+        dest.writeString(Submission);
     }
 }

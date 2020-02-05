@@ -51,5 +51,11 @@ public class PreViewActivity extends AppCompatActivity {
         mAttacher.update();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+    }
+
 
 }

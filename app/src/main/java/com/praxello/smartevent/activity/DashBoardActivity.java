@@ -137,6 +137,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initViews(){
+
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -413,10 +414,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
                 if(attendeeResponse.Responsecode.equals("200")){
                    // Paper.book().write("allattendee", attendeeResponse.getData());
-                    for(AttendeeData temp : attendeeResponse.getData())
-                    {
-                        DashBoardActivity.mapAttendeeData.put(temp.getUserId(),temp);
+                    if(attendeeResponse.getData()!=null){
+                        for(AttendeeData temp : attendeeResponse.getData())
+                        {
+                            DashBoardActivity.mapAttendeeData.put(temp.getUserId(),temp);
+                        }
                     }
+
 
                 }else{
                     Toast.makeText(DashBoardActivity.this, attendeeResponse.Message, Toast.LENGTH_SHORT).show();

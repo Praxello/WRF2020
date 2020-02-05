@@ -82,7 +82,5 @@ dependencies {
 
     //Material dependency
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
-
-
 }
 apply plugin: 'com.google.gms.google-services'
