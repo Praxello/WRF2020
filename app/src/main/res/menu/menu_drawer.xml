@@ -21,6 +21,11 @@
             android:icon="@drawable/ic_account_new"/>
 
         <item
+            android:id="@+id/nav_score_board"
+            android:title="@string/score_board"
+            android:icon="@drawable/ic_scoreboard"/>
+
+        <item
             android:id="@+id/nav_feedback"
             android:title="@string/feedback"
             android:icon="@drawable/ic_review"/>

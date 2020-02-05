@@ -58,4 +58,5 @@
     <string name="floor_map">Floor map</string>
     <string name="feedback">Feedback</string>
     <string name="write_your_feedback">Write your feedback</string>
+    <string name="score_board">Score Board</string>
 </resources>

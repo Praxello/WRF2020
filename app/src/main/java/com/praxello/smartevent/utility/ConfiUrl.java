@@ -2,8 +2,14 @@ package com.praxello.smartevent.utility;
 
 public class ConfiUrl {
 
+    //for volley....
     public static final String BASE_URL="https://esmartsolution.in/sem/user/";
-    public static final String BASE_URL1="https://esmartsolution.in/sem/";
+
+    //for retrofit..
+    public static final String BASE_URL1="https://esmartsolution.in/";
+
+    public static final String VIEW_PROFILE_PIC_URL="https://esmartsolution.in/sem/profilepics/";
+    public static final String UPLOAD_IMAGE_URL="https://esmartsolution.in/sem/uploadimage.php";
 
     public static final String USER_LOGIN_URL=BASE_URL+"login.php";
     public static final String ALL_CASES_URL=BASE_URL+"allcases.php";
@@ -21,6 +27,6 @@ public class ConfiUrl {
     public static final String ALL_ATTENDEE_URL=BASE_URL+"allattendee.php";
     public static final String DELETE_COMMENT_URL=BASE_URL+"removesessioncomment.php";
     public static final String SAVE_FEEDBACK_URL=BASE_URL+"savefeedback.php";
-    public static final String VIEW_PROFILE_PIC_URL="https://esmartsolution.in/sem/profilepics/";
-    public static final String UPLOAD_IMAGE_URL="https://esmartsolution.in/sem/uploadimage.php";
+    public static final String SCORES_URL=BASE_URL+"myscores.php";
+
 }

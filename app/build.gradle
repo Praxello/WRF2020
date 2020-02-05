@@ -80,6 +80,9 @@ dependencies {
     //Rating dependency
     implementation 'com.github.ome450901:SimpleRatingBar:1.4.3'
 
+    //Material dependency
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -11,6 +11,9 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.praxello.smartevent.model.CommentDeleteResponse;
+import com.praxello.smartevent.model.quiz.QuestionData;
+import com.praxello.smartevent.model.quiz.UserData;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.ConfiUrl;
 
@@ -41,6 +44,7 @@ public class ApiRequestHelper {
     private WRFService WRFService;
     static Gson gson;
 
+
     public static synchronized ApiRequestHelper init(WRFApp application) {
         if (null == instance) {
             instance = new ApiRequestHelper();
@@ -64,6 +68,68 @@ public class ApiRequestHelper {
         }
         return instance;
     }
+
+    public void allquestions(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<QuestionData> call = WRFService.allquestions(params);
+        call_api(onRequestComplete, call);
+    }
+
+  /*  public void savequiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<UserData> call = WRFService.savequiz(params);
+        call_api_for_quiz(onRequestComplete, call);
+    }
+*/
+    public void savequiz(String userid,String score, final OnRequestComplete onRequestComplete) {
+        Call<UserData> call = WRFService.savequiz(userid,score);
+        call_api_for_quiz(onRequestComplete, call);
+    }
+
+    private void call_api_for_quiz(final OnRequestComplete onRequestComplete, Call<UserData> call) {
+        call.enqueue(new Callback<UserData>() {
+            @Override
+            public void onResponse(Call<UserData> call, Response<UserData> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserData> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
+    private void call_api(final OnRequestComplete onRequestComplete, Call<QuestionData> call) {
+        call.enqueue(new Callback<QuestionData>() {
+            @Override
+            public void onResponse(Call<QuestionData> call, Response<QuestionData> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuestionData> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
 
     public void uploadimage(Map<String, RequestBody> params, final OnRequestComplete onRequestComplete) {
         Call<ResponseBody> call = WRFService.uploadimage(params);

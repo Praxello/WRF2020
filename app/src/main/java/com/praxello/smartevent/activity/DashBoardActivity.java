@@ -47,6 +47,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
+import com.praxello.smartevent.activity.quiz.QuizActivity;
+import com.praxello.smartevent.activity.quiz.ScoreBoardActivity;
 import com.praxello.smartevent.activity.retrofit.ApiRequestHelper;
 import com.praxello.smartevent.activity.retrofit.WRFApp;
 import com.praxello.smartevent.adapter.CustomPagerAdapter;
@@ -205,6 +207,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 break;
 
+            case R.id.nav_score_board:
+                intent=new Intent(DashBoardActivity.this, ScoreBoardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
             case R.id.nav_feedback:
                 intent=new Intent(DashBoardActivity.this,FeedBackActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -296,7 +305,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.cardview_quiz:
-
+                intent=new Intent(DashBoardActivity.this, QuizActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 break;
 
         }

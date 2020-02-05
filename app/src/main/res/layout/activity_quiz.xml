@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="#59555A">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar_title"/>
 
     <FrameLayout
         android:id="@+id/frameLayout"
