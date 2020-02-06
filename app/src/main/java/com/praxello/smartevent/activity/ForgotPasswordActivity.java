@@ -36,9 +36,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     public EditText etEmailAddress;
     @BindView(R.id.btn_send)
     public AppCompatButton btnSend;
-    @BindView(R.id.etPassword)
+    /* @BindView(R.id.etPassword)
     public EditText etPassword;
-   /* @BindView(R.id.etConfirmPassword)
+   @BindView(R.id.etConfirmPassword)
     public EditText etConfirmPassword;
     @BindView(R.id.btn_reset_password)
     public AppCompatButton btnResetPassword;

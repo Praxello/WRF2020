@@ -87,6 +87,8 @@
         android:background="@drawable/rect_round_outline_white"
         android:text="@string/diagnosis"
         android:textColor="@color/white"
+        android:drawableRight="@drawable/ic_notebook"
+        android:drawablePadding="@dimen/margin10"
         android:layout_gravity="right"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"

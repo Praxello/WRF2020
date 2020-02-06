@@ -21,5 +21,8 @@
     <dimen name="textview20">20sp</dimen>
     <dimen name="textsize18">18sp</dimen>
     <dimen name="margin50">50dp</dimen>
+    <dimen name="margin120">120dp</dimen>
+    <dimen name="textsize25">25sp</dimen>
+    <dimen name="textsize30">30sp</dimen>
 
 </resources>

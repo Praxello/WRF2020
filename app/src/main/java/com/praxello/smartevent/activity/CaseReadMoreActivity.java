@@ -89,6 +89,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
 
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         if(allCasesData.getPdflink()!=null){
             if(allCasesData.getPdflink().contains("pdf")){

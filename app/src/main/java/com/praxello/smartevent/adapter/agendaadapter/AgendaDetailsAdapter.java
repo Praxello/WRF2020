@@ -14,12 +14,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,7 +33,6 @@ import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

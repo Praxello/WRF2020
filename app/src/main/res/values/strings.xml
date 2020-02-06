@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">WRF2020</string>
-    <string name="wrf2020">WRF2020</string>
+    <string name="app_name">Smart Event</string>
+    <string name="wrf2020">Smart Event</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mobile_number">Mobile Number</string>
@@ -24,7 +24,7 @@
     <string name="breaks"><font color="blue" size="15"><b>Break</b></font></string>
     <string name="write_a_comment">Write a comment....</string>
     <string name="subject">Subject:</string>
-    <string name="about">About WRF</string>
+    <string name="about">About</string>
     <string name="email_address">Email address</string>
     <string name="welcome">Welcome</string>
     <string name="to_access_all_features_of_the_provided_by_code_is_all_you_need_to_login_first">To access all features of the App provided by code is all, You need to login first!</string>
@@ -37,7 +37,7 @@
     <string name="has_been_sent_to_your_email">has been sent to your email.</string>
     <string name="please_enter_the_new_password_that">Please enter the new password that</string>
     <string name="send">Send</string>
-    <string name="diagnosis">Diagnosis</string>
+    <string name="diagnosis">Enter Diagnosis</string>
     <string name="enter_your_diagnosis">Enter your diagnosis</string>
     <string name="submit">Submit</string>
     <string name="home">Home</string>

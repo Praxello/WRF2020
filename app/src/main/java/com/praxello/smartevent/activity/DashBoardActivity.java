@@ -263,7 +263,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -420,8 +419,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             DashBoardActivity.mapAttendeeData.put(temp.getUserId(),temp);
                         }
                     }
-
-
                 }else{
                     Toast.makeText(DashBoardActivity.this, attendeeResponse.Message, Toast.LENGTH_SHORT).show();
                 }
@@ -700,8 +697,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         int homeColumnScrollInterval = 4;
         handler.sendEmptyMessageDelayed(MESSAGE_SCROLL, homeColumnScrollInterval * 1000);
     }
-
-
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
