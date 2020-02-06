@@ -321,7 +321,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             public void onResponse(String response) {
                 Gson gson = new Gson();
 
-                Log.e(TAG, "response" + response);
+              //  Log.e(TAG, "response" + response);
                 AdvertismentResponse advertismentResponse = gson.fromJson(response, AdvertismentResponse.class);
 
                 if (advertismentResponse.Responsecode.equals("200")) {
@@ -342,8 +342,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                                 advertismentDataArrayList1.add(advertismentResponse.getData().get(i));
                             }
 
-                            Log.e(TAG, "onResponse: advertisment size" + advertismentDataArrayList1.size());
-                            Log.e(TAG, "onResponse: advertisment data" + advertismentDataArrayList1.toString());
+                           // Log.e(TAG, "onResponse: advertisment size" + advertismentDataArrayList1.size());
+                            //Log.e(TAG, "onResponse: advertisment data" + advertismentDataArrayList1.toString());
                         }
 
                         String marqueeString = "";
@@ -364,7 +364,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             rrBanner.setVisibility(View.GONE);
                         }
 
-                        Log.e(TAG, "onResponse: advertisment data" + advertismentResponse.getData());
+                      //  Log.e(TAG, "onResponse: advertisment data" + advertismentResponse.getData());
 
                     } else {
                         rrBanner.setVisibility(View.GONE);
@@ -387,7 +387,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(DashBoardActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "server error" + error);
+                //Log.e(TAG, "server error" + error);
             }
         });
         RequestQueue mQueue = Volley.newRequestQueue(this);
@@ -409,7 +409,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 Gson gson=new Gson();
 
                 DashBoardActivity.mapAttendeeData = new HashMap();
-                Log.e(TAG,"response"+response);
+                //Log.e(TAG,"response"+response);
                 AttendeeResponse attendeeResponse=gson.fromJson(response,AttendeeResponse.class);
 
                 if(attendeeResponse.Responsecode.equals("200")){
@@ -430,7 +430,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(DashBoardActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                //Log.e(TAG,"server error"+error);
             }
         }){
             @Override
@@ -529,7 +529,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             imageBase64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
             uploadImageRetrofit(finalFile.getAbsolutePath());
 
-            Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
+           // Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
 
             //Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }

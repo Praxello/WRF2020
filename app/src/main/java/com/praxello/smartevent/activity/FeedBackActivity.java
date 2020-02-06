@@ -104,7 +104,7 @@ public class FeedBackActivity extends AppCompatActivity implements View.OnClickL
                 Gson gson=new Gson();
                 CommentDeleteResponse feedbackResponse=gson.fromJson(response,CommentDeleteResponse.class);
 
-                Log.e(TAG, "onResponse: "+response );
+              //  Log.e(TAG, "onResponse: "+response );
 
                 if(feedbackResponse.getResponsecode().equals("200")){
 
@@ -120,7 +120,7 @@ public class FeedBackActivity extends AppCompatActivity implements View.OnClickL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onErrorResponse: "+error );
+              //  Log.e(TAG, "onErrorResponse: "+error );
             }
         }){
             @Override
@@ -133,7 +133,7 @@ public class FeedBackActivity extends AppCompatActivity implements View.OnClickL
                 params.put("rate4",String.valueOf(scaleRatingBar4.getRating()));
                 params.put("feedback",etFeedback.getText().toString());
 
-                Log.e(TAG, "getParams: "+params );
+               // Log.e(TAG, "getParams: "+params );
 
                 return params;
             }

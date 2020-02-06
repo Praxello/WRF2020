@@ -98,9 +98,9 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
 
         npPicker.setOnValueChangedListener((picker1, oldVal, newVal) -> {
             //Toast.makeText(this,String.valueOf(picker1), Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onCreate: date picker "+picker1.toString() );
-            Log.e(TAG, "onCreate: old value"+oldVal);
-            Log.e(TAG, "onCreate: new value "+newVal );
+           // Log.e(TAG, "onCreate: date picker "+picker1.toString() );
+           // Log.e(TAG, "onCreate: old value"+oldVal);
+           // Log.e(TAG, "onCreate: new value "+newVal );
             
             int value=npPicker.getValue();
             if(agendaDataArrayList!=null){
@@ -160,7 +160,7 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
-                Log.e(TAG,"response"+response);
+               // Log.e(TAG,"response"+response);
                 AgendaDetailsRespose agendaDetailsRespose=gson.fromJson(response,AgendaDetailsRespose.class);
 
                 if(agendaDetailsRespose.Responsecode.equals("200")){
@@ -187,14 +187,14 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvAgendaDetails.setVisibility(View.GONE);
                 Toast.makeText(AgendaDetailsActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                //Log.e(TAG,"server error"+error);
             }
         }) {
                 protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("userid",CommonMethods.getPrefrence(AgendaDetailsActivity.this, AllKeys.USER_ID));
-                Log.e(TAG, "getParams: " + params);
+               // Log.e(TAG, "getParams: " + params);
                 return params;
             }
         };

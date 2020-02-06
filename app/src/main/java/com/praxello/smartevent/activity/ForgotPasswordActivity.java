@@ -102,7 +102,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
 
                 NotificationData notificationData = gson.fromJson(response, NotificationData.class);
 
-                Log.e(TAG, "onResponse: "+response );
+                //Log.e(TAG, "onResponse: "+response );
                 if (notificationData.getResponsecode().equals("200")) {
                     progress.dismiss();
                     Toast.makeText(ForgotPasswordActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
@@ -122,14 +122,14 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                Log.e(TAG, "onErrorResponse: " + error);
+                //Log.e(TAG, "onErrorResponse: " + error);
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("mobile", email);
-                Log.e(TAG, "getParams: " + params);
+               // Log.e(TAG, "getParams: " + params);
                 return params;
             }
         };

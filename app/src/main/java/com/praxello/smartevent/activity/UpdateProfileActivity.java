@@ -203,7 +203,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
                 LoginResponse loginResponse=gson.fromJson(response,LoginResponse.class);
 
-                Log.e(TAG, "onResponse: "+response );
+                //Log.e(TAG, "onResponse: "+response );
                 if(loginResponse.getResponsecode().equals("200")){
                     progress.dismiss();
                     Toast.makeText(UpdateProfileActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -233,7 +233,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                Log.e(TAG, "onErrorResponse: "+error );
+              //  Log.e(TAG, "onErrorResponse: "+error );
             }
         }){
             @Override
@@ -251,7 +251,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 params.put("password",etPassword.getText().toString());
                 params.put("birthdate",etDateOfBirth.getText().toString());
 
-                Log.e(TAG, "getParams: "+params);
+               // Log.e(TAG, "getParams: "+params);
                 return params;
             }
         };

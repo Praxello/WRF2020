@@ -108,7 +108,7 @@ public class QuizActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(String apiResponse) {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
-                    Log.e("in", "error " + apiResponse);
+                    //Log.e("in", "error " + apiResponse);
                     Toast.makeText(QuizActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
                 }
             });

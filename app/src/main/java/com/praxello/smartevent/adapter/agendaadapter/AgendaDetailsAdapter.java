@@ -118,7 +118,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
 
                     holder.tvSummary.setText(agendaDataArrayList.get(position).getDetails());
                     holder.tvLike.setText("Like (" + agendaDataArrayList.get(position).getLikes() + ")");
-                    Log.e(TAG, "is Liked" + agendaDataArrayList.get(position).isLiked);
+                    //Log.e(TAG, "is Liked" + agendaDataArrayList.get(position).isLiked);
 
                     if (agendaDataArrayList.get(position).isLiked.equals("true") || agendaDataArrayList.get(position).isLiked.equals(true)) {
                         //holder.tvLike.setTextColor(R.color.blue500);
@@ -195,7 +195,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
 
                     holder.tvSummary.setText(agendaDataArrayList.get(position).getDetails());
                     holder.tvLike.setText("Like (" + agendaDataArrayList.get(position).getLikes() + ")");
-                    Log.e(TAG, "is Liked" + agendaDataArrayList.get(position).isLiked);
+                    //Log.e(TAG, "is Liked" + agendaDataArrayList.get(position).isLiked);
 
                     if (agendaDataArrayList.get(position).isLiked.equals("true") || agendaDataArrayList.get(position).isLiked.equals(true)) {
                         //holder.tvLike.setTextColor(R.color.blue500);
@@ -252,7 +252,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
             @Override
             public void onResponse(String response) {
 
-                Log.e(TAG, "response" + response);
+                //Log.e(TAG, "response" + response);
 
                 Gson gson = new Gson();
                 LikesResponse likesResponse = gson.fromJson(response, LikesResponse.class);
@@ -260,7 +260,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                 if (likesResponse.getResponsecode().equals("200")) {
                     progress.dismiss();
                     holder.tvLike.setText("Like (" + likesResponse.getLikes() + ")");
-                    Log.e(TAG, "is Liked" + likesResponse.isLiked);
+                    //Log.e(TAG, "is Liked" + likesResponse.isLiked);
 
                     if (likesResponse.isLiked.equals("true") || likesResponse.isLiked.equals(true)) {
                         //holder.tvLike.setTextColor(R.color.blue500);
@@ -278,7 +278,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "volley error" + error);
+               // Log.e(TAG, "volley error" + error);
                 progress.dismiss();
                 Toast.makeText(context, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
@@ -289,7 +289,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                 params.put("userid", CommonMethods.getPrefrence(context, AllKeys.USER_ID));
                 params.put("sessionid", sessionId);
 
-                Log.e(TAG, "params" + params);
+                //Log.e(TAG, "params" + params);
 
                 return params;
             }

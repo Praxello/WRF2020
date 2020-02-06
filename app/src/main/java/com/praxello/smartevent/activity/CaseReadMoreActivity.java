@@ -192,7 +192,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
 
                 NotificationData notificationData = gson.fromJson(response, NotificationData.class);
 
-                Log.e(TAG, "onResponse: "+response );
+               // Log.e(TAG, "onResponse: "+response );
                 if (notificationData.getResponsecode().equals("200")) {
                     progress.dismiss();
                     Toast.makeText(CaseReadMoreActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
@@ -206,7 +206,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                Log.e(TAG, "onErrorResponse: " + error);
+                //Log.e(TAG, "onErrorResponse: " + error);
             }
         }) {
             @Override
@@ -215,7 +215,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
                 params.put("userid", CommonMethods.getPrefrence(CaseReadMoreActivity.this, AllKeys.USER_ID));
                 params.put("caseid", caseId);
                 params.put("details", suggesstion);
-                Log.e(TAG, "getParams: " + params);
+               // Log.e(TAG, "getParams: " + params);
                 return params;
             }
         };

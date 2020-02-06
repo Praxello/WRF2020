@@ -40,8 +40,8 @@ public class WebviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
         ButterKnife.bind(this);
 
-        Log.e(TAG,"Url" +getIntent().getStringExtra("url"));
-        Log.e(TAG,"Type" +getIntent().getStringExtra("type"));
+        //Log.e(TAG,"Url" +getIntent().getStringExtra("url"));
+       // Log.e(TAG,"Type" +getIntent().getStringExtra("type"));
 
         try {
             mContext = WebviewActivity.this;

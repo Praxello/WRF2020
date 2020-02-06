@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogIn.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
 
-        Log.e(TAG, "onCreate: "+ CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL));
+        //Log.e(TAG, "onCreate: "+ CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL));
 
         if(!CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL).equals(AllKeys.DNF)){
             Glide.with(LoginActivity.this).load(CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL)).into(ivLogoImage);
@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                Log.e(TAG, "error" + error);
+                //Log.e(TAG, "error" + error);
             }
         }) {
             @Override
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 params.put("passwrd", etPassword.getText().toString());
                 params.put("conferenceid", CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_ID));
 
-                Log.e(TAG, "params of user authentication" + params);
+               // Log.e(TAG, "params of user authentication" + params);
                 return params;
             }
         };
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 NotificationData notificationData = gson.fromJson(response, NotificationData.class);
 
-                Log.e(TAG, "onResponse:Authentication response "+response );
+               // Log.e(TAG, "onResponse:Authentication response "+response );
                 if (notificationData.getResponsecode().equals("200")) {
                     progress.dismiss();
 
@@ -209,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 params.put("ostype", "Android");
                 params.put("appversion","1.0");
 
-                Log.e(TAG, "params" + params);
+               // Log.e(TAG, "params" + params);
                 return params;
             }
         };

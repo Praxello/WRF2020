@@ -46,7 +46,7 @@ public class AllConferenceAdapter extends RecyclerView.Adapter<AllConferenceAdap
 
     @Override
     public void onBindViewHolder(@NonNull AllConferenceViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder: "+conferenceDataArrayList.get(position).getSplashUrl() );
+        //Log.e(TAG, "onBindViewHolder: "+conferenceDataArrayList.get(position).getSplashUrl() );
         if (conferenceDataArrayList.get(position).getSplashUrl() != null) {
             Glide.with(context).load(conferenceDataArrayList.get(position).getSplashUrl()).into(holder.imageView);
             //Glide.with(context).load(R.drawable.no_data).into(holder.imageView);

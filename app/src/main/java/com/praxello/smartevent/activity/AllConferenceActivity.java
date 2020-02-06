@@ -104,7 +104,7 @@ public class AllConferenceActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Gson gson = new Gson();
 
-                Log.e(TAG, "onResponse: " + response);
+                //Log.e(TAG, "onResponse: " + response);
                 AllConferenceResponse allConferenceResponse = gson.fromJson(response, AllConferenceResponse.class);
 
                 if (allConferenceResponse.getResponsecode().equals("200")) {

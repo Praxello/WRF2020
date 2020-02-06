@@ -105,7 +105,7 @@ public class SpeakerActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
-                Log.e(TAG,"response"+response);
+                //Log.e(TAG,"response"+response);
                 SpeakerResponse speakerResponse=gson.fromJson(response,SpeakerResponse.class);
 
                 if(speakerResponse.Responsecode.equals("200")){
@@ -126,14 +126,14 @@ public class SpeakerActivity extends AppCompatActivity {
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvSpeaker.setVisibility(View.GONE);
                 Toast.makeText(SpeakerActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                //Log.e(TAG,"server error"+error);
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
                 params.put("conferenceid",CommonMethods.getPrefrence(SpeakerActivity.this,AllKeys.CONFERENCE_ID));
-                Log.e(TAG, "getParams: "+params );
+                //Log.e(TAG, "getParams: "+params );
                 return params;
             }
         };

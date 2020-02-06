@@ -152,7 +152,7 @@ public class CommentsActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
-                Log.e(TAG, "onResponse: "+response );
+               // Log.e(TAG, "onResponse: "+response );
                 LoadPreviousCommentResponse loadPreviousCommentResponse=gson.fromJson(response,LoadPreviousCommentResponse.class);
 
                 if(loadPreviousCommentResponse.Responsecode.equals("200")){
@@ -196,14 +196,14 @@ public class CommentsActivity extends AppCompatActivity {
                 //llNoServerFound.setVisibility(View.VISIBLE);
                 //rvComments.setVisibility(View.GONE);
                 Toast.makeText(CommentsActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                //Log.e(TAG,"server error"+error);
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
                 params.put("sessionid",data.getSessionId());
-                Log.e(TAG, "getParams: "+params );
+                //Log.e(TAG, "getParams: "+params );
                 return params;
             }
         };
@@ -215,7 +215,7 @@ public class CommentsActivity extends AppCompatActivity {
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ADD_COMMENT_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e(TAG,"response"+response);
+               // Log.e(TAG,"response"+response);
                 Gson gson=new Gson();
                 CommentsResponse commentsResponse=gson.fromJson(response,CommentsResponse.class);
 
@@ -235,7 +235,7 @@ public class CommentsActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG,"error"+error);
+               // Log.e(TAG,"error"+error);
             }
         }){
             @Override
@@ -246,7 +246,7 @@ public class CommentsActivity extends AppCompatActivity {
                 params.put("comment",etComments.getText().toString());
                 params.put("postid",data.getSessionId());
 
-                Log.e(TAG,"params"+params);
+                //Log.e(TAG,"params"+params);
                 return params;
             }
         };
@@ -258,7 +258,7 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
-        Log.e(TAG, "onResume: " );
+       // Log.e(TAG, "onResume: " );
 
     }
 

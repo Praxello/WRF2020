@@ -206,10 +206,10 @@ public class QuizFragment extends Fragment {
                 public void onSuccess(Object object) {
                     //if (pd.isShowing()) pd.dismiss();/
                     UserData userData = (UserData) object;
-                    Log.e("in", "success");
+                    //Log.e("in", "success");
 
-                    Log.e(TAG, "onSuccess: "+userData.getMessage() );
-                    Log.e(TAG, "onSuccess: "+userData.getResponsecode() );
+                   // Log.e(TAG, "onSuccess: "+userData.getMessage() );
+                    //Log.e(TAG, "onSuccess: "+userData.getResponsecode() );
                     if (userData != null) {
                         if (userData.getResponsecode() == 200) {
                             Toast.makeText(getContext(), "Answers submitted", Toast.LENGTH_SHORT).show();
@@ -231,7 +231,7 @@ public class QuizFragment extends Fragment {
 
                 @Override
                 public void onFailure(String apiResponse) {
-                    Log.e("in", "error " + apiResponse);
+                   // Log.e("in", "error " + apiResponse);
 
                     Toast.makeText(getContext(), apiResponse, Toast.LENGTH_SHORT).show();
                 }
@@ -251,9 +251,9 @@ public class QuizFragment extends Fragment {
         cFirstTimer = new CountDownTimer(calculatedSec, 1000) {
             @Override
             public void onTick(long l) {
-                Log.e("l", "" + l);
+                //Log.e("l", "" + l);
                 long seconds = l / 1000;
-                Log.e("seconds", "" + seconds);
+                //Log.e("seconds", "" + seconds);
                 long minutes = seconds / 60;
                 seconds %= 60;
                 tvTimer.setText(String.format("%02d", seconds));

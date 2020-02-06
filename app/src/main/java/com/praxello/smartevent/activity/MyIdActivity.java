@@ -88,7 +88,7 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
             tvConferenceId.setText("ConferenceId: #Prax"+CommonMethods.getPrefrence(MyIdActivity.this,AllKeys.CONFERENCE_ID)+"2266");
         }
 
-        Log.e(TAG, "appendDataToText: "+ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID)+".jpg");
+        //Log.e(TAG, "appendDataToText: "+ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID)+".jpg");
         if(!CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID).equals(AllKeys.DNF)){
             Glide.with(this).load(ConfiUrl.VIEW_PROFILE_PIC_URL+CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID)+".jpg").diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(ivProfilePic);
         }

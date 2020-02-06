@@ -91,7 +91,7 @@ public class AboutActivity extends AppCompatActivity {
                     Float destinationLatitude = Float.valueOf(CommonMethods.getPrefrence(AboutActivity.this, AllKeys.CONFERENCE_LATITUDE));
                     Float destinationLongitude = Float.valueOf(CommonMethods.getPrefrence(AboutActivity.this, AllKeys.CONFERENCE_LONGITUE));
 
-                    Log.e(TAG, "onClick: latitude" + destinationLatitude + "longitude" + destinationLongitude);
+                    //Log.e(TAG, "onClick: latitude" + destinationLatitude + "longitude" + destinationLongitude);
 
                     String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", destinationLatitude, destinationLongitude, "Where the conference is at");
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));

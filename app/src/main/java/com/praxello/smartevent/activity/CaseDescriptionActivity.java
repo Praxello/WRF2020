@@ -138,7 +138,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
                 llNoServerFound.setVisibility(View.VISIBLE);
                 rvCaseDescription.setVisibility(View.GONE);
                 Toast.makeText(CaseDescriptionActivity.this, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"server error"+error);
+                //Log.e(TAG,"server error"+error);
             }
         }){
             @Override

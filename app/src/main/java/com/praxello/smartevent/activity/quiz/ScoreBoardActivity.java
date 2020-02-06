@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,10 +27,8 @@ import com.praxello.smartevent.model.score.ScoreResponse;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -107,7 +103,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Gson gson = new Gson();
 
-                Log.e(TAG, "onResponse: " + response);
+               // Log.e(TAG, "onResponse: " + response);
                 ScoreResponse scoreResponse= gson.fromJson(response, ScoreResponse.class);
 
                 if (scoreResponse.getResponsecode().equals("200")) {

@@ -110,15 +110,15 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
                 holder.cvOther.setCardBackgroundColor(Color.parseColor("#70ffffff"));
                 holder.tvCommentTime.setText(date);
                 String attendeeName="";
-                Log.e(TAG, "onBindViewHolder:HashMapData "+DashBoardActivity.mapAttendeeData.size() );
-                Log.e(TAG, "onBindViewHolder: UserId"+commentsDataArrayList.get(position).getUserId() );
+                //Log.e(TAG, "onBindViewHolder:HashMapData "+DashBoardActivity.mapAttendeeData.size() );
+               // Log.e(TAG, "onBindViewHolder: UserId"+commentsDataArrayList.get(position).getUserId() );
                 if(DashBoardActivity.mapAttendeeData.containsKey(commentsDataArrayList.get(position).getUserId())){
                     AttendeeData attendeeData;
                     attendeeData=DashBoardActivity.mapAttendeeData.get(commentsDataArrayList.get(position).getUserId());
                     attendeeName=attendeeData.getFirstName()+" "+attendeeData.getLastName();
                 }
 
-                Log.e(TAG, "onBindViewHolder: attendeeName" +attendeeName );
+               // Log.e(TAG, "onBindViewHolder: attendeeName" +attendeeName );
 
                 for(SpeakersName speakersName: agendaData.getSpeakers()) {
                     if(speakersName.getUserid().equals(commentsDataArrayList.get(position).getUserId())) {
@@ -163,7 +163,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
             @Override
             public void onResponse(String response) {
 
-                Log.e(TAG, "response" + response);
+               // Log.e(TAG, "response" + response);
 
                 Gson gson = new Gson();
                 CommentsResponse commentsResponse = gson.fromJson(response, CommentsResponse.class);
@@ -181,7 +181,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "volley error" + error);
+                //Log.e(TAG, "volley error" + error);
                 Toast.makeText(context, AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -191,7 +191,7 @@ public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.Comme
                 params.put("commentid",commentId);
                 params.put("sessionid", sessionId);
 
-                Log.e(TAG, "params" + params);
+              //  Log.e(TAG, "params" + params);
 
                 return params;
             }
