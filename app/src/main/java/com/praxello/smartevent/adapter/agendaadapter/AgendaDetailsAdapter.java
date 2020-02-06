@@ -30,7 +30,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.CommentsActivity;
-import com.praxello.smartevent.model.agendadetails.SpeakersName;
 import com.praxello.smartevent.model.likes.LikesResponse;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.utility.CommonMethods;
@@ -43,7 +42,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.paperdb.Paper;
 
 public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdapter.AgendaDetailsViewHolder> {
 
@@ -150,7 +148,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                     public void onClick(View v) {
                         Activity activity = (Activity) context;
                         Intent intent = new Intent(context, CommentsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("data", agendaDataArrayList.get(position));
 
                         context.startActivity(intent);

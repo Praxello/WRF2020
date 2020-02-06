@@ -26,7 +26,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.activity.DashBoardActivity;
-import com.praxello.smartevent.model.agendadetails.AgendaCommentsData;
 import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.model.agendadetails.SpeakersName;
 import com.praxello.smartevent.model.allattendee.AttendeeData;

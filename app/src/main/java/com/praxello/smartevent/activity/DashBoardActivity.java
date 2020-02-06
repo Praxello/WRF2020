@@ -701,11 +701,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         handler.sendEmptyMessageDelayed(MESSAGE_SCROLL, homeColumnScrollInterval * 1000);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
-    }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
@@ -739,5 +735,27 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         public void startScroll(int startX, int startY, int dx, int dy) {
             super.startScroll(startX, startY, dx, dy, this.duration);
         }
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

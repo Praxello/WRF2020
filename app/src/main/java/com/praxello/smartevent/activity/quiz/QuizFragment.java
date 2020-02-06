@@ -1,6 +1,5 @@
 package com.praxello.smartevent.activity.quiz;
 
-import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,9 +25,6 @@ import com.praxello.smartevent.model.quiz.Question;
 import com.praxello.smartevent.model.quiz.UserData;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
-
-import java.util.HashMap;
-import java.util.Map;
 import butterknife.ButterKnife;
 
 public class QuizFragment extends Fragment {

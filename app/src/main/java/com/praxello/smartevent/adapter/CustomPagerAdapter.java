@@ -6,27 +6,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.activity.LoginActivity;
 import com.praxello.smartevent.activity.PreViewActivity;
 import com.praxello.smartevent.model.advertisment.AdvertismentData;
-import com.praxello.smartevent.utility.CommonMethods;
 
 import java.util.ArrayList;
-
-import butterknife.internal.Utils;
 
 public class CustomPagerAdapter extends PagerAdapter {
     private final int widthPixels;

@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -65,6 +66,17 @@ public class QuizActivity extends AppCompatActivity {
 
         progressBar=findViewById(R.id.progressBar);
         tvError=findViewById(R.id.tv_error);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void allquestions() {
@@ -128,21 +140,5 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-           /* case R.id.action_my_score: {
-                startActivity(new Intent(mContext, MyScoreActivity.class));
-                return true;
-            }*/
-
-            /*case android.R.id.home: {
-                Utils.hideSoftKeyboard(this);
-                finish();
-                return true;
-            }*/
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

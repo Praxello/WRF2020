@@ -3,7 +3,6 @@ package com.praxello.smartevent.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,10 @@ import com.praxello.smartevent.activity.AboutActivity;
 import com.praxello.smartevent.activity.AgendaDetailsActivity;
 import com.praxello.smartevent.activity.CaseDescriptionActivity;
 import com.praxello.smartevent.activity.SpeakerActivity;
-import com.praxello.smartevent.activity.WebviewActivity;
 import com.praxello.smartevent.model.DashBoardData;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.DashBoardViewHolder>{
 

@@ -32,30 +32,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.CaseReadMoreActivity"
-            android:parentActivityName=".activity.CaseDescriptionActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.quiz.ScoreBoardActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FeedBackActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.PreViewActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.MyIdActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.AboutActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
@@ -64,7 +58,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.UpdateProfileActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
@@ -72,25 +65,23 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SpeakerActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.CommentsActivity"
-            android:parentActivityName=".activity.AgendaDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.AgendaDetailsActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <activity
             android:name=".activity.CaseDescriptionActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.quiz.QuizActivity"
-            android:parentActivityName=".activity.DashBoardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"

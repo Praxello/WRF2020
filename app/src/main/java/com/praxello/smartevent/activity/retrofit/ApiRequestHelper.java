@@ -11,7 +11,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.praxello.smartevent.model.CommentDeleteResponse;
 import com.praxello.smartevent.model.quiz.QuestionData;
 import com.praxello.smartevent.model.quiz.UserData;
 import com.praxello.smartevent.utility.AllKeys;

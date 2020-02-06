@@ -5,7 +5,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -66,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvForgotPassword.setOnClickListener(this);
 
         Log.e(TAG, "onCreate: "+ CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL));
+
         if(!CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL).equals(AllKeys.DNF)){
             Glide.with(LoginActivity.this).load(CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_LOGO_URL)).into(ivLogoImage);
         }
@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 params.put("usrname", etMobileNumber.getText().toString());
                 params.put("uuid", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
                 params.put("passwrd", etPassword.getText().toString());
-                params.put("conferenceid", "1");
+                params.put("conferenceid", CommonMethods.getPrefrence(LoginActivity.this,AllKeys.CONFERENCE_ID));
 
                 Log.e(TAG, "params of user authentication" + params);
                 return params;

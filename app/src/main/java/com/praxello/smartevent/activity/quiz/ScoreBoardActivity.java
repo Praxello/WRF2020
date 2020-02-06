@@ -1,5 +1,6 @@
 package com.praxello.smartevent.activity.quiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -23,10 +25,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.praxello.smartevent.R;
-import com.praxello.smartevent.activity.AllConferenceActivity;
-import com.praxello.smartevent.activity.CaseDescriptionActivity;
-import com.praxello.smartevent.adapter.AllConferenceAdapter;
-import com.praxello.smartevent.model.allconference.AllConferenceResponse;
 import com.praxello.smartevent.model.score.ScoreResponse;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
@@ -84,6 +82,18 @@ public class ScoreBoardActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvScoreBoard.setLayoutManager(layoutManager);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadData() {
