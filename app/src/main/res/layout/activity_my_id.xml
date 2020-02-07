@@ -27,6 +27,7 @@
             android:layout_alignTop="@id/cardview"
             android:layout_marginTop="-40dp" />
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
@@ -41,8 +42,6 @@
         app:cardElevation="@dimen/margin10"
         app:cardPreventCornerOverlap="true">
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,10 +50,12 @@
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:textSize="@dimen/textview20"
+
                 android:textColor="@color/black" />
 
             <TextView
@@ -62,7 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin20" />
+                android:gravity="center"
+
+                android:layout_marginTop="@dimen/margin15" />
 
             <TextView
                 android:id="@+id/tv_mail"
@@ -84,17 +87,14 @@
                 android:drawableLeft="@drawable/ic_phone"
                 android:drawablePadding="@dimen/margin15" />
 
-
         </LinearLayout>
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/margin120"
-            android:src="@drawable/qrcode"
             android:id="@+id/iv_qr_code"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="@dimen/margin60"
-            />
+            android:layout_marginBottom="@dimen/margin60" />
 
         <TextView
             android:id="@+id/tv_confenceID"
@@ -103,7 +103,8 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="@dimen/margin15"
             android:layout_marginTop="@dimen/margin20"
-            android:textColor="@color/red"/>
+            android:gravity="center"
+            android:textColor="@color/red" />
 
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

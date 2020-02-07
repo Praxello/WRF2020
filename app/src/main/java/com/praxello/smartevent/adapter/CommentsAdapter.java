@@ -35,6 +35,7 @@ import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.ConfiUrl;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,28 +86,26 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             String date = commentsDataArrayList.get(position).getCommentDateTime();
             SimpleDateFormat spf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
             Date startDate = null;
-            
+
             try {
                 startDate = spf.parse(date);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            String startDate1="";
+            startDate1=spf.format(startDate);
 
             String endDate1="";
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
             Date endDate = new Date();
-            try {
-                endDate1= String.valueOf(formatter.parse(String.valueOf(endDate)));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
+            endDate1=formatter.format(endDate);
             //String currentDate=getCurrentTime(newDate);
             String currentDate="";
 
-            int diffInDays=calculateDifferenceBetweenDatesDays(date,endDate1);
+            int diffInDays=calculateDifferenceBetweenDatesDays(endDate1,startDate1);
             Log.e(TAG, "onBindViewHolder: diffindays"+diffInDays );
-            if (diffInDays == 0) {
+
+            if (diffInDays == 0/* || diffInDays < 0*/) {
                 spf = new SimpleDateFormat("hh:mm a");
                 currentDate = spf.format(startDate);
             } else if (diffInDays > 0) {
@@ -184,6 +183,43 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     public static int calculateDifferenceBetweenDatesDays(String dateStart, String dateStop) {
+        int diffDays=0;
+        try {
+            String format = "yyyy-mm-dd hh:mm:ss";
+
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+            Date dateObj1 = sdf.parse(dateStart);
+            Date dateObj2 = sdf.parse(dateStop);
+            System.out.println(dateObj1);
+            System.out.println(dateObj2 + "\n");
+
+            DecimalFormat crunchifyFormatter = new DecimalFormat("###,###");
+
+            // getTime() returns the number of milliseconds since January 1, 1970, 00:00:00 GMT represented by this Date object
+            long diff = dateObj2.getTime() - dateObj1.getTime();
+
+            diffDays = (int) (diff / (24 * 60 * 60 * 1000));
+            System.out.println("difference between days: " + diffDays);
+
+            int diffhours = (int) (diff / (60 * 60 * 1000));
+            System.out.println("difference between hours: " + crunchifyFormatter.format(diffhours));
+
+            int diffmin = (int) (diff / (60 * 1000));
+            System.out.println("difference between minutues: " + crunchifyFormatter.format(diffmin));
+
+            int diffsec = (int) (diff / (1000));
+            System.out.println("difference between seconds: " + crunchifyFormatter.format(diffsec));
+
+            System.out.println("difference between milliseconds: " + crunchifyFormatter.format(diff));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return diffDays;
+    }
+
+    /*public static int calculateDifferenceBetweenDatesDays(String dateStart, String dateStop) {
         //   String dateStart = "11/03/14 09:29:58";
         // String dateStop = "11/03/14 09:33:43";
 
@@ -213,7 +249,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
         return 0;
     }
-
+*/
     /*private String  getCurrentTime(Date startDate) {
         String newDate="";
             //getting current date and time..

@@ -1,14 +1,20 @@
 package com.praxello.smartevent.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -16,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -23,6 +30,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.praxello.smartevent.R;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
@@ -53,9 +61,9 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.iv_qr_code)
     ImageView ivQrCode;
     public static String TAG = "MyIdActivity";
-    Thread thread;
-    public final static int QRcodeWidth = 500;
     Bitmap bitmap;
+    private final int CALL_REQUEST = 100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,28 +79,30 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
 
 
         byte[] data = new byte[0];
-        data = CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID).getBytes(StandardCharsets.UTF_8);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            data = CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID).getBytes(StandardCharsets.UTF_8);
+        }
         String base64 = Base64.encodeToString(data, Base64.DEFAULT);
 
         String genearteQrString = base64 + ":" + base64 + CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID) + ":" + CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.CONFERENCE_ID);
 
         Log.e(TAG, "onCreate: " + genearteQrString);
-/*
-        Executors.newCachedThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    bitmap = TextToImageEncode(genearteQrString);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+
+        //Generating qr code based on string which is input...
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(genearteQrString, BarcodeFormat.QR_CODE,200,200);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            ivQrCode.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
 
         Log.e(TAG, "onCreate: "+bitmap );
         if(bitmap!=null){
             ivQrCode.setImageBitmap(bitmap);
-        }*/
+        }
 
     }
 
@@ -159,9 +169,26 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_phone:
-                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:" + CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.MOBILE)));//change the number
-                startActivity(callIntent);
+                AlertDialog.Builder builder=new AlertDialog.Builder(MyIdActivity.this);
+                builder.setMessage("Do you want to place call?");
+                builder.setCancelable(false);
+
+                builder.setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callPhoneNumber();
+                    }
+                });
+
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+
                 break;
 
             case R.id.tv_mail:
@@ -177,39 +204,48 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    Bitmap TextToImageEncode(String Value) throws WriterException {
-        BitMatrix bitMatrix;
-        try {
-            bitMatrix = new MultiFormatWriter().encode(
-                    Value,
-                    BarcodeFormat.QR_CODE,
-                    QRcodeWidth, QRcodeWidth, null
-            );
+    /**
+     * This method is responsible make a call and also
+     * checking run time permissions for CALL_PHONE
+     * */
+    public void callPhoneNumber()
+    {
+        try
+        {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
 
-        } catch (IllegalArgumentException Illegalargumentexception) {
+                    ActivityCompat.requestPermissions(MyIdActivity.this, new String[]{Manifest.permission.CALL_PHONE}, CALL_REQUEST);
 
-            return null;
-        }
-        int bitMatrixWidth = bitMatrix.getWidth();
-
-        int bitMatrixHeight = bitMatrix.getHeight();
-
-        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
-
-        for (int y = 0; y < bitMatrixHeight; y++) {
-            int offset = y * bitMatrixWidth;
-
-            for (int x = 0; x < bitMatrixWidth; x++) {
-
-                pixels[offset + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.black) : getResources().getColor(R.color.white);
+                    return;
+                }
             }
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.MOBILE)));
+            startActivity(callIntent);
         }
-        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
-
-        bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
-
-        return bitmap;
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults)
+    {
+        if(requestCode == CALL_REQUEST)
+        {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                callPhoneNumber();
+            }
+            else
+            {
+                Toast.makeText(MyIdActivity.this, "Permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
