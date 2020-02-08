@@ -24,5 +24,7 @@
     <dimen name="margin120">120dp</dimen>
     <dimen name="textsize25">25sp</dimen>
     <dimen name="textsize30">30sp</dimen>
+    <dimen name="textsize12">12sp</dimen>
+    <dimen name="textsize14">14sp</dimen>
 
 </resources>

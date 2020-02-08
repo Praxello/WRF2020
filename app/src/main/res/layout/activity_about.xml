@@ -22,7 +22,9 @@
             <ImageView
                 android:id="@+id/iv_first_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/margin170"
+                android:scaleType="fitXY"
+                android:layout_marginTop="@dimen/margin5"
                 android:layout_marginLeft="@dimen/margin30"
                 android:layout_marginRight="@dimen/margin30" />
 

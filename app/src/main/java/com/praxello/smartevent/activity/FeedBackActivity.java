@@ -59,7 +59,6 @@ public class FeedBackActivity extends AppCompatActivity implements View.OnClickL
         ButterKnife.bind(FeedBackActivity.this);
         //basic intialisation....
         initViews();
-
     }
 
     private void initViews(){
@@ -80,7 +79,10 @@ public class FeedBackActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btn_submit_feedback:
-                submitFeedback();
+                if(isValidated()){
+                    submitFeedback();
+                }
+
                 break;
         }
     }
@@ -140,5 +142,16 @@ public class FeedBackActivity extends AppCompatActivity implements View.OnClickL
         };
         RequestQueue mQueue= Volley.newRequestQueue(FeedBackActivity.this);
         mQueue.add(stringRequest);
+    }
+
+    private  boolean isValidated(){
+        if(etFeedback.getText().toString().isEmpty()){
+            etFeedback.setError("Feedback required!");
+            etFeedback.requestFocus();
+            etFeedback.setFocusable(true);
+            return false;
+        }
+
+        return  true;
     }
 }

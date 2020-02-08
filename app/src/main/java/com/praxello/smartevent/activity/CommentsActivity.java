@@ -81,7 +81,6 @@ public class CommentsActivity extends AppCompatActivity {
         data=intent.getParcelableExtra("data");
         //speakersName=intent.getParcelableExtra("speaker_data");
 
-
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         //layoutManager.setReverseLayout(false);

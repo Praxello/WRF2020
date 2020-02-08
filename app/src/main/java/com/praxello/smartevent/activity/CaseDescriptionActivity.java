@@ -119,6 +119,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
 
                 AllCases allCasesResponse=gson.fromJson(response,AllCases.class);
 
+                Log.e(TAG, "onResponse: "+response );
                 if(allCasesResponse.Responsecode.equals("200")){
                     progress.dismiss();
                     caseDescriptionAdapter=new CaseDescriptionAdapter(CaseDescriptionActivity.this,allCasesResponse.Data);
@@ -145,6 +146,7 @@ public class CaseDescriptionActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
                 params.put("userid",CommonMethods.getPrefrence(CaseDescriptionActivity.this, AllKeys.USER_ID));
+                Log.e(TAG, "getParams: "+params );
                 return params;
             }
         };

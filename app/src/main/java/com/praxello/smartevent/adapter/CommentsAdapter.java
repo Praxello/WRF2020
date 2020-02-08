@@ -57,10 +57,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     AgendaData agendaData;
 
 
-    /* public CommentsAdapter(Context context, ArrayList<AgendaCommentsData> commentsDataArrayList) {
-         this.context = context;
-         this.commentsDataArrayList = commentsDataArrayList;
-     }*/
     public static final String TAG = "CommentsAdapter";
 
     public CommentsAdapter(Context context, ArrayList<LatestCommentData> commentsDataArrayList, AgendaData agendaData) {
@@ -84,7 +80,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public void onBindViewHolder(@NonNull CommentsViewHolder holder, int position) {
         if (commentsDataArrayList.get(position) != null) {
             String date = commentsDataArrayList.get(position).getCommentDateTime();
-            SimpleDateFormat spf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date startDate = null;
 
             try {
@@ -96,16 +92,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             startDate1=spf.format(startDate);
 
             String endDate1="";
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date endDate = new Date();
             endDate1=formatter.format(endDate);
             //String currentDate=getCurrentTime(newDate);
             String currentDate="";
 
-            int diffInDays=calculateDifferenceBetweenDatesDays(endDate1,startDate1);
+            int diffInDays=calculateDifferenceBetweenDatesDays(startDate1,endDate1);
             Log.e(TAG, "onBindViewHolder: diffindays"+diffInDays );
 
-            if (diffInDays == 0/* || diffInDays < 0*/) {
+            if (diffInDays == 0 || diffInDays < 0) {
                 spf = new SimpleDateFormat("hh:mm a");
                 currentDate = spf.format(startDate);
             } else if (diffInDays > 0) {
@@ -183,43 +179,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     public static int calculateDifferenceBetweenDatesDays(String dateStart, String dateStop) {
-        int diffDays=0;
-        try {
-            String format = "yyyy-mm-dd hh:mm:ss";
-
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
-
-            Date dateObj1 = sdf.parse(dateStart);
-            Date dateObj2 = sdf.parse(dateStop);
-            System.out.println(dateObj1);
-            System.out.println(dateObj2 + "\n");
-
-            DecimalFormat crunchifyFormatter = new DecimalFormat("###,###");
-
-            // getTime() returns the number of milliseconds since January 1, 1970, 00:00:00 GMT represented by this Date object
-            long diff = dateObj2.getTime() - dateObj1.getTime();
-
-            diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-            System.out.println("difference between days: " + diffDays);
-
-            int diffhours = (int) (diff / (60 * 60 * 1000));
-            System.out.println("difference between hours: " + crunchifyFormatter.format(diffhours));
-
-            int diffmin = (int) (diff / (60 * 1000));
-            System.out.println("difference between minutues: " + crunchifyFormatter.format(diffmin));
-
-            int diffsec = (int) (diff / (1000));
-            System.out.println("difference between seconds: " + crunchifyFormatter.format(diffsec));
-
-            System.out.println("difference between milliseconds: " + crunchifyFormatter.format(diff));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return diffDays;
-    }
-
-    /*public static int calculateDifferenceBetweenDatesDays(String dateStart, String dateStop) {
         //   String dateStart = "11/03/14 09:29:58";
         // String dateStop = "11/03/14 09:33:43";
 
@@ -249,28 +208,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
         return 0;
     }
-*/
-    /*private String  getCurrentTime(Date startDate) {
-        String newDate="";
-            //getting current date and time..
 
-
-            long diff = date.getTime() - startDate.getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000);
-            int diffInDays = (int) ((date.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-
-
-            if (diffInDays == 0) {
-                formatter = new SimpleDateFormat("hh:mm a");
-                newDate = formatter.format(startDate);
-            } else if (diffInDays > 0) {
-                formatter = new SimpleDateFormat("EEE hh:mm a");
-                newDate = formatter.format(startDate);
-            }
-        return newDate;
-    }*/
 
     private void deleteComment(String sessionId, String commentId, Integer position) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ConfiUrl.DELETE_COMMENT_URL, new Response.Listener<String>() {

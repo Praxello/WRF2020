@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -21,7 +20,6 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,10 +34,8 @@ import com.praxello.smartevent.model.allcases.AllCasesData;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -67,11 +63,15 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
             allCasesData=getIntent().getParcelableExtra("data");
         }
 
+        Log.e(TAG, "onCreate: all case data submission"+allCasesData.getSubmission() );
+
         //basic intialisation...
         initViews();
+
     }
 
     public void initViews(){
+        //Toolbar intialisation....
         Toolbar toolbar=findViewById(R.id.toolbar_readmore);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,7 +86,6 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
         tvTitle.setText(allCasesData.getCaseTitle());
         tvSummary.setText(allCasesData.getCaseDetails());
 
-
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -94,6 +93,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
         if(allCasesData.getPdflink()!=null){
             if(allCasesData.getPdflink().contains("pdf")){
                 webView.loadUrl("https://docs.google.com/viewer?url="+allCasesData.getPdflink());
+                //webView.loadUrl(allCasesData.getPdflink());
             }else{
                 webView.loadUrl(allCasesData.getPdflink());
             }
@@ -120,7 +120,6 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
                 //webview.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     @Override
@@ -193,9 +192,10 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
 
                 NotificationData notificationData = gson.fromJson(response, NotificationData.class);
 
-               // Log.e(TAG, "onResponse: "+response );
+                Log.e(TAG, "onResponse: "+response );
                 if (notificationData.getResponsecode().equals("200")) {
                     progress.dismiss();
+                    allCasesData.setSubmission(suggesstion);
                     Toast.makeText(CaseReadMoreActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 } else {
@@ -207,7 +207,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                //Log.e(TAG, "onErrorResponse: " + error);
+                Log.e(TAG, "onErrorResponse: " + error);
             }
         }) {
             @Override
@@ -216,7 +216,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
                 params.put("userid", CommonMethods.getPrefrence(CaseReadMoreActivity.this, AllKeys.USER_ID));
                 params.put("caseid", caseId);
                 params.put("details", suggesstion);
-               // Log.e(TAG, "getParams: " + params);
+                Log.e(TAG, "getParams: " + params);
                 return params;
             }
         };

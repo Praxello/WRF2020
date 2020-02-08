@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin5"
-                        android:text="@string/comments" />
+                        android:text="@string/discussion"/>
 
                 </LinearLayout>
 

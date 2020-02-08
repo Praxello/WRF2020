@@ -25,7 +25,8 @@
             android:layout_marginTop="40dp"
            android:layout_marginLeft="-10dp"
             android:layout_toRightOf="@id/ivProfile"
-            android:src="@drawable/ic_plus" />
+            android:src="@drawable/ic_plus"
+            android:id="@+id/iv_plus"/>
 
         <LinearLayout
             android:layout_width="match_parent"

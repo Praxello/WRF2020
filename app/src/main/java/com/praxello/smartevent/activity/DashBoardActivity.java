@@ -156,6 +156,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         //CircleImageView cvImage=navigationView.getHeaderView(0).findViewById(R.id.ivProfile);
         TextView tvName=navigationView.getHeaderView(0).findViewById(R.id.tvName);
         ivProfilePic=navigationView.getHeaderView(0).findViewById(R.id.ivProfile);
+        ImageView ivPlus=navigationView.getHeaderView(0).findViewById(R.id.iv_plus);
 
         if(!CommonMethods.getPrefrence(DashBoardActivity.this,AllKeys.FIRST_NAME).equals(AllKeys.DNF)){
             tvName.setText(CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.FIRST_NAME)+" "+CommonMethods.getPrefrence(DashBoardActivity.this, AllKeys.LAST_NAME));
@@ -178,6 +179,14 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         cvQuiz.setOnClickListener(this);
 
         ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set_image();
+                showPictureDialog();
+            }
+        });
+
+        ivPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //set_image();
@@ -399,7 +408,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         return RequestBody.create(
                 MultipartBody.FORM, descriptionString);
     }
-
 
     public void loadAllAttendee(){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, ConfiUrl.ALL_ATTENDEE_URL, new Response.Listener<String>() {
@@ -674,7 +682,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -749,6 +756,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void run() {
+
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
         holder.tvTitle.setText(allCasesDataArrayList.get(position).getCaseTitle());
         holder.tvSummary.setText(allCasesDataArrayList.get(position).getCaseDetails());
 
+        Log.e(TAG, "onBindViewHolder: "+allCasesDataArrayList.get(position).getSubmission());
+
         holder.btnReadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +58,6 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
                 activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
             }
         });
-
     }
 
     @Override

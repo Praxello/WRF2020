@@ -8,8 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin10"
-
+        android:layout_margin="@dimen/margin5"
         android:background="#9e9e9e"
         app:cardCornerRadius="@dimen/margin5">
 
@@ -30,7 +29,7 @@
                 android:paddingLeft="@dimen/margin10"
                 android:paddingRight="@dimen/margin10"
                 android:textColor="@color/red"
-                android:textSize="@dimen/textsize15"
+                android:textSize="@dimen/textsize14"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,13 +37,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginLeft="@dimen/margin5"
+                android:layout_marginLeft="@dimen/margin1"
                 android:layout_marginTop="@dimen/margin5"
                 android:drawablePadding="@dimen/margin5"
-                android:paddingLeft="@dimen/margin10"
-                android:paddingRight="@dimen/margin10"
+                android:paddingLeft="@dimen/margin1"
+                android:paddingRight="@dimen/margin1"
                 android:text="Ortheropedict"
-                android:textSize="@dimen/textsize15"
+                android:textSize="@dimen/textsize12"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

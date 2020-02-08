@@ -62,7 +62,7 @@ public class AllConferenceActivity extends AppCompatActivity {
         //basic intialisation....
         initViews();
 
-        requestPermissions();
+            requestPermissions();
 
         //load Conference data
         if (CommonMethods.isNetworkAvailable(AllConferenceActivity.this)) {
