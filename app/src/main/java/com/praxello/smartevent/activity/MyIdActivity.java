@@ -86,7 +86,7 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
 
         String genearteQrString = base64 + ":" + base64 + CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.USER_ID) + ":" + CommonMethods.getPrefrence(MyIdActivity.this, AllKeys.CONFERENCE_ID);
 
-        Log.e(TAG, "onCreate: " + genearteQrString);
+       // Log.e(TAG, "onCreate: " + genearteQrString);
 
         //Generating qr code based on string which is input...
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -99,7 +99,7 @@ public class MyIdActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        Log.e(TAG, "onCreate: "+bitmap );
+       // Log.e(TAG, "onCreate: "+bitmap );
         if(bitmap!=null){
             ivQrCode.setImageBitmap(bitmap);
         }

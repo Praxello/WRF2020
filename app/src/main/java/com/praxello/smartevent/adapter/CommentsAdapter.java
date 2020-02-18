@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,8 +32,6 @@ import com.praxello.smartevent.model.comments.LatestCommentData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.ConfiUrl;
-
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,10 +40,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.internal.Constants;
+
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder> {
 
@@ -99,7 +95,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             String currentDate="";
 
             int diffInDays=calculateDifferenceBetweenDatesDays(startDate1,endDate1);
-            Log.e(TAG, "onBindViewHolder: diffindays"+diffInDays );
+           // Log.e(TAG, "onBindViewHolder: diffindays"+diffInDays );
 
             if (diffInDays == 0 || diffInDays < 0) {
                 spf = new SimpleDateFormat("hh:mm a");
@@ -190,8 +186,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         try {
             d1 = format.parse(dateStart);
             d2 = format.parse(dateStop);
-            Log.e(TAG, "calculateDifferenceBetweenDatesDays: dateStart" +d1.toString() );
-            Log.e(TAG, "calculateDifferenceBetweenDatesDays: dateStop" +d2.toString() );
+            //Log.e(TAG, "calculateDifferenceBetweenDatesDays: dateStart" +d1.toString() );
+            //Log.e(TAG, "calculateDifferenceBetweenDatesDays: dateStop" +d2.toString() );
             // Get msec from each, and subtract.
             long diff = d2.getTime() - d1.getTime();
             long diffSeconds = diff / 1000 % 60;

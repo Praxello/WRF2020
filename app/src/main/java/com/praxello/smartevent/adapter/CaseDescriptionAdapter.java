@@ -46,7 +46,7 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
         holder.tvTitle.setText(allCasesDataArrayList.get(position).getCaseTitle());
         holder.tvSummary.setText(allCasesDataArrayList.get(position).getCaseDetails());
 
-        Log.e(TAG, "onBindViewHolder: "+allCasesDataArrayList.get(position).getSubmission());
+       // Log.e(TAG, "onBindViewHolder: "+allCasesDataArrayList.get(position).getSubmission());
 
         holder.btnReadMore.setOnClickListener(new View.OnClickListener() {
             @Override

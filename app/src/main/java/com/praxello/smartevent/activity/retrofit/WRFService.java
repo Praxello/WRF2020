@@ -27,6 +27,7 @@ public interface WRFService {
 
     //@POST("sem/user/savequiz.php")
     //Call<UserData> savequiz(@QueryMap Map<String, String> params);
+
     @FormUrlEncoded
     @POST("sem/user/savequiz.php")
     Call<UserData> savequiz(@Field("userid") String userid,@Field("score") String score);

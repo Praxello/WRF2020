@@ -91,7 +91,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     DrawerLayout drawer;
     public final String TAG="DashBoardActivity";
     private static final int MESSAGE_SCROLL = 123;
-    public MarqueeAdvertismentAdapter marqueeAdvertismentAdapter;
     @BindView(R.id.cardview_program)
     public CardView cvProgram;
     @BindView(R.id.cardview_cases)
@@ -144,6 +143,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         //toolbar.setTitle("DashBoard");
         toolbar.setTitleTextColor(Color.WHITE);
 
+        marqueeView.setSelected(true);
+
         //Navigaiton intialisatio...
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -177,6 +178,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         cvBooths.setOnClickListener(this);
         cvAbout.setOnClickListener(this);
         cvQuiz.setOnClickListener(this);
+
+
 
         ivProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override

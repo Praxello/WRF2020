@@ -69,6 +69,7 @@ public class CommentsActivity extends AppCompatActivity {
     @BindView(R.id.nestedScrollView)
     public NestedScrollView nestedScrollView;
     private int totalSizeOfList=0;
+    RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,6 @@ public class CommentsActivity extends AppCompatActivity {
         rvComments.setLayoutManager(layoutManager);
         rvComments.setNestedScrollingEnabled(false);
 
-
         Toolbar toolbar=findViewById(R.id.toolbar_comments);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,7 +105,6 @@ public class CommentsActivity extends AppCompatActivity {
             Glide.with(CommentsActivity.this).load(CommonMethods.getPrefrence(CommentsActivity.this,AllKeys.CONFERENCE_LOGO_URL)).into(ivBackgroundImage);
         }
 
-
         final Handler ha=new Handler();
         ha.postDelayed(new Runnable() {
 
@@ -121,8 +120,6 @@ public class CommentsActivity extends AppCompatActivity {
                 ha.postDelayed(this, 3000);
             }
         }, 3000);
-
-
 
         ivSubmitComment.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -151,7 +148,7 @@ public class CommentsActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Gson gson=new Gson();
 
-               // Log.e(TAG, "onResponse: "+response );
+                Log.e(TAG, "onResponse: "+response );
                 LoadPreviousCommentResponse loadPreviousCommentResponse=gson.fromJson(response,LoadPreviousCommentResponse.class);
 
                 if(loadPreviousCommentResponse.Responsecode.equals("200")){
@@ -206,8 +203,10 @@ public class CommentsActivity extends AppCompatActivity {
                 return params;
             }
         };
-        RequestQueue mQueue= Volley.newRequestQueue(this);
-        mQueue.add(stringRequest);
+       if(mQueue==null){
+           mQueue= Volley.newRequestQueue(this);
+       }
+       mQueue.add(stringRequest);
     }
 
     public void addComment(){
@@ -249,7 +248,7 @@ public class CommentsActivity extends AppCompatActivity {
                 return params;
             }
         };
-        RequestQueue mQueue= Volley.newRequestQueue(this);
+        mQueue= Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
     }
 

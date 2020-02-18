@@ -28,12 +28,12 @@
             android:layout_marginBottom="@dimen/margin30">
 
             <TextView
+              android:text="Smart Event Management"
                 android:id="@+id/tv_app_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:gravity="center"
-                android:text="Smart Event Management"
                 android:textColor="@color/yellow"
                 android:textSize="@dimen/textsize30"
                 android:textStyle="bold" />

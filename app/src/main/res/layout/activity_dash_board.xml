@@ -71,8 +71,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
 
                 <LinearLayout
@@ -382,6 +381,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     app:speed="40dp"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
                     app:text_color="@android:color/black"
                     app:text_shadowColor="@android:color/black"
                     app:text_size="@dimen/textsize15"

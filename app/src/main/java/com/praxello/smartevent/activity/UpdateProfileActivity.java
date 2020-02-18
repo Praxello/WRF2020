@@ -68,7 +68,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     private int mYear, mMonth, mDay;
     public static final String TAG="UpdateProfileActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,77 +262,71 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if(etFirstName.getText().toString().isEmpty()){
-            etFirstName.setText("Firstname required!");
+            //etFirstName.setError("Firstname required!");
+            Toast.makeText(UpdateProfileActivity.this, "Firstname required!", Toast.LENGTH_SHORT).show();
             etFirstName.requestFocus();
             return false;
         }
 
         if(etLastName.getText().toString().isEmpty()){
-            etLastName.setText("Lastname required!");
+            //etLastNameLayout.setError("Lastname required!");
+            Toast.makeText(UpdateProfileActivity.this, "Lastname required!", Toast.LENGTH_SHORT).show();
             etLastName.requestFocus();
             return false;
         }
 
         if(etMobileNumber.getText().toString().isEmpty()){
-            etMobileNumber.setText("Mobile number required!");
+            //etMobileLayout.setError("Mobile number required!");
+            Toast.makeText(UpdateProfileActivity.this, "Mobile number required!", Toast.LENGTH_SHORT).show();
             etMobileNumber.requestFocus();
             return false;
         }
 
         if(etMobileNumber.getText().toString().length()!=10){
-            etMobileNumber.setText("Invalid mobile number!");
+            // etMobileLayout.setError("Invalid mobile number!");
+            Toast.makeText(UpdateProfileActivity.this, "Invalid mobile number!", Toast.LENGTH_SHORT).show();
             etMobileNumber.requestFocus();
             return false;
         }
 
         if(etMobileNumber.getText().toString().startsWith("1") || etMobileNumber.getText().toString().startsWith("2") ||
                 etMobileNumber.getText().toString().startsWith("3") || etMobileNumber.getText().toString().startsWith("4")
-                    || etMobileNumber.getText().toString().startsWith("5")){
+                || etMobileNumber.getText().toString().startsWith("5")){
 
-            etMobileNumber.setText("Invalid mobile number!");
+            // etMobileLayout.setError("Invalid mobile number!");
+            Toast.makeText(UpdateProfileActivity.this, "Invalid mobile number!", Toast.LENGTH_SHORT).show();
             etMobileNumber.requestFocus();
             return false;
         }
 
         if(etEmailAddress.getText().toString().isEmpty()){
-            etEmailAddress.setText("Email required!");
+            //etEmailAddressLayout.setError("Email required!");
+            Toast.makeText(UpdateProfileActivity.this, "Email required!", Toast.LENGTH_SHORT).show();
             etEmailAddress.requestFocus();
             return false;
         }
 
         if(!etEmailAddress.getText().toString().matches(emailPattern)){
-            etEmailAddress.setError("Invalid email!");
+            //etEmailAddressLayout.setError("Invalid email!");
+            Toast.makeText(UpdateProfileActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
             etEmailAddress.setFocusable(true);
             etEmailAddress.requestFocus();
             return false;
         }
 
-        /*if(etCity.getText().toString().isEmpty()){
-            etCity.setText("City required!");
-            etCity.requestFocus();
-            return false;
-        }
-
-        if(etState.getText().toString().isEmpty()){
-            etState.setText("State required!");
-            etState.requestFocus();
-            return false;
-        }
-
-        if(etCountry.getText().toString().isEmpty()){
-            etCountry.setText("Country required!");
-            etCountry.requestFocus();
-            return false;
-        }*/
-
         if(etPincode.getText().toString().isEmpty()){
-            etPincode.setText("Pincode required!");
+            // etPincodeLayout.setError("Pincode required!");
+            Toast.makeText(UpdateProfileActivity.this, "Pincode required!", Toast.LENGTH_SHORT).show();
             etPincode.requestFocus();
             return false;
         }
 
-
-
+        if(etPincode.getText().toString().length()!=6){
+            //etPincodeLayout.setError("Invalid mobile number!");
+            Toast.makeText(UpdateProfileActivity.this, "Invalid mobile number!", Toast.LENGTH_SHORT).show();
+            etPincode.requestFocus();
+            return false;
+        }
         return true;
     }
 }

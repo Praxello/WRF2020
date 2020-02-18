@@ -80,7 +80,7 @@ dependencies {
     //Rating dependency
     implementation 'com.github.ome450901:SimpleRatingBar:1.4.3'
 
-    //Material dependency
+    //Material dialogue dependency
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
     //Qr code library.
