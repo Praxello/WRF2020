@@ -26,6 +26,9 @@ public class AttendeeResponse {
     }
 
     public ArrayList<AttendeeData> getData() {
+        if(this.Data==null){
+            Data=new ArrayList<>();
+        }
         return Data;
     }
 

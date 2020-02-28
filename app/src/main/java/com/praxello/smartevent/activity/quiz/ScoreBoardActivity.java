@@ -108,8 +108,14 @@ public class ScoreBoardActivity extends AppCompatActivity {
 
                 if (scoreResponse.getResponsecode().equals("200")) {
                     progress.dismiss();
-                    ScoreListAdapter scoreListAdapter = new ScoreListAdapter(ScoreBoardActivity.this, scoreResponse.getScores());
-                    rvScoreBoard.setAdapter(scoreListAdapter);
+                    if(scoreResponse.Scores!=null){
+                        ScoreListAdapter scoreListAdapter = new ScoreListAdapter(ScoreBoardActivity.this, scoreResponse.getScores());
+                        rvScoreBoard.setAdapter(scoreListAdapter);
+                    }else{
+                        llNoData.setVisibility(View.VISIBLE);
+                        rvScoreBoard.setVisibility(View.GONE);
+                    }
+
                 } else {
                     llNoData.setVisibility(View.VISIBLE);
                     rvScoreBoard.setVisibility(View.GONE);

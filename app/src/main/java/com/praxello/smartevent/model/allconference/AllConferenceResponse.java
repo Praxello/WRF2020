@@ -24,6 +24,9 @@ public class AllConferenceResponse {
     }
 
     public ArrayList<AllConferenceData> getData() {
+        if(this.Data==null){
+            Data=new ArrayList<>();
+        }
         return Data;
     }
 

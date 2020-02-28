@@ -25,6 +25,9 @@ public class ScoreResponse {
     }
 
     public ArrayList<ScoresData> getScores() {
+        if(this.Scores==null){
+            Scores=new ArrayList<>();
+        }
         return Scores;
     }
 

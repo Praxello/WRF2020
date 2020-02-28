@@ -110,8 +110,14 @@ public class SpeakerActivity extends AppCompatActivity {
 
                 if(speakerResponse.Responsecode.equals("200")){
                     progress.dismiss();
-                    SpeakerDetailsAdapter speakerDetailsAdapter =new SpeakerDetailsAdapter(SpeakerActivity.this,speakerResponse.Data);
-                    rvSpeaker.setAdapter(speakerDetailsAdapter);
+                    if(speakerResponse.getData()!=null){
+                        SpeakerDetailsAdapter speakerDetailsAdapter =new SpeakerDetailsAdapter(SpeakerActivity.this,speakerResponse.Data);
+                        rvSpeaker.setAdapter(speakerDetailsAdapter);
+                    }else{
+                        llNoData.setVisibility(View.VISIBLE);
+                        rvSpeaker.setVisibility(View.GONE);
+                    }
+
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
                     rvSpeaker.setVisibility(View.GONE);

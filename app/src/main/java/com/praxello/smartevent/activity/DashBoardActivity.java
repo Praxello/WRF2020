@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -179,8 +178,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         cvAbout.setOnClickListener(this);
         cvQuiz.setOnClickListener(this);
 
-
-
         ivProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,7 +201,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         switch (item.getItemId()){
 
-            case R.id.nav_home:break;
+            case R.id.nav_home:
+                break;
 
             case R.id.nav_myid:
                 Intent intent=new Intent(DashBoardActivity.this,MyIdActivity.class);
@@ -647,7 +645,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(DashBoardActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
                 }
             });
-
     }
 
     @SuppressLint("ClickableViewAccessibility")

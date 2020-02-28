@@ -61,4 +61,6 @@
     <string name="score_board">Score Board</string>
     <string name="read_more">Read more...</string>
     <string name="discussion">Discussion</string>
+    <string name="sorry_n_no_events_found">Sorry...\n No Events Found!</string>
+    <string name="sorry_n_no_speakers_found">Sorry.... \n No Speakers found.</string>
 </resources>

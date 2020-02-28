@@ -16,6 +16,9 @@ public class SpeakerResponse {
     }
 
     public String getResponsecode() {
+        if(this.Data==null){
+            Data=new ArrayList<>();
+        }
         return Responsecode;
     }
 

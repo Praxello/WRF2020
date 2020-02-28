@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.praxello.smartevent.model.allcases.AllCasesData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.R;
@@ -31,6 +32,7 @@ import com.praxello.smartevent.adapter.CaseDescriptionAdapter;
 import com.praxello.smartevent.model.allcases.AllCases;
 import com.praxello.smartevent.utility.ConfiUrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,12 +42,13 @@ import butterknife.ButterKnife;
 public class CaseDescriptionActivity extends AppCompatActivity {
 
     @BindView (R.id.rv_load_case_description) RecyclerView rvCaseDescription;
-    public CaseDescriptionAdapter caseDescriptionAdapter;
+    public static CaseDescriptionAdapter caseDescriptionAdapter;
     public static String TAG="CaseDescriptionActivity";
     @BindView(R.id.ll_nodata) public LinearLayout llNoData;
     @BindView(R.id.ll_nointernet) public LinearLayout llNoInternet;
     @BindView(R.id.ll_noserver) public LinearLayout llNoServerFound;
     Toolbar toolbar;
+    public static ArrayList<AllCasesData> allCasesDataArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,6 @@ public class CaseDescriptionActivity extends AppCompatActivity {
         //Load data...
         if(CommonMethods.isNetworkAvailable(CaseDescriptionActivity.this)){
             loadData();
-
         }else{
             Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
@@ -122,9 +124,15 @@ public class CaseDescriptionActivity extends AppCompatActivity {
                 //Log.e(TAG, "onResponse: "+response );
                 if(allCasesResponse.Responsecode.equals("200")){
                     progress.dismiss();
-                    caseDescriptionAdapter=new CaseDescriptionAdapter(CaseDescriptionActivity.this,allCasesResponse.Data);
-                    rvCaseDescription.setAdapter(caseDescriptionAdapter);
-
+                    if(allCasesResponse.Data!=null){
+                        CaseDescriptionActivity.allCasesDataArrayList=allCasesResponse.Data;
+                        caseDescriptionAdapter=new CaseDescriptionAdapter(CaseDescriptionActivity.this,CaseDescriptionActivity.allCasesDataArrayList);
+                        rvCaseDescription.setAdapter(caseDescriptionAdapter);
+                    }else{
+                        llNoData.setVisibility(View.VISIBLE);
+                        rvCaseDescription.setVisibility(View.GONE);
+                        progress.dismiss();
+                    }
                 }else{
                     llNoData.setVisibility(View.VISIBLE);
                     rvCaseDescription.setVisibility(View.GONE);

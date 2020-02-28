@@ -16,6 +16,9 @@ public class AllCases {
     }
 
     public ArrayList<AllCasesData> getData() {
+        if(this.Data==null){
+            Data=new ArrayList<>();
+        }
         return Data;
     }
 

@@ -19,6 +19,10 @@ public class CommentsResponse {
     }
 
     public ArrayList<LatestCommentData> getCommentsData() {
+        if(this.CommentsData==null){
+            CommentsData=new ArrayList<>();
+        }
+
         return CommentsData;
     }
 

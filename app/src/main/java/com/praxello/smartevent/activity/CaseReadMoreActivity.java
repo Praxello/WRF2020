@@ -52,6 +52,7 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
     public AllCasesData allCasesData;
     AlertDialog alertDialog;
     public static final String TAG="CaseReadMoreActivity";
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,12 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
 
         if(getIntent().getParcelableExtra("data")!=null){
             allCasesData=getIntent().getParcelableExtra("data");
+            position=getIntent().getIntExtra("position",0);
         }
 
         //Log.e(TAG, "onCreate: all case data submission"+allCasesData.getSubmission() );
-
         //basic intialisation...
         initViews();
-
     }
 
     public void initViews(){
@@ -149,7 +149,6 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
                 //builder.setCancelable(false);
                 ViewGroup viewGroup = findViewById(android.R.id.content);
                 View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_row, viewGroup, false);
-
                 EditText etSuggesstion=dialogView.findViewById(R.id.et_suggestion);
                 AppCompatButton btnSubmitSuggesstion=dialogView.findViewById(R.id.btn_submit);
 
@@ -196,6 +195,8 @@ public class CaseReadMoreActivity extends AppCompatActivity implements View.OnCl
                 if (notificationData.getResponsecode().equals("200")) {
                     progress.dismiss();
                     allCasesData.setSubmission(suggesstion);
+                    CaseDescriptionActivity.allCasesDataArrayList.get(position).setSubmission(suggesstion);
+                    CaseDescriptionActivity.caseDescriptionAdapter.notifyDataSetChanged();
                     Toast.makeText(CaseReadMoreActivity.this, notificationData.getMessage(), Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 } else {

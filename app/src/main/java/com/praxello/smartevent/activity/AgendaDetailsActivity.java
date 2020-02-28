@@ -36,9 +36,14 @@ import com.praxello.smartevent.widget.numberpicker.NumberPicker;
 
 import org.joda.time.DateTime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,47 +73,39 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
         ButterKnife.bind(this);
 
         npPicker= findViewById(R.id.np_picker);
+        volumes=new String[]{"",""};
+      /*  npPicker.setMaxValue(0);
+        npPicker.setMaxValue(100);*/
+        npPicker.setDisplayedValues(volumes);
+
+
+        //npPicker.setValue(0);
         //basic intialisa1tion...
         initViews();
 
         //Load data...
         if(CommonMethods.isNetworkAvailable(AgendaDetailsActivity.this)){
-            if(agendaDataArrayList!=null){
-                agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,0);
-                rvAgendaDetails.setAdapter(agendaDetailsAdapter);
-            }else{
-                loadData();
-            }
+            loadData();
         }else{
             Toast.makeText(this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
             llNoInternet.setVisibility(View.VISIBLE);
             rvAgendaDetails.setVisibility(View.GONE);
         }
 
-        try{
-            volumes = new String[]{"Sat 28 Mar 20", "Sun 29 Mar 20"};
-            npPicker.setDisplayedValues(volumes);
-            npPicker.setMinValue(0);
-            npPicker.setMaxValue(1);
-            npPicker.setValue(0);
-
-        }catch(NumberFormatException e){
-            e.printStackTrace();
-        }
-
         npPicker.setOnValueChangedListener((picker1, oldVal, newVal) -> {
             //Toast.makeText(this,String.valueOf(picker1), Toast.LENGTH_SHORT).show();
-           // Log.e(TAG, "onCreate: date picker "+picker1.toString() );
-           // Log.e(TAG, "onCreate: old value"+oldVal);
-           // Log.e(TAG, "onCreate: new value "+newVal );
-            
-            int value=npPicker.getValue();
+            // Log.e(TAG, "onCreate: date picker "+picker1.toString() );
+            // Log.e(TAG, "onCreate: old value"+oldVal);
+            // Log.e(TAG, "onCreate: new value "+newVal );
+
+            String dateValue=npPicker.getDisplayedValues()[npPicker.getValue()];
             if(agendaDataArrayList!=null){
-                agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,value);
+                agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,dateValue);
                 rvAgendaDetails.setAdapter(agendaDetailsAdapter);
             }
             // Toast.makeText(this,String.valueOf(value), Toast.LENGTH_SHORT).show();
         });
+
     }
 
 
@@ -128,6 +125,7 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
 
         //Recyclerview declaration...
         rvAgendaDetails.setLayoutManager(new LinearLayoutManager(AgendaDetailsActivity.this));
+
 
     }
 
@@ -159,18 +157,46 @@ public class AgendaDetailsActivity extends AppCompatActivity implements DatePick
             @Override
             public void onResponse(String response) {
                 Gson gson=new Gson();
-
-               // Log.e(TAG,"response"+response);
+                 // Log.e(TAG,"response"+response);
                 AgendaDetailsRespose agendaDetailsRespose=gson.fromJson(response,AgendaDetailsRespose.class);
 
                 if(agendaDetailsRespose.Responsecode.equals("200")){
                     progress.dismiss();
                     if (agendaDetailsRespose.getData() != null || agendaDetailsRespose.getData().size() != 0) {
-                        Paper.book().write("agenda", agendaDetailsRespose.getData());
-                        agendaDataArrayList = Paper.book().read("agenda");
+                         agendaDataArrayList=agendaDetailsRespose.getData();
                         if(agendaDataArrayList!=null){
-                            agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,0);
+                            Set<String> tempTitles = new LinkedHashSet();
+                            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat sdf2 = new SimpleDateFormat("EEE dd MMM yy");
+
+                            for(AgendaData agenda : agendaDataArrayList)
+                            {
+                                try {
+                                    Date tempDate = sdf1.parse(agenda.sessionDate);
+                                    tempTitles.add(sdf2.format(tempDate));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            String[] a =null;
+                            try{
+                                 a = new String[tempTitles.size()];
+                                int i =0;
+                                for(Object temp1 : tempTitles)
+                                {
+                                    a[i++] = temp1.toString();
+                                }
+                               // volumes = new String[]{"Sat 28 Mar 20", "Sun 29 Mar 20"};
+                                npPicker.setDisplayedValues(a);
+                                npPicker.setValue(0);
+                            }catch(NumberFormatException e){
+                                e.printStackTrace();
+                            }
+
+                            agendaDetailsAdapter=new AgendaDetailsAdapter(AgendaDetailsActivity.this,agendaDataArrayList,a[0]);
                             rvAgendaDetails.setAdapter(agendaDetailsAdapter);
+
+
                         }
                     }
                 }else{

@@ -112,9 +112,7 @@ public class CommentsActivity extends AppCompatActivity {
             public void run() {
                 //call function
                 if(CommonMethods.isNetworkAvailable(CommentsActivity.this)){
-
                         loadComments();
-
                 }
 
                 ha.postDelayed(this, 3000);
@@ -158,7 +156,6 @@ public class CommentsActivity extends AppCompatActivity {
                         //commentsAdapter.notifyDataSetChanged();
                         rvComments.setAdapter(commentsAdapter);
 
-
                         if(!isFirstLaunched || totalSizeOfList != loadPreviousCommentResponse.getData().size())
                         {
                             totalSizeOfList=loadPreviousCommentResponse.getData().size();
@@ -171,7 +168,6 @@ public class CommentsActivity extends AppCompatActivity {
                                     //rvComments.scrollToPosition(commentsAdapter.getItemCount()-1);
                                 }
                             });
-
                         }
                     }else{
                         //llNoData.setVisibility(View.VISIBLE);

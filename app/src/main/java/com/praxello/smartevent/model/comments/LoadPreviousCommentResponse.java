@@ -19,6 +19,10 @@ public class LoadPreviousCommentResponse {
     }
 
     public ArrayList<LatestCommentData> getData() {
+        if(this.Data==null){
+            Data=new ArrayList<>();
+        }
+
         return Data;
     }
 

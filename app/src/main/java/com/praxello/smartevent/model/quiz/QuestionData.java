@@ -3,6 +3,7 @@ package com.praxello.smartevent.model.quiz;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionData {
@@ -26,6 +27,10 @@ public class QuestionData {
     }
 
     public List<Question> getQuestions() {
+        if(this.questions==null){
+            questions=new ArrayList<>();
+        }
+
         return questions;
     }
 

@@ -25,6 +25,9 @@ public class AdvertismentResponse {
     }
 
     public String getResponsecode() {
+        if(this.Data==null){
+            Data=new ArrayList<>();
+        }
         return Responsecode;
     }
 

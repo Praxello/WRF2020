@@ -2,9 +2,7 @@ package com.praxello.smartevent.activity.retrofit;
 
 import com.praxello.smartevent.model.quiz.QuestionData;
 import com.praxello.smartevent.model.quiz.UserData;
-
 import java.util.Map;
-
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;

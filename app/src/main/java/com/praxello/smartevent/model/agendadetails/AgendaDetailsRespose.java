@@ -17,6 +17,9 @@ public class AgendaDetailsRespose {
     }
 
     public ArrayList<AgendaData> getData() {
+        /*if(this.Data==null){
+            Data=new ArrayList<>();
+        }*/
         return Data;
     }
 

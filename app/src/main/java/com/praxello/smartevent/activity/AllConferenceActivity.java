@@ -1,17 +1,13 @@
 package com.praxello.smartevent.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -37,7 +33,6 @@ import com.praxello.smartevent.utility.AllKeys;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -62,7 +57,7 @@ public class AllConferenceActivity extends AppCompatActivity {
         //basic intialisation....
         initViews();
 
-            requestPermissions();
+        requestPermissions();
 
         //load Conference data
         if (CommonMethods.isNetworkAvailable(AllConferenceActivity.this)) {
@@ -109,8 +104,15 @@ public class AllConferenceActivity extends AppCompatActivity {
 
                 if (allConferenceResponse.getResponsecode().equals("200")) {
                     progress.dismiss();
-                    AllConferenceAdapter allConferenceAdapter = new AllConferenceAdapter(AllConferenceActivity.this, allConferenceResponse.getData());
-                    rvAllConference.setAdapter(allConferenceAdapter);
+                    if(allConferenceResponse.getData()!=null){
+                        AllConferenceAdapter allConferenceAdapter = new AllConferenceAdapter(AllConferenceActivity.this, allConferenceResponse.getData());
+                        rvAllConference.setAdapter(allConferenceAdapter);
+                    }else{
+                        llNoData.setVisibility(View.VISIBLE);
+                        rvAllConference.setVisibility(View.GONE);
+                        progress.dismiss();
+                    }
+
                 } else {
                     llNoData.setVisibility(View.VISIBLE);
                     rvAllConference.setVisibility(View.GONE);

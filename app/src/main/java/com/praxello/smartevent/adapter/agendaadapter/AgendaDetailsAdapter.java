@@ -33,7 +33,12 @@ import com.praxello.smartevent.model.agendadetails.AgendaData;
 import com.praxello.smartevent.utility.CommonMethods;
 import com.praxello.smartevent.utility.ConfiUrl;
 import com.praxello.smartevent.utility.AllKeys;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +50,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
     public Context context;
     public ArrayList<AgendaData> agendaDataArrayList;
     public static String TAG = "AgendaDetailsAdapter";
-    public int dateValue;
+    public String dateValue;
 
 
    /* public AgendaDetailsAdapter(Context context, ArrayList<AgendaData> agendaDataArrayList) {
@@ -53,7 +58,7 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
         this.agendaDataArrayList = agendaDataArrayList;
     }*/
 
-    public AgendaDetailsAdapter(Context context, ArrayList<AgendaData> agendaDataArrayList, int dateValue) {
+    public AgendaDetailsAdapter(Context context, ArrayList<AgendaData> agendaDataArrayList, String dateValue) {
         this.context = context;
         this.agendaDataArrayList = agendaDataArrayList;
         this.dateValue = dateValue;
@@ -73,12 +78,17 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull AgendaDetailsAdapter.AgendaDetailsViewHolder holder, int position) {
+        SimpleDateFormat format1 = new SimpleDateFormat("EEE dd MMM yy");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format1.parse(dateValue);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String strDate=format2.format(date);
 
-        final AgendaData data = agendaDataArrayList.get(position);
-
-
-        if(dateValue==0) {
-            if (agendaDataArrayList.get(position).getSessionDate().equals("2020-03-28")) {
+        if (agendaDataArrayList.get(position).getSessionDate().equals(strDate)) {
                 if (agendaDataArrayList.get(position).getSessionType().equals("Session")) {
                     holder.cardView.setVisibility(View.VISIBLE);
                     holder.cvTeaCarView.setVisibility(View.GONE);
@@ -88,19 +98,6 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
                     holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
                     holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
                     //holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
-
-            /*try{
-                if(agendaDataArrayList.get(position).getSpeakers()==null ||agendaDataArrayList.get(position).getSpeakers().size()==0){
-                    holder.tvSpeakerName.setVisibility(View.GONE);
-                }else{
-                    holder.tvSpeakerName.setText(agendaDataArrayList.get(position).getSpeakers().get(0).getFirstname()+" "+agendaDataArrayList.get(position).getSpeakers().get(0).getLastname());
-                }
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
-            Log.e(TAG,"Speaker Data"+agendaDataArrayList.get(position).getSpeakers());
-          */
 
                     try {
                          if (agendaDataArrayList.get(position).getSpeakers() != null) {
@@ -150,88 +147,9 @@ public class AgendaDetailsAdapter extends RecyclerView.Adapter<AgendaDetailsAdap
 
                         context.startActivity(intent);
                         activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-
                     }
                 });
             }
-            else {
-            }
-        }else{
-            if (agendaDataArrayList.get(position).getSessionDate().equals("2020-03-29")) {
-                if (agendaDataArrayList.get(position).getSessionType().equals("Session")) {
-                    holder.cardView.setVisibility(View.VISIBLE);
-                    holder.cvTeaCarView.setVisibility(View.GONE);
-                    //holder.cardView.setCardBackgroundColor(Color.parseColor("#fffde7"));
-                    holder.tvTitle.setText(agendaDataArrayList.get(position).getTitle());
-                    holder.tvSubject.setText(agendaDataArrayList.get(position).getSubject());
-                    holder.tvSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
-                    holder.tvLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
-                    //holder.tvDate.setText(agendaDataArrayList.get(position).getSessionDate());
-            /*try{
-                if(agendaDataArrayList.get(position).getSpeakers()==null ||agendaDataArrayList.get(position).getSpeakers().size()==0){
-                    holder.tvSpeakerName.setVisibility(View.GONE);
-                }else{
-                    holder.tvSpeakerName.setText(agendaDataArrayList.get(position).getSpeakers().get(0).getFirstname()+" "+agendaDataArrayList.get(position).getSpeakers().get(0).getLastname());
-                }
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
-            Log.e(TAG,"Speaker Data"+agendaDataArrayList.get(position).getSpeakers());
-          */
-                    try {
-                        if (agendaDataArrayList.get(position).getSpeakers() != null) {
-                            AgendaSpeakerAdapter agendaSpeakerAdapter = new AgendaSpeakerAdapter(context, agendaDataArrayList.get(position).getSpeakers());
-                            holder.rvSpeakerData.setAdapter(agendaSpeakerAdapter);
-                          //      Paper.book().write("speaker_data",agendaDataArrayList.get(position).getSpeakers());
-
-                        }
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
-
-                    holder.tvSummary.setText(agendaDataArrayList.get(position).getDetails());
-                    holder.tvLike.setText("Like (" + agendaDataArrayList.get(position).getLikes() + ")");
-                    //Log.e(TAG, "is Liked" + agendaDataArrayList.get(position).isLiked);
-
-                    if (agendaDataArrayList.get(position).isLiked.equals("true") || agendaDataArrayList.get(position).isLiked.equals(true)) {
-                        //holder.tvLike.setTextColor(R.color.blue500);
-                        holder.tvLike.setTextColor(Color.parseColor("#1a237e"));
-                        holder.tvLike.setTypeface(null, Typeface.BOLD);
-                    }
-
-                } else if (agendaDataArrayList.get(position).getSessionType().equals("Tea Break")) {
-                    holder.cardView.setVisibility(View.GONE);
-                    holder.cvTeaCarView.setVisibility(View.VISIBLE);
-
-                    // holder.cvTeaCarView.setCardBackgroundColor(Color.parseColor("#f1f8e9"));
-                    holder.tvTeaTitle.setText(agendaDataArrayList.get(position).getTitle());
-                    holder.tvTeaSlotTime.setText(agendaDataArrayList.get(position).getSlotTitle());
-                    holder.tvTeaLocation.setText(agendaDataArrayList.get(position).getSessionLocation());
-                }
-
-                holder.llLikes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        hitLikes(agendaDataArrayList.get(position).getSessionId(),holder,position);
-                    }
-                });
-
-                holder.llComments.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Activity activity = (Activity) context;
-                        Intent intent = new Intent(context, CommentsActivity.class);
-                        intent.putExtra("data", agendaDataArrayList.get(position));
-                        context.startActivity(intent);
-                        activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-
-                    }
-                });
-            } else {
-            }
-        }
-
     }
 
     @Override

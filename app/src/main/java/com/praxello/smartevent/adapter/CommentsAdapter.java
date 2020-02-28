@@ -58,10 +58,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentsAdapter(Context context, ArrayList<LatestCommentData> commentsDataArrayList, AgendaData agendaData) {
         this.context = context;
         this.commentsDataArrayList = commentsDataArrayList;
-
         this.agendaData = agendaData;
     }
-
 
     @NonNull
     @Override
@@ -136,17 +134,22 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                 // Log.e(TAG, "onBindViewHolder: attendeeName" +attendeeName );
 
-                for (SpeakersName speakersName : agendaData.getSpeakers()) {
-                    if (speakersName.getUserid().equals(commentsDataArrayList.get(position).getUserId())) {
-                        //found it!
-                        holder.tvUserName.setText(attendeeName + " (Host)");
+                try{
+                    for (SpeakersName speakersName : agendaData.getSpeakers()) {
+                        if (speakersName.getUserid().equals(commentsDataArrayList.get(position).getUserId())) {
+                            //found it!
+                            holder.tvUserName.setText(attendeeName + " (Host)");
 
-                        break;
-                    } else {
-                        holder.tvUserName.setText(attendeeName);
+                            break;
+                        } else {
+                            holder.tvUserName.setText(attendeeName);
 
+                        }
                     }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
+
                 holder.tvCommentMessage.setText(commentsDataArrayList.get(position).getComment());
 
             }

@@ -12,23 +12,34 @@
         android:id="@+id/toolbar_allconference"
         layout="@layout/toolbar"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv_all_conference"
-        android:layout_margin="@dimen/margin10"/>
+        android:layout_margin="@dimen/margin10" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/ll_nodata"
+        android:gravity="center"
         android:visibility="gone">
 
-        <ImageView
+       <!-- <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/no_data"/>
+            android:src="@drawable/no_data"/>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sorry_n_no_events_found"
+            android:gravity="center"
+            android:textSize="@dimen/textsize25"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            />
 
     </LinearLayout>
 

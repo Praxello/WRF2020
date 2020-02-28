@@ -54,6 +54,7 @@ public class CaseDescriptionAdapter extends RecyclerView.Adapter<CaseDescription
                 Activity activity = (Activity) context;
                 Intent intent = new Intent(context, CaseReadMoreActivity.class);
                 intent.putExtra("data",allCasesDataArrayList.get(position));
+                intent.putExtra("position",position);
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
             }
